@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.siddharth.practiceapp">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -19,6 +21,10 @@
         </activity>
         <service android:name=".service.MyService"/>
         <service android:name=".service.MyForegroundService"/>
+        <receiver
+            android:enabled="true"
+            android:name=".broadcastReceiver.MyBroadcastReceiver">
+        </receiver>
     </application>
 
 </manifest>
