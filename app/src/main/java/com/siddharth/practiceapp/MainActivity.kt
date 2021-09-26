@@ -14,6 +14,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.siddharth.practiceapp.broadcastReceiver.MyBroadcastReceiver
@@ -43,15 +44,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupWorkManager() {
             workManager = WorkManager.getInstance(this)
-            workManager.cancelAllWork()
             val constraints = Constraints.Builder()
                 .setRequiresBatteryNotLow(true)
                 .build()
             val saveRequest =
-                PeriodicWorkRequestBuilder<MyWorker>(30, TimeUnit.MINUTES)
+                PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
                     .setConstraints(constraints)
                     .build()
-            workManager.enqueue(saveRequest)
+            workManager.enqueueUniquePeriodicWork("showNotification",ExistingPeriodicWorkPolicy.KEEP,saveRequest)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
