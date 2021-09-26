@@ -1,16 +1,22 @@
 package com.siddharth.practiceapp.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.siddharth.practiceapp.R
-import com.siddharth.practiceapp.service.MyService
+import com.siddharth.practiceapp.databinding.FragmentFragABinding
+import com.siddharth.practiceapp.viewModels.ViewModelA
 
 class FragA : Fragment(R.layout.fragment_frag_a) {
+
+    private var _binding: FragmentFragABinding? = null
+    private val binding get() = _binding!!
+    private val viewModel : ViewModelA by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -28,14 +34,21 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
         savedInstanceState: Bundle?
     ): View? {
         printLifeCycleState("onCreateView")
-        printViewLifeCycleState()
-        return super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentFragABinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         printLifeCycleState("onViewCreated")
-        //printViewLifeCycleState()
+        handleOnClickListener()
+    }
+
+    private fun handleOnClickListener() {
+            binding.btnStartWork.setOnClickListener{
+                Log.d("fragmentA : ", "clicked")
+                viewModel.performWork()
+            }
     }
 
     override fun onStart() {
@@ -60,6 +73,7 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
         printLifeCycleState("onDestroyView")
     }
 
