@@ -3,6 +3,7 @@
     package="com.siddharth.practiceapp">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".App"

@@ -19,13 +19,13 @@ private const val notificationChannelId = "MainNotificationChannel"
  *
  * @param applicationContext, activity context.
  */
-fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
+fun NotificationManager.sendNotification(title : String, messageBody: String, applicationContext: Context) {
     // Build the notification
     val builder = NotificationCompat.Builder(
         applicationContext,
         notificationChannelId)
         .setSmallIcon(R.drawable.ic_launcher_foreground)
-        .setContentTitle("notification")
+        .setContentTitle(title)
         .setContentText(messageBody)
         .setAutoCancel(true)
         .setPriority(NotificationCompat.PRIORITY_HIGH)

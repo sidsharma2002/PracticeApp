@@ -29,8 +29,6 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var workManager : WorkManager
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +40,11 @@ class MainActivity : AppCompatActivity() {
         handleButtonClick()
     }
 
+    /**
+     * enqueues a 'Unique Periodic Work' one time
+     */
     private fun setupWorkManager() {
-            workManager = WorkManager.getInstance(this)
+            val workManager = WorkManager.getInstance(this)
             val constraints = Constraints.Builder()
                 .setRequiresBatteryNotLow(true)
                 .build()
@@ -51,7 +52,9 @@ class MainActivity : AppCompatActivity() {
                 PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
                     .setConstraints(constraints)
                     .build()
-            workManager.enqueueUniquePeriodicWork("showNotification",ExistingPeriodicWorkPolicy.KEEP,saveRequest)
+            workManager.enqueueUniquePeriodicWork("showNotification",
+                ExistingPeriodicWorkPolicy.REPLACE
+                , saveRequest)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -59,8 +62,8 @@ class MainActivity : AppCompatActivity() {
         startMyService()
         stopMyService(2000)
 
-        startMyForegroundService()
-        stopMyForegroundService(100000)
+       // startMyForegroundService()
+        // stopMyForegroundService(100000)
     }
 
     /**

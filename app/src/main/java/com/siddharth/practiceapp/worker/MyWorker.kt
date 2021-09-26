@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.siddharth.practiceapp.api.RetrofitInstance.Companion.api
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -18,9 +19,9 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters) :
 
     override suspend fun doWork(): Result {
         return try {
-            uploadToServer()
-            Log.d(TAG,"success")
-            showNotification()
+            withContext(Dispatchers.IO){
+                fetchData()
+            }
             Result.success()
         } catch (throwable: Throwable) {
             Log.d(TAG, "Error")
@@ -28,19 +29,26 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters) :
         }
     }
 
-    private fun showNotification() {
+    private suspend fun fetchData() {
+            val rawData = api.getTopNews()
+            Log.d(TAG,rawData.isSuccessful.toString())
+            val results = rawData.body()
+            val news = results?.articles?.get(0)?.title
+            news?.let{
+                showNotification(news)
+            }
+    }
+
+    private fun showNotification(message : String) {
         val notificationManager = ContextCompat.getSystemService(
             applicationContext,
             NotificationManager::class.java
         ) as NotificationManager
 
         notificationManager.sendNotification(
-            "Workmanager fired",
+            "Breaking News",
+            message,
             applicationContext
         )
-    }
-
-    private fun uploadToServer() {
-        // TODO : Do long running work here
     }
 }
