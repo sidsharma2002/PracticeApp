@@ -1,13 +1,13 @@
 package com.siddharth.practiceapp.worker
 
+
 import android.app.NotificationManager
+import  com.siddharth.practiceapp.util.sendNotification
 import android.content.Context
 import android.util.Log
-import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.siddharth.practiceapp.App
-import com.siddharth.practiceapp.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -18,24 +18,26 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters) :
 
     override suspend fun doWork(): Result {
         return try {
-            withContext(Dispatchers.IO){
-                uploadToServer()
-            }
+            uploadToServer()
             Log.d(TAG,"success")
-            // showNotification()
+            showNotification()
             Result.success()
         } catch (throwable: Throwable) {
-            Log.d(TAG, "Error applying blur")
+            Log.d(TAG, "Error")
             Result.failure()
         }
     }
 
     private fun showNotification() {
-        val notification = NotificationCompat.Builder(applicationContext, App.CHANNEL_ID)
-            .setContentTitle("Foreground Service")
-            .setContentText("started from onCreate")
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .build()
+        val notificationManager = ContextCompat.getSystemService(
+            applicationContext,
+            NotificationManager::class.java
+        ) as NotificationManager
+
+        notificationManager.sendNotification(
+            "Workmanager fired",
+            applicationContext
+        )
     }
 
     private fun uploadToServer() {

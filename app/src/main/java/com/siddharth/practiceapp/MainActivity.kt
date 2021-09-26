@@ -13,15 +13,22 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
+import androidx.work.Constraints
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.siddharth.practiceapp.broadcastReceiver.MyBroadcastReceiver
 import com.siddharth.practiceapp.fragments.FragB
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
+import com.siddharth.practiceapp.worker.MyWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var workManager : WorkManager
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +37,21 @@ class MainActivity : AppCompatActivity() {
         printLifeCycleState("onCreate")
 
         manageService()
+        setupWorkManager()
         handleButtonClick()
+    }
+
+    private fun setupWorkManager() {
+            workManager = WorkManager.getInstance(this)
+            workManager.cancelAllWork()
+            val constraints = Constraints.Builder()
+                .setRequiresBatteryNotLow(true)
+                .build()
+            val saveRequest =
+                PeriodicWorkRequestBuilder<MyWorker>(30, TimeUnit.MINUTES)
+                    .setConstraints(constraints)
+                    .build()
+            workManager.enqueue(saveRequest)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

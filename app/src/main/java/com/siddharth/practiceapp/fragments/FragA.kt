@@ -46,8 +46,7 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
 
     private fun handleOnClickListener() {
             binding.btnStartWork.setOnClickListener{
-                Log.d("fragmentA : ", "clicked")
-                viewModel.performWork()
+                //Log.d("fragmentA : ", "clicked")
             }
     }
 
