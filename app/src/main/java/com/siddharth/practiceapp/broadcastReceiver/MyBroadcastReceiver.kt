@@ -8,9 +8,8 @@ import android.widget.Toast
 import com.siddharth.practiceapp.service.MyForegroundService
 
 /**
- *  In the Manifest file , we will find that this receiver is not directly fired
- *  rather it is fired when certain action is done.
- *  This make this receiver implicit.
+ *  This receiver is dynamically called from MyForegroundService
+ *
  */
 class MyBroadcastReceiver  : BroadcastReceiver() {
     private val TAG = "Broadcast Receiver : "
