@@ -13,8 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
- * This class extends the Coroutine worker class to perform
- * Asynchronous call to the News API using the fetchData() method
+ * This Worker fetches top headline from the NewsApi every 15 minutes.
  */
 
 class MyWorker(appContext: Context, workerParams: WorkerParameters) :
