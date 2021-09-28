@@ -12,7 +12,10 @@ import com.siddharth.practiceapp.util.sendNotification
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-// Setting up Coroutine Worker for API Call
+/**
+ * This class extends the Coroutine worker class to perform
+ * Asynchronous call to the News API using the fetchData() method
+ */
 
 class MyWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
@@ -21,7 +24,6 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters) :
 
     override suspend fun doWork(): Result {
         return try {
-            // Coroutine execution to I/O Dispatcher
             withContext(Dispatchers.IO) {
                 fetchData()
             }
@@ -49,11 +51,6 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters) :
             showNotification(news)
         }
     }
-
-    /**
-     * This function makes use of Notification manager
-     * To show the news fetched from the api as notification to the user.
-     */
 
     private fun showNotification(message: String) {
         val notificationManager = ContextCompat.getSystemService(
