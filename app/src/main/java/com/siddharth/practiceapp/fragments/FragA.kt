@@ -11,8 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.FragmentFragABinding
 import com.siddharth.practiceapp.viewModels.ViewModelA
@@ -49,7 +52,17 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         printLifeCycleState("onViewCreated")
+        subscribeForObservers()
         handleOnClickListener()
+    }
+
+    private fun subscribeForObservers() {
+        viewModel.bitmap.observe(viewLifecycleOwner, {
+            binding.ivPic.setImageBitmap(it)
+        })
+        viewModel.loading.observe(viewLifecycleOwner,{
+            binding.progressBarFilter.isVisible = it
+        })
     }
 
     private fun handleOnClickListener() {
@@ -61,7 +74,7 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
     }
 
     /**
-     *  gets the image selected by the user and sets it to the imageView
+     * gets the image selected by the user and sets it to the imageView
      */
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -77,7 +90,7 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
             requireContext().contentResolver.openInputStream(it1)
         }
         val bitmap = BitmapFactory.decodeStream(inputStream)
-        binding.ivPic.setImageBitmap(bitmap)
+        viewModel.setBitmap(bitmap)
     }
 
     override fun onStart() {
