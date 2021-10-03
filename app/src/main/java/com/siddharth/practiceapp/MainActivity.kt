@@ -35,18 +35,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         printLifeCycleState("onCreate")
 
-        manageService()
-        setupWorkManager()
+        // uncomment to start the services
+        // manageService()
+
+        // uncomment to start the worker
+        // setupWorkManager()
         handleButtonClick()
     }
 
     /**
-     * enqueues a 'Unique Periodic Work' one time
+     * enqueues a 'Unique Periodic Work'
      */
     private fun setupWorkManager() {
             val workManager = WorkManager.getInstance(this)
             val saveRequest =
-                PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
+                PeriodicWorkRequestBuilder<MyWorker>(24, TimeUnit.HOURS)
                     .build()
             workManager.enqueueUniquePeriodicWork("showNotification",
             ExistingPeriodicWorkPolicy.KEEP
@@ -58,8 +61,8 @@ class MainActivity : AppCompatActivity() {
         startMyService()
         stopMyService(2000)
 
-       // startMyForegroundService()
-        // stopMyForegroundService(100000)
+        startMyForegroundService()
+        stopMyForegroundService(100000)
     }
 
     /**
