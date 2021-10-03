@@ -45,15 +45,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupWorkManager() {
             val workManager = WorkManager.getInstance(this)
-            val constraints = Constraints.Builder()
-                .setRequiresBatteryNotLow(true)
-                .build()
             val saveRequest =
                 PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
-                    .setConstraints(constraints)
                     .build()
             workManager.enqueueUniquePeriodicWork("showNotification",
-                ExistingPeriodicWorkPolicy.REPLACE
+            ExistingPeriodicWorkPolicy.KEEP
                 , saveRequest)
     }
 

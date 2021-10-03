@@ -25,6 +25,7 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters) :
             Result.success()
         } catch (throwable: Throwable) {
             Log.d(TAG, "Error")
+            showNotification("Oops! something went wrong")
             Result.failure()
         }
     }
