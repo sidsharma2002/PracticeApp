@@ -28,6 +28,12 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
     private val viewModel: ViewModelA by viewModels()
     private val PICK_IMAGE = 1
 
+    private fun shelfChanges(x : Int, customFunction : (Int) -> Int) : Unit{
+        val y = customFunction(x)
+    }
+
+    private fun localChanges(){
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

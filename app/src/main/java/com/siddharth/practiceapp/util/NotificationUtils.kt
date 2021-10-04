@@ -4,6 +4,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.text.SpannableStringBuilder
 import androidx.core.app.NotificationCompat
 import com.siddharth.practiceapp.MainActivity
 import com.siddharth.practiceapp.R
@@ -19,14 +21,23 @@ private const val notificationChannelId = "MainNotificationChannel"
  *
  * @param applicationContext, activity context.
  */
-fun NotificationManager.sendNotification(title : String, messageBody: String, applicationContext: Context) {
-    // Build the notification
+fun NotificationManager.sendNotification(
+    title: String,
+    contentText: String,
+    messageBody: String,
+    bitmap: Bitmap?,
+    applicationContext: Context
+) {
+    // Build and show the notification
     val builder = NotificationCompat.Builder(
         applicationContext,
-        notificationChannelId)
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        notificationChannelId
+    )
+        .setSmallIcon(R.drawable.ic_baseline_email_24)
         .setContentTitle(title)
-        .setContentText(messageBody)
+        .setContentText(contentText)
+        .setStyle(NotificationCompat.BigTextStyle().bigText(messageBody))
+        //.setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
         .setAutoCancel(true)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
     notify(NOTIFICATION_ID, builder.build())

@@ -12,14 +12,14 @@ interface NewsApi {
         @Query("apiKey")
         apiKey: String = API_KEY,
         @Query("country")
-        country : String = "in"
+        country: String = "us"
     ): Response<News>
 
     @GET("top-headlines")
-     fun getTopNewsUsingThread(
+    fun getTopNewsUsingThread(
         @Query("apiKey")
         apiKey: String = API_KEY,
         @Query("country")
-        country : String = "in"
+        country: String = "in"
     ): Response<News>
 }

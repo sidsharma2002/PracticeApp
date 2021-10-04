@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         // manageService()
 
         // uncomment to start the worker
-        // setupWorkManager()
+        setupWorkManager()
         handleButtonClick()
     }
 
@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupWorkManager() {
             val workManager = WorkManager.getInstance(this)
             val saveRequest =
-                PeriodicWorkRequestBuilder<MyWorker>(24, TimeUnit.HOURS)
+                PeriodicWorkRequestBuilder<MyWorker>(10, TimeUnit.HOURS)
                     .build()
-            workManager.enqueueUniquePeriodicWork("showNotification",
+            workManager.enqueueUniquePeriodicWork("showNews",
             ExistingPeriodicWorkPolicy.KEEP
                 , saveRequest)
     }
