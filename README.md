@@ -31,7 +31,9 @@ As soon the onCreateMethod is triggered, following things are done :
 * This foreground service then listens for network_changed broadcasts and shows a Toast.
 * handleOnClickListener() implements listener for login button. This listener fires up a broadcast to the sameMyBroadcastReceiver. Also this listener replaces the current fragment with FragB and adds it to backstack.
 
-When ever the app is launched for the first time, A 'Unique periodic work' is enqueued in the MyWorker.This periodic work shows notification every 15 minutes stating that workManager has been FiredUp
+When ever the app is launched for the first time, A 'Unique periodic work' is enqueued in the MyWorker.This periodic work shows notification every 15 minutes stating that workManager has been FiredUp.
+
+In the fragment A, click on the start work button and select an image, the app will apply a grey filter to it while recovering the bitmap on configuration changes.
 
 ## Resources
 
