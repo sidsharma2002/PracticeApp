@@ -22,11 +22,15 @@ import com.siddharth.practiceapp.fragments.FragB
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
 import com.siddharth.practiceapp.worker.MyWorker
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
+// @AndroidEntryPoint generates an individual Hilt component for each Android class in your project
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
