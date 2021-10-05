@@ -63,6 +63,7 @@ In the fragment A, click on the start work button and select an image, the app w
 
 #### Blogs
 
+- [MindOrks](https://blog.mindorks.com) - Blogs by amit shekhar sir (respect++)
 - [vogella](http://vogella.com/) - Android Tutorials by vogella.
 - [CodingWithMitch](http://codingwithmitch.com/blog) - Blogs by CodingWithMitch community.
 - [simplifiedcoding](https://www.simplifiedcoding.net/) - Learn building apps.
