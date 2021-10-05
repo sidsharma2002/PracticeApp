@@ -15,6 +15,8 @@ There are very limited and not so clear resources available out there, Hence I'v
 * [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 * [Fragment Transactions](https://developer.android.com/reference/androidx/fragment/app/FragmentTransaction)
+* [Bitmaps](https://developer.android.com/topic/performance/graphics)
+* [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
 
 #### Non-Android Based
 * [Lambda functions](https://kotlinlang.org/docs/lambdas.html)
