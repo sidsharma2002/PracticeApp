@@ -19,8 +19,13 @@ import androidx.lifecycle.lifecycleScope
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.FragmentFragABinding
 import com.siddharth.practiceapp.viewModels.ViewModelA
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.InputStream
 
+/*In each activity and fragment where you inject your ViewModel,
+you need to annotate the class with this annotation  @AndroidEntryPoint*/
+
+@AndroidEntryPoint
 class FragA : Fragment(R.layout.fragment_frag_a) {
 
     private var _binding: FragmentFragABinding? = null
