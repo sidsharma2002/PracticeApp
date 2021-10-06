@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.siddharth.practiceapp.R
-import dagger.hilt.android.AndroidEntryPoint
 
-
-@AndroidEntryPoint
 class FragB : Fragment(R.layout.fragment_frag_b) {
 
     override fun onAttach(context: Context) {
