@@ -1,10 +1,15 @@
 package com.siddharth.practiceapp.fragments
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.pdf.PdfRenderer
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,21 +24,21 @@ import androidx.lifecycle.lifecycleScope
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.FragmentFragABinding
 import com.siddharth.practiceapp.viewModels.ViewModelA
+import java.io.File
+import java.io.FileDescriptor
+import java.io.FileNotFoundException
 import java.io.InputStream
+import java.lang.Exception
 
 class FragA : Fragment(R.layout.fragment_frag_a) {
 
     private var _binding: FragmentFragABinding? = null
     private val binding get() = _binding!!
     private val viewModel: ViewModelA by viewModels()
+    private lateinit var inputPFD : ParcelFileDescriptor
     private val PICK_IMAGE = 1
-
-    private fun shelfChanges(x : Int, customFunction : (Int) -> Int) : Unit{
-        val y = customFunction(x)
-    }
-
-    private fun localChanges(){
-    }
+    private val PICK_FILE = 2
+    private val currentPage = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -73,10 +78,36 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
 
     private fun handleOnClickListener() {
         binding.btnStartWork.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            resultLauncher.launch(intent)
+            launchPdfPicker()
         }
+    }
+    private fun launchImagePicker(){
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        resultLauncher.launch(intent)
+    }
+
+    private fun launchPdfPicker(){
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.type = "application/pdf"
+        startActivityForResult(intent,PICK_FILE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode!=RESULT_OK || data == null) return
+        val returnUri = data.data
+        val file = File(returnUri!!.path!!) // get the file from the path
+        try {
+             inputPFD = requireContext().contentResolver.openFileDescriptor(returnUri,"r") ?:  return
+        } catch (e : FileNotFoundException){
+            return
+        }
+        val renderer =  PdfRenderer(inputPFD)
+        val page = renderer.openPage(0)
+        val bitmap = Bitmap.createBitmap(page.width*2, page.height*2, Bitmap.Config.ARGB_8888)
+        page.render(bitmap,null,null,PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+        viewModel.setBitmap(bitmap, false)
     }
 
     /**
@@ -84,19 +115,19 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
      */
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
+            if (it.resultCode == RESULT_OK) {
                 // do operation
                 if (it.data == null) return@registerForActivityResult
-                performTask(it)
+                setBitmapFromResult(it)
             }
         }
 
-    private fun performTask(it : ActivityResult) {
+    private fun setBitmapFromResult (it : ActivityResult) {
         val inputStream = it.data!!.data?.let { it1 ->
             requireContext().contentResolver.openInputStream(it1)
         }
         val bitmap = BitmapFactory.decodeStream(inputStream)
-        viewModel.setBitmap(bitmap)
+        viewModel.setBitmap(bitmap, true)
     }
 
     override fun onStart() {

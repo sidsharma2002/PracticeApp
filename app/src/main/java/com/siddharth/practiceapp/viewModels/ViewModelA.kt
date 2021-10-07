@@ -22,17 +22,30 @@ class ViewModelA : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
-    fun setBitmap(bitmap: Bitmap) {
+    private val _currentPage = MutableLiveData<Int>()
+    val currentPage : LiveData<Int> = _currentPage
+
+    fun setBitmap(bitmap: Bitmap, shouldProcessBitmap : Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.postValue(true)
-            val bitmapFiltered = processBitmap(bitmap)
-            _loading.postValue(false)
-            _bitmap.postValue(bitmapFiltered)
+            if(shouldProcessBitmap) {
+                val bitmapFiltered = processBitmap(bitmap)
+                _loading.postValue(false)
+                _bitmap.postValue(bitmapFiltered)
+            }
+            else{
+                _loading.postValue(false)
+                _bitmap.postValue(bitmap)
+            }
         }
     }
 
     private fun processBitmap(bitmap: Bitmap): Bitmap {
         val newBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         return BitmapModifier.applyFilter(newBitmap, BitmapModifier.GREY_FILTER)
+    }
+
+    fun setCurrentNumber(currPage : Int) {
+            _currentPage.value = currPage
     }
 }
