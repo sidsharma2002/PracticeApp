@@ -1,19 +1,16 @@
 package com.siddharth.practiceapp.viewModels
 
-import android.app.Application
 import android.graphics.Bitmap
 import androidx.lifecycle.*
-import androidx.work.Constraints
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.siddharth.practiceapp.BitmapModifiers.BitmapModifier
-import com.siddharth.practiceapp.worker.MyWorker
+import com.siddharth.practiceapp.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class ViewModelA : ViewModel() {
+@HiltViewModel
+class ViewModelA @Inject constructor(private val repository: Repository): ViewModel() {
     private val TAG = "viewmodelA : "
 
     private val _bitmap = MutableLiveData<Bitmap>()
