@@ -1,16 +1,20 @@
 package com.siddharth.practiceapp.viewModels
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.*
 import com.siddharth.practiceapp.BitmapModifiers.BitmapModifier
 import com.siddharth.practiceapp.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelA @Inject constructor(private val repository: Repository): ViewModel() {
+class ViewModelA @Inject constructor(
+    private val repository: Repository
+) : ViewModel() {
     private val TAG = "viewmodelA : "
 
     private val _bitmap = MutableLiveData<Bitmap>()
@@ -20,17 +24,28 @@ class ViewModelA @Inject constructor(private val repository: Repository): ViewMo
     val loading: LiveData<Boolean> = _loading
 
     private val _currentPage = MutableLiveData<Int>()
-    val currentPage : LiveData<Int> = _currentPage
+    val currentPage: LiveData<Int> = _currentPage
 
-    fun setBitmap(bitmap: Bitmap, shouldProcessBitmap : Boolean) {
+    val likesCount = Transformations.map(repository.likesCount) {
+        Log.d(TAG,"mapped")
+        it
+    }
+
+    init {
+        repository.shouldCancel.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.fetchLikes(2)
+        }
+    }
+
+    fun setBitmap(bitmap: Bitmap, shouldProcessBitmap: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.postValue(true)
-            if(shouldProcessBitmap) {
+            if (shouldProcessBitmap) {
                 val bitmapFiltered = processBitmap(bitmap)
                 _loading.postValue(false)
                 _bitmap.postValue(bitmapFiltered)
-            }
-            else{
+            } else {
                 _loading.postValue(false)
                 _bitmap.postValue(bitmap)
             }
@@ -42,7 +57,7 @@ class ViewModelA @Inject constructor(private val repository: Repository): ViewMo
         return BitmapModifier.applyFilter(newBitmap, BitmapModifier.GREY_FILTER)
     }
 
-    fun setCurrentNumber(currPage : Int) {
-            _currentPage.value = currPage
+    fun setCurrentNumber(currPage: Int) {
+        _currentPage.value = currPage
     }
 }

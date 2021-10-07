@@ -6,7 +6,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.30277777777777776" />
         <entry key="app/src/main/res/drawable/ic_baseline_filter_vintage_24.xml" value="0.3074074074074074" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2796296296296296" />
-        <entry key="app/src/main/res/layout/fragment_frag_a.xml" value="0.2796296296296296" />
+        <entry key="app/src/main/res/layout/fragment_frag_a.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_options.xml" value="0.18" />
         <entry key="app/src/main/res/layout/item_options.xml" value="0.33" />
       </map>
