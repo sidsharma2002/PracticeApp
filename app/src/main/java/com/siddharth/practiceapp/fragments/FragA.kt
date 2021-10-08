@@ -31,6 +31,10 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import java.lang.Exception
 
+
+/*In each activity and fragment where you inject your ViewModel,
+you need to annotate the class with this annotation  @AndroidEntryPoint*/
+
 @AndroidEntryPoint
 class FragA : Fragment(R.layout.fragment_frag_a) {
 
