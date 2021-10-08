@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/black"
     tools:context="com.siddharth.practiceapp.fragments.FragA">
 
     <ImageView
         android:id="@+id/iv_pic"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxHeight="300sp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_startWork"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_startWork"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_pic"
-            android:layout_marginBottom="20sp"
-            android:text="start Work"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/frag_option_container"
-        android:layout_width="match_parent"
-        android:layout_height="90sp"
-        android:visibility="gone"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_startWork"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40sp"
+        android:layout_marginEnd="20sp"
+        android:text="open a Pdf"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="10sp"
-        android:name="com.siddharth.practiceapp.fragments.FragmentOptions"/>
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_likesCount"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40sp"
+        android:layout_marginStart="20sp"
+        android:text="no count"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/iv_pic"
-        app:layout_constraintStart_toStartOf="@id/iv_pic"
+        app:layout_constraintBottom_toBottomOf="@id/iv_pic"
         app:layout_constraintEnd_toEndOf="@id/iv_pic"
-        app:layout_constraintBottom_toBottomOf="@id/iv_pic"/>
+        app:layout_constraintStart_toStartOf="@id/iv_pic"
+        app:layout_constraintTop_toTopOf="@id/iv_pic" />
 </androidx.constraintlayout.widget.ConstraintLayout>

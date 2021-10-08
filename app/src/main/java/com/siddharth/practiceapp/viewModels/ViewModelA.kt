@@ -1,6 +1,7 @@
 package com.siddharth.practiceapp.viewModels
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.*
 import com.siddharth.practiceapp.BitmapModifiers.BitmapModifier
 import com.siddharth.practiceapp.repository.Repository
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelA @Inject constructor(private val repository: Repository): ViewModel() {
+
     private val TAG = "viewmodelA : "
 
     private val _bitmap = MutableLiveData<Bitmap>()
@@ -19,17 +21,41 @@ class ViewModelA @Inject constructor(private val repository: Repository): ViewMo
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
-    fun setBitmap(bitmap: Bitmap) {
+    private val _currentPage = MutableLiveData<Int>()
+    val currentPage: LiveData<Int> = _currentPage
+
+    val likesCount = Transformations.map(repository.likesCount) {
+        Log.d(TAG,"mapped")
+        it
+    }
+
+    init {
+        repository.shouldCancel.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.fetchLikes(2)
+        }
+    }
+
+    fun setBitmap(bitmap: Bitmap, shouldProcessBitmap: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             _loading.postValue(true)
-            val bitmapFiltered = processBitmap(bitmap)
-            _loading.postValue(false)
-            _bitmap.postValue(bitmapFiltered)
+            if (shouldProcessBitmap) {
+                val bitmapFiltered = processBitmap(bitmap)
+                _loading.postValue(false)
+                _bitmap.postValue(bitmapFiltered)
+            } else {
+                _loading.postValue(false)
+                _bitmap.postValue(bitmap)
+            }
         }
     }
 
     private fun processBitmap(bitmap: Bitmap): Bitmap {
         val newBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         return BitmapModifier.applyFilter(newBitmap, BitmapModifier.GREY_FILTER)
+    }
+
+    fun setCurrentNumber(currPage: Int) {
+        _currentPage.value = currPage
     }
 }
