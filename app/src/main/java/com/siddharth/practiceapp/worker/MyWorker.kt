@@ -7,26 +7,35 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.siddharth.practiceapp.api.RetrofitInstance.Companion.api
+
+
 import com.siddharth.practiceapp.data.entities.News.Article
+
 import com.siddharth.practiceapp.data.entities.News.News
+import com.siddharth.practiceapp.repository.Repository
 import com.siddharth.practiceapp.util.sendNotification
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.io.IOException
-import java.lang.Integer.min
 import java.net.URL
-import kotlin.random.Random
+
 
 /**
  * This Worker fetches top headline from the NewsApi every 15 minutes.
  */
 
-class MyWorker(appContext: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(appContext, workerParams) {
+@HiltWorker
+class MyWorker @AssistedInject constructor(
+    @Assisted appContext: Context,
+    @Assisted workerParams: WorkerParameters,
+    private val repository: Repository
+) : CoroutineWorker(appContext, workerParams) {
 
     private val TAG = "MyWorker : "
 
@@ -48,7 +57,7 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters) :
      */
 
     private suspend fun fetchDataUsingCoroutine() {
-        val rawData = api.getTopNewsUsingCoroutine()
+        val rawData = repository.getTopNewsUsingCoroutine()
         Log.d(TAG, rawData.isSuccessful.toString())
         val results = rawData.body()
         val index =  (0..5).random()
@@ -67,7 +76,7 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters) :
         var rawData: Response<News>? = null
         val thread = Thread {
             //code to do the HTTP request
-            rawData = api.getTopNewsUsingThread()
+            rawData = repository.getTopNewsUsingThread()
         }
         thread.start()
         Log.d(TAG, rawData?.isSuccessful.toString())
