@@ -69,3 +69,39 @@ In the fragment A, click on the start work button and select an image, the app w
 - [simplifiedcoding](https://www.simplifiedcoding.net/) - Learn building apps.
 - [Kotlin hands-on](https://play.kotlinlang.org/hands-on/overview) - Tutorials by Kotlin Team
 - [raywenderlich](https://www.raywenderlich.com/6649-kotlin-cheat-sheet-and-quick-reference) - Kotlin Cheat Sheet and Quick Reference.
+
+## Android Best Practices
+
+### Clean Code
+
+* Clean Code is one which is easy to read, change, maintain and follows the DRY (Don't repeat Yourself) principle
+
+#### General Rules
+
+* The code structure should be well formatted.
+* The code should follow the [DRY Principle](https://medium.com/@Ialimijoro/the-dry-principle-and-why-you-should-use-it-f02435ae9449).
+* All the classes and functions should exhibit their individual functionality.
+* Introduce modules in your app.
+
+#### Naming and Comment Principles
+
+* All the names in the code should be clear and meaningful.
+* Do not add unnecessary and redundant comments in the code.
+* The comment should be used to clarify the respective piece of code.
+
+#### Formatting Rules
+
+* The files should be consistent and not very long.
+* Files should have headings to explain the purpose of the file.
+
+#### Classes and Functions 
+
+* Generally, all the classes should have separate files.
+* Classes and Functions should be too the point.
+* Keep the number of arguements in the function to minimum.
+
+#### For more information 
+
+* Refer to the book by Robert C. Martin aka Uncle bob - [Here](https://www.amazon.in/Clean-Code-Robert-C-Martin/dp/8131773388)
+* Or Refer to his video lectures on Youtube - [Here](https://www.youtube.com/playlist?list=PLmmYSbUCWJ4x1GO839azG_BBw8rkh-zOj)
+
