@@ -1,24 +1,19 @@
 package com.siddharth.practiceapp
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
-import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.siddharth.practiceapp.broadcastReceiver.MyBroadcastReceiver
-import com.siddharth.practiceapp.fragments.FragB
+import com.siddharth.practiceapp.ui.fragments.FragB
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
 import com.siddharth.practiceapp.worker.MyWorker
@@ -122,19 +117,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleButtonClick() {
-        val button : Button = findViewById(R.id.loginButton)
-        button.setOnClickListener {
-            // Intent can also be used to send Broadcasts
-            Intent(applicationContext,MyBroadcastReceiver::class.java).also {
-                sendBroadcast(it)
-            }
-            // Fragment Transaction
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                replace<FragB>(R.id.fragment_container_view)
-                addToBackStack(null)
-            }
-        }
+
     }
 
     override fun onStart() {

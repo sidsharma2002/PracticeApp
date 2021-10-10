@@ -8,21 +8,19 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 
-class Repository @Inject constructor(private val api: NewsApi) : DefaultRepository{
+class Repository @Inject constructor(private val api: NewsApi) : DefaultRepository {
 
-  private val TAG = this.toString()
-  val likesCount = MutableLiveData<Int>()
-  val shouldCancel = MutableLiveData<Boolean>()
-  
-  suspend fun getTopNewsUsingCoroutine() = api.getTopNewsUsingCoroutine(Constants.API_KEY, "in")
-  fun getTopNewsUsingThread() = api.getTopNewsUsingThread(Constants.API_KEY, "in")
+    private val TAG = this.toString()
+    val likesCount = MutableLiveData<Int>()
+    val shouldCancel = MutableLiveData<Boolean>()
 
-  override suspend fun fetchLikes(uid: Long) {
+    suspend fun getTopNewsUsingCoroutine() = api.getTopNewsUsingCoroutine(Constants.API_KEY, "in")
+    fun getTopNewsUsingThread() = api.getTopNewsUsingThread(Constants.API_KEY, "in")
+
+    override suspend fun fetchLikes(uid: Long) {
         if (shouldCancel.value == true) return
         withContext(Dispatchers.IO) {
             val likes = fetchLikesFromServer(uid)
@@ -33,10 +31,7 @@ class Repository @Inject constructor(private val api: NewsApi) : DefaultReposito
         }
     }
 
-  private fun fetchLikesFromServer(uid: Long): Int {
-      return uid.toInt()
-  }
-
-    
-
+    private fun fetchLikesFromServer(uid: Long): Int {
+        return uid.toInt()
+    }
 }

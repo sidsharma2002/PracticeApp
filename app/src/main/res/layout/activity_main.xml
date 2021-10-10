@@ -6,21 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/loginButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="login"/>
-
+    
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"
+        android:name="com.siddharth.practiceapp.ui.fragments.FragA"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name ="com.siddharth.practiceapp.fragments.FragA"/>
-
+        android:layout_height="match_parent" />
+    
 </androidx.constraintlayout.widget.ConstraintLayout>

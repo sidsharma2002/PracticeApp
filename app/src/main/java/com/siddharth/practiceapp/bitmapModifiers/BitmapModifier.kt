@@ -1,4 +1,4 @@
-package com.siddharth.practiceapp.BitmapModifiers
+package com.siddharth.practiceapp.bitmapModifiers
 
 import android.graphics.Bitmap
 import android.graphics.Color

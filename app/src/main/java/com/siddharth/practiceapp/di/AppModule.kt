@@ -10,27 +10,21 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
     @Provides
     fun provideBaseUrl() = Constants.BASE_URL
 
     @Provides
     @Singleton
-    fun provideRetrofitInstance(BASE_URL: String): NewsApi =
+    fun provideNewsApi(BASE_URL: String): NewsApi =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NewsApi::class.java)
-
-
 }

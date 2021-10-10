@@ -12,9 +12,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 
 
-import com.siddharth.practiceapp.data.entities.News.Article
+import com.siddharth.practiceapp.data.dto.News.Article
 
-import com.siddharth.practiceapp.data.entities.News.News
+import com.siddharth.practiceapp.data.dto.News.News
 import com.siddharth.practiceapp.repository.Repository
 import com.siddharth.practiceapp.util.sendNotification
 import dagger.assisted.Assisted

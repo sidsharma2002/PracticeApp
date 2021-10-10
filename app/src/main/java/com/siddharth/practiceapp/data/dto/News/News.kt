@@ -1,4 +1,4 @@
-package com.siddharth.practiceapp.data.entities.News
+package com.siddharth.practiceapp.data.dto.News
 
 data class News(
     val articles: List<Article>,

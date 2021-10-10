@@ -3,7 +3,7 @@ package com.siddharth.practiceapp.viewModels
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.*
-import com.siddharth.practiceapp.BitmapModifiers.BitmapModifier
+import com.siddharth.practiceapp.bitmapModifiers.BitmapModifier
 import com.siddharth.practiceapp.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

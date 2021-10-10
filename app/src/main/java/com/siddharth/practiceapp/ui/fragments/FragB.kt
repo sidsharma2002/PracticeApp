@@ -1,4 +1,4 @@
-package com.siddharth.practiceapp.fragments
+package com.siddharth.practiceapp.ui.fragments
 
 import android.content.Context
 import android.os.Bundle

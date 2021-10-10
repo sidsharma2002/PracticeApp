@@ -1,8 +1,6 @@
-package com.siddharth.practiceapp.fragments
+package com.siddharth.practiceapp.ui.fragments
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,7 +8,6 @@ import android.graphics.BitmapFactory
 import android.graphics.pdf.PdfRenderer
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,17 +16,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.FragmentFragABinding
 import com.siddharth.practiceapp.viewModels.ViewModelA
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import java.io.FileDescriptor
 import java.io.FileNotFoundException
-import java.io.InputStream
-import java.lang.Exception
 
 
 /*In each activity and fragment where you inject your ViewModel,
