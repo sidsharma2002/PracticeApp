@@ -43,6 +43,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
     // workManager
     implementation("androidx.work:work-runtime:2.6.0")
     implementation("androidx.work:work-runtime-ktx:2.6.0")

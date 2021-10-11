@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.FragmentFragABinding
+import com.siddharth.practiceapp.util.snackBar
 import com.siddharth.practiceapp.viewModels.ViewModelA
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -52,7 +53,7 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         printLifeCycleState("onCreateView")
         _binding = FragmentFragABinding.inflate(inflater, container, false)
         return binding.root

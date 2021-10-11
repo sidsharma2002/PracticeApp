@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.activites.MainActivity"/>
 
         <service android:name=".service.MyService" />
         <service android:name=".service.MyForegroundService" />

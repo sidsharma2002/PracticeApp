@@ -1,19 +1,15 @@
-package com.siddharth.practiceapp
+package com.siddharth.practiceapp.ui.activites
 
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.siddharth.practiceapp.broadcastReceiver.MyBroadcastReceiver
-import com.siddharth.practiceapp.ui.fragments.FragB
+import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
 import com.siddharth.practiceapp.worker.MyWorker

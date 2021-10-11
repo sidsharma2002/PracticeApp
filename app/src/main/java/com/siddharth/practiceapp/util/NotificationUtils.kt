@@ -1,13 +1,9 @@
 package com.siddharth.practiceapp.util
 
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
-import android.text.SpannableStringBuilder
 import androidx.core.app.NotificationCompat
-import com.siddharth.practiceapp.MainActivity
 import com.siddharth.practiceapp.R
 
 // Notification ID.

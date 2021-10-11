@@ -7,11 +7,13 @@ import com.siddharth.practiceapp.bitmapModifiers.BitmapModifier
 import com.siddharth.practiceapp.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelA @Inject constructor(private val repository: Repository): ViewModel() {
+class ViewModelA @Inject constructor(private val repository: Repository) : ViewModel() {
 
     private val TAG = "viewmodelA : "
 
@@ -25,7 +27,7 @@ class ViewModelA @Inject constructor(private val repository: Repository): ViewMo
     val currentPage: LiveData<Int> = _currentPage
 
     val likesCount = Transformations.map(repository.likesCount) {
-        Log.d(TAG,"mapped")
+        Log.d(TAG, "mapped")
         it
     }
 

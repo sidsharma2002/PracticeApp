@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black"
+    android:background="?attr/colorOnSecondary"
     tools:context=".ui.activites.SplashActivity">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="250sp"
-        android:layout_height="250sp"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
         android:layout_gravity="center"
-        app:lottie_url="https://assets2.lottiefiles.com/packages/lf20_etwzclwo.json"/>
+        app:lottie_rawRes="@raw/lf30_editor_xsfdcmh3"/>
 </FrameLayout>
