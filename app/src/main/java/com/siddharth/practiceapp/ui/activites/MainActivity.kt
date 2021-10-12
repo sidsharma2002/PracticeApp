@@ -4,11 +4,15 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
@@ -24,10 +28,13 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         printLifeCycleState("onCreate")
 
         // uncomment to start the services
@@ -36,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         // uncomment to start the worker
         setupWorkManager()
         handleButtonClick()
+        bottomSheet()
     }
 
     /**
@@ -110,6 +118,29 @@ class MainActivity : AppCompatActivity() {
                 stopService(it)
             }
         }
+    }
+
+    //Bottom Sheet Fragment
+    private fun bottomSheet(){
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // handle onSlide
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> Toast.makeText(this@MainActivity, "STATE_COLLAPSED", Toast.LENGTH_SHORT).show()
+                    BottomSheetBehavior.STATE_EXPANDED -> Toast.makeText(this@MainActivity, "STATE_EXPANDED", Toast.LENGTH_SHORT).show()
+                    BottomSheetBehavior.STATE_DRAGGING -> Toast.makeText(this@MainActivity, "STATE_DRAGGING", Toast.LENGTH_SHORT).show()
+                    BottomSheetBehavior.STATE_SETTLING -> Toast.makeText(this@MainActivity, "STATE_SETTLING", Toast.LENGTH_SHORT).show()
+                    BottomSheetBehavior.STATE_HIDDEN -> Toast.makeText(this@MainActivity, "STATE_HIDDEN", Toast.LENGTH_SHORT).show()
+                    else -> Toast.makeText(this@MainActivity, "OTHER_STATE", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     private fun handleButtonClick() {
