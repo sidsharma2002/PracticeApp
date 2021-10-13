@@ -40,14 +40,12 @@ class ViewModelA @Inject constructor(private val repository: Repository) : ViewM
 
     fun setBitmap(bitmap: Bitmap, shouldProcessBitmap: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            _loading.postValue(true)
+            _bitmap.postValue(bitmap)
             if (shouldProcessBitmap) {
+                _loading.postValue(true)
                 val bitmapFiltered = processBitmap(bitmap)
                 _loading.postValue(false)
                 _bitmap.postValue(bitmapFiltered)
-            } else {
-                _loading.postValue(false)
-                _bitmap.postValue(bitmap)
             }
         }
     }

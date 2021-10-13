@@ -42,13 +42,14 @@ class MainActivity : AppCompatActivity() {
      * enqueues a 'Unique Periodic Work'
      */
     private fun setupWorkManager() {
-            val workManager = WorkManager.getInstance(this)
-            val saveRequest =
-                PeriodicWorkRequestBuilder<MyWorker>(10, TimeUnit.HOURS)
-                    .build()
-            workManager.enqueueUniquePeriodicWork("showNews",
-            ExistingPeriodicWorkPolicy.KEEP
-                , saveRequest)
+        val workManager = WorkManager.getInstance(this)
+        val saveRequest =
+            PeriodicWorkRequestBuilder<MyWorker>(10, TimeUnit.HOURS)
+                .build()
+        workManager.enqueueUniquePeriodicWork(
+            "showNews",
+            ExistingPeriodicWorkPolicy.KEEP, saveRequest
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
      *  Intent can also be used to startService()
      */
     private fun startMyService() {
-        Intent(this,MyService::class.java).also{
+        Intent(this, MyService::class.java).also {
             startService(it)
         }
     }
@@ -74,12 +75,12 @@ class MainActivity : AppCompatActivity() {
      * NOTE : if the app gets killed before that,
      * then the service will run in a never ending loop
      */
-    private fun stopMyService(x : Long) {
-        lifecycleScope.launch(Dispatchers.IO){
+    private fun stopMyService(x: Long) {
+        lifecycleScope.launch(Dispatchers.IO) {
             delay(x)
-                Intent(applicationContext,MyService::class.java).also{
-                    stopService(it)
-                }
+            Intent(applicationContext, MyService::class.java).also {
+                stopService(it)
+            }
         }
     }
 
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
      *  in the MyForegroundService.class
      */
     private fun startMyForegroundService() {
-        Intent(this,MyForegroundService::class.java).also {
+        Intent(this, MyForegroundService::class.java).also {
             startService(it)
         }
     }
@@ -103,10 +104,10 @@ class MainActivity : AppCompatActivity() {
      * NOTE : if we call other foreground service, then this service will also
      * behave like a foreground service
      */
-    private fun stopMyForegroundService(x : Long) {
+    private fun stopMyForegroundService(x: Long) {
         lifecycleScope.launch {
             delay(x)
-            Intent(applicationContext,MyForegroundService::class.java).also {
+            Intent(applicationContext, MyForegroundService::class.java).also {
                 stopService(it)
             }
         }
@@ -146,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         printLifeCycleState("onRestart")
     }
 
-    private fun printLifeCycleState(callbackName : String){
+    private fun printLifeCycleState(callbackName: String) {
         println("Activity lifecycle state is : $callbackName +  " + lifecycle.currentState.name)
     }
 }

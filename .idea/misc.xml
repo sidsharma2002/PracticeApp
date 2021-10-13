@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_frag_a.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_frag_b.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/fragment_options.xml" value="0.18" />
         <entry key="app/src/main/res/layout/item_options.xml" value="0.33" />
       </map>
