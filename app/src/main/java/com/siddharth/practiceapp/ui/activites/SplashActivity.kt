@@ -49,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
      */
     private fun navigateToActivity() {
         lifecycleScope.launchWhenResumed {
-            delay(5000)
+            delay(100)
             runOnUiThread {
                 Intent(this@SplashActivity, MainActivity::class.java).also {
                     startActivity(it)
@@ -73,6 +73,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun fetchFromServer() {
-        TODO("Not yet implemented")
+       // TODO("Not yet implemented")
     }
 }

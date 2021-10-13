@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeBottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorOnSecondary"
+    android:elevation="20sp"
+    android:orientation="vertical"
+    android:padding="10dp"
+    app:behavior_hideable="true"
+    tools:context=".ui.fragments.MainBottomSheet"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="20sp"
+        android:text="Hello there!!"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <View
+        style="@style/CardView.Light"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_fragments_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

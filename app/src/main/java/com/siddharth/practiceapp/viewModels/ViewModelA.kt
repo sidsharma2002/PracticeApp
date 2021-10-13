@@ -34,7 +34,7 @@ class ViewModelA @Inject constructor(private val repository: Repository) : ViewM
     init {
         repository.shouldCancel.value = false
         viewModelScope.launch(Dispatchers.IO) {
-            repository.fetchLikes(2)
+        //    repository.fetchLikes(2)
         }
     }
 

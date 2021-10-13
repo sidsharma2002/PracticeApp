@@ -4,14 +4,23 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.siddharth.practiceapp.R
+import com.siddharth.practiceapp.databinding.ActivityMainBinding
+import com.siddharth.practiceapp.databinding.FragmentFragABinding
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
+import com.siddharth.practiceapp.ui.fragments.MainBottomSheet
 import com.siddharth.practiceapp.worker.MyWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -24,10 +33,16 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
         printLifeCycleState("onCreate")
 
         // uncomment to start the services
@@ -35,7 +50,13 @@ class MainActivity : AppCompatActivity() {
 
         // uncomment to start the worker
         setupWorkManager()
+        setupUi()
         handleButtonClick()
+    }
+
+    private fun setupUi() {
+        val bottomSheet = MainBottomSheet()
+        bottomSheet.show(supportFragmentManager,"MainBottomSheet")
     }
 
     /**
@@ -139,6 +160,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        _binding = null
         printLifeCycleState("onDestroy")
     }
 
