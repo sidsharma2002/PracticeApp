@@ -3,18 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8sp"
-    app:cardBackgroundColor="?attr/colorOnSecondary"
-    app:cardCornerRadius="8sp"
-    app:strokeColor="@color/white"
-    app:strokeWidth="0.5sp">
+    android:layout_marginTop="12sp"
+    app:cardBackgroundColor="?attr/colorPrimary"
+    app:cardCornerRadius="0sp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnSecondary"
         android:orientation="vertical"
-        android:layout_marginBottom="16sp">
+        android:layout_marginBottom="10sp">
 
         <TextView
             android:id="@+id/tv_reminder"
@@ -34,7 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:text="Mark Done"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppinssemibold"
             android:layout_gravity="start"
-            android:textColor="?attr/colorPrimary" />
+            android:visibility="gone"
+            android:textColor="?attr/colorOnPrimary" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

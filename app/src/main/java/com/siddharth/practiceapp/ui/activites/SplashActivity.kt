@@ -1,9 +1,13 @@
 package com.siddharth.practiceapp.ui.activites
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.navigation.NavigationBarView
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.manager.CurrentUserManager
 import com.siddharth.practiceapp.service.MyService
@@ -14,13 +18,15 @@ import kotlinx.coroutines.launch
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.navigationBarColor = resources.getColor(R.color.purple_200)
         setContentView(R.layout.activity_splash)
+
         syncDetails()
         startMyService()
         stopMyService(1000)
         navigateToActivity()
     }
-
 
     private fun startMyService() {
         Intent(this, MyService::class.java).also {
@@ -73,6 +79,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun fetchFromServer() {
-       // TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 }

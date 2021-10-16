@@ -15,6 +15,7 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         @JvmStatic
         val newsType = 1
+
         @JvmStatic
         val reminderType = 2
     }
@@ -36,14 +37,15 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class ReminderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val reminderText: TextView = itemView.findViewById(R.id.tv_reminder)
         fun setData(data: HomeData, holder: ReminderHolder) {
-            holder.reminderText.text = "Next is a meeting with John Doe on your list"
+            holder.reminderText.text = "To live a creative life, we must lose our fear of being wrong"
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if(viewType == reminderType){
+        if (viewType == reminderType) {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_remainder_home, parent, false)
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_remainder_home, parent, false)
             return ReminderHolder(view)
         }
         val view =
@@ -54,8 +56,7 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NewsHolder) {
             holder.setData(dataList[position], holder, position)
-        }
-        else if (holder is ReminderHolder) {
+        } else if (holder is ReminderHolder) {
             holder.setData(dataList[position], holder)
         }
     }
@@ -65,7 +66,7 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position == randomInt){
+        if (position == randomInt) {
             return reminderType
         }
         return newsType

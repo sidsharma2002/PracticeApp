@@ -10,7 +10,8 @@
     <color name="pink">#D92FF6</color>
     <color name="blue">#FC38ADFB</color>
     <color name="light_blue">#ADD8E6</color>
-    <color name="black_dark">#121213</color>
+    <color name="black_dark1">#121213</color>
+    <color name="black_dark">#000000</color>
     <color name="black_light">#212023</color>
     <color name="light_grey">#EAEBED</color>
 </resources>

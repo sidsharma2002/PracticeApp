@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.*
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding

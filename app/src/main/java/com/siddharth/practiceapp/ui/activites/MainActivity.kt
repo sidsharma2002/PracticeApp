@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUi() {
         val bottomSheet = MainBottomSheet()
-        bottomSheet.show(supportFragmentManager,"MainBottomSheet")
+      //  bottomSheet.show(supportFragmentManager,"MainBottomSheet")
     }
 
     /**

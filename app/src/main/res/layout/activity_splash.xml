@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/colorOnSecondary"
+    android:background="?attr/colorPrimary"
     tools:context=".ui.activites.SplashActivity">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -13,5 +13,6 @@
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
         android:layout_gravity="center"
+        app:lottie_colorFilter="@color/white"
         app:lottie_rawRes="@raw/lf30_editor_xsfdcmh3"/>
 </FrameLayout>
