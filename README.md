@@ -5,6 +5,9 @@
 This app is made with a purpose to help newbies understand core concepts of Android Development.
 There are very limited and not so clear resources available out there, Hence I've decided to fix it.
 
+![upload2](https://user-images.githubusercontent.com/53833109/137579229-96f8a86c-76ae-4979-bcb0-517ac12804a4.jpg)  ![upload1](https://user-images.githubusercontent.com/53833109/137579221-400b8be0-157b-47d4-9ddb-9166714c8055.jpg) ![upload3](https://user-images.githubusercontent.com/53833109/137579234-232100db-40e3-4d2c-8569-763dac193287.jpg)
+
+
 ## Topics Implemented
 
 #### Android Based
@@ -29,6 +32,7 @@ There are very limited and not so clear resources available out there, Hence I'v
 As soon the onCreateMethod is triggered, following things are done : 
 
 * MyService (background service) is fired which gets killed after 2secs.
+
 * MyForegroundService is created (if not already running) and keeps running in never ending loop.
 * This foreground service then listens for network_changed broadcasts and shows a Toast.
 * handleOnClickListener() implements listener for login button. This listener fires up a broadcast to the sameMyBroadcastReceiver. Also this listener replaces the current fragment with FragB and adds it to backstack.
