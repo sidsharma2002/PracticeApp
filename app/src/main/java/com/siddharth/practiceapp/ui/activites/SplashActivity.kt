@@ -49,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
      */
     private fun navigateToActivity() {
         lifecycleScope.launchWhenResumed {
-            delay(100)
+            delay(1500)
             runOnUiThread {
                 Intent(this@SplashActivity, MainActivity::class.java).also {
                     startActivity(it)

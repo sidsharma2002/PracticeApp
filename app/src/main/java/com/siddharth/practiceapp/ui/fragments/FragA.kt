@@ -73,9 +73,6 @@ class FragA : Fragment(R.layout.fragment_frag_a) {
         viewModel.loading.observe(viewLifecycleOwner, {
             binding.progressBarFilter.isVisible = it
         })
-        viewModel.likesCount.observe(viewLifecycleOwner) {
-            binding.tvLikesCount.text = it.toString()
-        }
     }
 
     private fun handleOnClickListener() {

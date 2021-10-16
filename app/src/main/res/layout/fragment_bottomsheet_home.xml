@@ -8,29 +8,97 @@
     android:background="?attr/colorOnSecondary"
     android:elevation="20sp"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="2dp"
     app:behavior_hideable="true"
-    tools:context=".ui.fragments.MainBottomSheet"
-    app:layout_behavior="@string/bottom_sheet_behavior">
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    tools:context=".ui.fragments.MainBottomSheet">
 
-    <com.google.android.material.textview.MaterialTextView
+    <TextView
+        android:id="@+id/tv_mainHeadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20sp"
-        android:layout_marginBottom="20sp"
-        android:text="Hello there!!"
+        android:layout_gravity="start"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="16sp"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Good \nEvening!!"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="26sp" />
 
-    <View
-        style="@style/CardView.Light"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="20sp" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8sp"
+        android:layout_marginEnd="8sp"
+        android:layout_marginTop="16sp"
+        app:cardCornerRadius="8sp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_primary"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20sp"
+                android:layout_marginTop="12sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:text="savings of the Day"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="20sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:text="$ 1,200"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="end"
+                android:visibility="gone"
+                android:layout_marginEnd="12sp">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="20sp"
+                    android:text="finance"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="10sp"
+                    android:padding="16sp"
+                    app:chipCornerRadius="20sp"
+                    style="@style/TextAppearance.AppCompat.Widget.Button.Colored" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_header1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="20sp"
+                    android:text="monetory"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="10sp"
+                    app:chipCornerRadius="20sp"
+                    style="@style/Widget.MaterialComponents.Chip.Action"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_fragments_home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16sp" />
 </LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4sp"
+    app:cardBackgroundColor="?attr/colorOnSecondary"
+    app:cardCornerRadius="8sp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="12sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginBottom="0sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_newsHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinssemibold"
+            android:maxLines="3"
+            android:text="Developers are overpaid"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_newsDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsregular"
+            android:maxLines="7"
+            android:text="You might be interested in looking at such a table. Before implementation, I always test every C++ distribution for the efficiency of reading and writing large amounts of data. For example, the latest GCC compiler from MSYS2 is terribly slow in some cases. I don't want to use it here. Also, it happens that some specifiers like lld or Lf work unexpectedly. In the table by reference, the second line is the added compiler. The columns correspond to different tests. The cell contains the time of the test execution. If I have time, I will someday publish scripts for testing c++ compiler installations."
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_newsImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="0sp"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

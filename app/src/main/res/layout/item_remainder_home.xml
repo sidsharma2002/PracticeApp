@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8sp"
+    app:cardBackgroundColor="?attr/colorOnSecondary"
+    app:cardCornerRadius="8sp"
+    app:strokeColor="@color/white"
+    app:strokeWidth="0.5sp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorOnSecondary"
+        android:orientation="vertical"
+        android:layout_marginBottom="16sp">
+
+        <TextView
+            android:id="@+id/tv_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="12sp"
+            android:layout_marginEnd="20sp"
+            android:layout_marginBottom="8sp"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="Next reminder on your schedule is"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:text="Mark Done"
+            android:layout_gravity="start"
+            android:textColor="?attr/colorPrimary" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

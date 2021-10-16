@@ -6,12 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.siddharth.practiceapp.R
+import com.siddharth.practiceapp.adapter.HomeRvAdapter
+import com.siddharth.practiceapp.databinding.FragmentHomeBinding
+import com.siddharth.practiceapp.util.Response
+import com.siddharth.practiceapp.util.snackBar
+import com.siddharth.practiceapp.viewModels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class FragB : Fragment(R.layout.fragment_frag_b) {
+class HomeFragment : Fragment(R.layout.fragment_home) {
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var adapter: HomeRvAdapter
+    private val viewmodel: HomeViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -27,10 +39,34 @@ class FragB : Fragment(R.layout.fragment_frag_b) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         printLifeCycleState("onCreateView")
-        printViewLifeCycleState()
-        return super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        setupUi()
+        subscribeToObservers()
+        return binding.root
+    }
+
+    private fun setupUi() {
+        adapter = HomeRvAdapter()
+        binding.rvFragmentsHome.apply {
+            adapter = this@HomeFragment.adapter
+            itemAnimator = null
+            layoutManager = LinearLayoutManager(context)
+        }
+    }
+
+    private fun subscribeToObservers() {
+        viewmodel.homeDataList.observe(viewLifecycleOwner) {
+            if (it is Response.Success) {
+                val initSize = adapter.dataList.size
+                adapter.dataList.addAll(it.data!!)  // TODO : Review this
+                adapter.notifyItemRangeChanged(initSize, it.data.size)
+            } else if (it is Response.Error) {
+                snackBar(it.message!!)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,6 +98,7 @@ class FragB : Fragment(R.layout.fragment_frag_b) {
     override fun onDestroyView() {
         super.onDestroyView()
         printLifeCycleState("onDestroyView")
+        _binding = null
     }
 
     override fun onDestroy() {
@@ -73,10 +110,12 @@ class FragB : Fragment(R.layout.fragment_frag_b) {
         super.onDetach()
         printLifeCycleState("onDetach")
     }
-    private fun printViewLifeCycleState(){
+
+    private fun printViewLifeCycleState() {
         println("view lifecycle owner : " + viewLifecycleOwner.lifecycle.currentState.name)
     }
-    private fun printLifeCycleState(callbackName : String){
+
+    private fun printLifeCycleState(callbackName: String) {
         println("Fragment B lifecycle state is : $callbackName +  " + lifecycle.currentState.name)
     }
 }

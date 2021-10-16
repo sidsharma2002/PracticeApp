@@ -26,18 +26,6 @@ class ViewModelA @Inject constructor(private val repository: Repository) : ViewM
     private val _currentPage = MutableLiveData<Int>()
     val currentPage: LiveData<Int> = _currentPage
 
-    val likesCount = Transformations.map(repository.likesCount) {
-        Log.d(TAG, "mapped")
-        it
-    }
-
-    init {
-        repository.shouldCancel.value = false
-        viewModelScope.launch(Dispatchers.IO) {
-        //    repository.fetchLikes(2)
-        }
-    }
-
     fun setBitmap(bitmap: Bitmap, shouldProcessBitmap: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             _bitmap.postValue(bitmap)

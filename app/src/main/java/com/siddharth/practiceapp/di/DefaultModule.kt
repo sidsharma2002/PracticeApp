@@ -13,7 +13,6 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @InstallIn(ViewModelComponent::class)
 object DefaultModule {
 
-
     // Lives as long as  ViewModel lives
     @ViewModelScoped
     @Provides

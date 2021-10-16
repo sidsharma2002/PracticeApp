@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activites.MainActivity">
+    android:background="?attr/colorOnSecondary"
+    tools:context=".ui.fragments.HomeFragment">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container_view"
-        android:name="com.siddharth.practiceapp.ui.fragments.HomeFragment"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_fragments_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
