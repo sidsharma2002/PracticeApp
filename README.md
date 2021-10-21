@@ -5,6 +5,9 @@
 This app is made with a purpose to help newbies understand core concepts of Android Development.
 There are very limited and not so clear resources available out there, Hence I've decided to fix it.
 
+![upload2](https://user-images.githubusercontent.com/53833109/137579229-96f8a86c-76ae-4979-bcb0-517ac12804a4.jpg)  ![upload1](https://user-images.githubusercontent.com/53833109/137579221-400b8be0-157b-47d4-9ddb-9166714c8055.jpg) ![upload3](https://user-images.githubusercontent.com/53833109/137579234-232100db-40e3-4d2c-8569-763dac193287.jpg)
+
+
 ## Topics Implemented
 
 #### Android Based
@@ -23,19 +26,6 @@ There are very limited and not so clear resources available out there, Hence I'v
 * [Higher Order functions](https://kotlinlang.org/docs/lambdas.html)
 * [Returning functions](https://kotlinlang.org/docs/functions.html)
 * Higher Order functions which returns a function (almost the same thing)
-
-## Workflow
-
-As soon the onCreateMethod is triggered, following things are done : 
-
-* MyService (background service) is fired which gets killed after 2secs.
-* MyForegroundService is created (if not already running) and keeps running in never ending loop.
-* This foreground service then listens for network_changed broadcasts and shows a Toast.
-* handleOnClickListener() implements listener for login button. This listener fires up a broadcast to the sameMyBroadcastReceiver. Also this listener replaces the current fragment with FragB and adds it to backstack.
-
-When ever the app is launched for the first time, A 'Unique periodic work' is enqueued in the MyWorker.This periodic work shows notification every 15 minutes stating that workManager has been FiredUp.
-
-In the fragment A, click on the start work button and select an image, the app will apply a grey filter to it while recovering the bitmap on configuration changes.
 
 ## Resources
 
