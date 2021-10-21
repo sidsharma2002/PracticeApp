@@ -27,20 +27,6 @@ There are very limited and not so clear resources available out there, Hence I'v
 * [Returning functions](https://kotlinlang.org/docs/functions.html)
 * Higher Order functions which returns a function (almost the same thing)
 
-## Workflow
-
-As soon the onCreateMethod is triggered, following things are done : 
-
-* MyService (background service) is fired which gets killed after 2secs.
-
-* MyForegroundService is created (if not already running) and keeps running in never ending loop.
-* This foreground service then listens for network_changed broadcasts and shows a Toast.
-* handleOnClickListener() implements listener for login button. This listener fires up a broadcast to the sameMyBroadcastReceiver. Also this listener replaces the current fragment with FragB and adds it to backstack.
-
-When ever the app is launched for the first time, A 'Unique periodic work' is enqueued in the MyWorker.This periodic work shows notification every 15 minutes stating that workManager has been FiredUp.
-
-In the fragment A, click on the start work button and select an image, the app will apply a grey filter to it while recovering the bitmap on configuration changes.
-
 ## Resources
 
 #### Documentaion and Other Sources
