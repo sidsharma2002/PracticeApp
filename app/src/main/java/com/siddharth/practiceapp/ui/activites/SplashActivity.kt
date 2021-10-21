@@ -1,7 +1,9 @@
 package com.siddharth.practiceapp.ui.activites
 
+
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.graphics.Color
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
@@ -10,22 +12,41 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.navigation.NavigationBarView
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.manager.CurrentUserManager
+import com.siddharth.practiceapp.manager.Router
 import com.siddharth.practiceapp.service.MyService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
+
+    private lateinit var sharedPref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         window.navigationBarColor = resources.getColor(R.color.purple_200)
         setContentView(R.layout.activity_splash)
 
+        sharedPref = this.getSharedPreferences("userInfo", MODE_PRIVATE)
         syncDetails()
         startMyService()
         stopMyService(1000)
         navigateToActivity()
+    }
+
+    private fun syncDetails() {
+        setFromSharedPrefs()
+        fetchFromServer()
+    }
+
+    private fun setFromSharedPrefs() {
+        CurrentUserManager.currentUser.isLoggedIn =
+            sharedPref.getBoolean("currentUser_isLoggedIn", false)
+        CurrentUserManager.currentUser.name =
+            sharedPref.getString("currentUser_name", "unknownUser").toString()
+        CurrentUserManager.currentUser.uid =
+            sharedPref.getString("currentUser_uid", "").toString()
     }
 
     private fun startMyService() {
@@ -57,28 +78,23 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launchWhenResumed {
             delay(1500)
             runOnUiThread {
-                Intent(this@SplashActivity, MainActivity::class.java).also {
-                    startActivity(it)
-                    finish()
+                when (CurrentUserManager.currentUser.isLoggedIn) {
+                    false -> {
+
+                    }
+                    true -> {
+                    }
                 }
+                Router.with(this@SplashActivity).getIntentForActivity(MainActivity::class.java)
+                    .also {
+                        startActivity(it)
+                    }
+                finish()
             }
         }
     }
 
-    private fun syncDetails() {
-        setFromSharedPrefs()
-        fetchFromServer()
-    }
-
-    private fun setFromSharedPrefs() {
-        val sharedPref = this.getSharedPreferences("userInfo", MODE_PRIVATE)
-        CurrentUserManager.currentUser.name =
-            sharedPref.getString("currentUser_name", "unknownUser").toString()
-        CurrentUserManager.currentUser.uid =
-            sharedPref.getString("currentUser_uid", "").toString()
-    }
-
-    private fun fetchFromServer() {
-        // TODO("Not yet implemented")
-    }
+private fun fetchFromServer() {
+    // TODO("Not yet implemented")
+}
 }

@@ -1,6 +1,7 @@
 package com.siddharth.practiceapp.di
 
 import com.siddharth.practiceapp.api.NewsApi
+import com.siddharth.practiceapp.data.dao.HomeDataDao
 import com.siddharth.practiceapp.repository.DefaultRepository
 import com.siddharth.practiceapp.repository.Repository
 import dagger.Module
@@ -16,5 +17,5 @@ object DefaultModule {
     // Lives as long as  ViewModel lives
     @ViewModelScoped
     @Provides
-    fun providesRepository(newsApi: NewsApi) = Repository(newsApi) as DefaultRepository
+    fun providesRepository(newsApi: NewsApi, dao: HomeDataDao) = Repository(newsApi, dao) as DefaultRepository
 }

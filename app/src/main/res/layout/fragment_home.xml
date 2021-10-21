@@ -7,11 +7,12 @@
     android:background="?attr/colorOnSecondary"
     tools:context=".ui.fragments.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.siddharth.practiceapp.customImpl.CustomRV
         android:id="@+id/rv_fragments_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12sp"
+        android:layout_marginTop="20sp"
+        android:paddingBottom="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

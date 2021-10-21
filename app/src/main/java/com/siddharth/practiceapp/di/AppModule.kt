@@ -1,7 +1,12 @@
 package com.siddharth.practiceapp.di
 
 
+import android.app.Application
+import androidx.room.Room
 import com.siddharth.practiceapp.api.NewsApi
+import com.siddharth.practiceapp.data.converter.ArrayListConverter
+import com.siddharth.practiceapp.data.converter.ArticleConverter
+import com.siddharth.practiceapp.data.database.HomeDataDatabase
 import com.siddharth.practiceapp.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -27,4 +32,17 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NewsApi::class.java)
+
+
+    @Singleton
+    @Provides
+    fun provideHomeDataDatabase(
+        app: Application
+    ) =
+        Room.databaseBuilder(app, HomeDataDatabase::class.java, "homeData_database")
+            .fallbackToDestructiveMigration()
+            .build()
+
+    @Provides
+    fun provideHomeDataDao(db: HomeDataDatabase) = db.getHomeDataDao()
 }

@@ -4,37 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="12sp"
+    android:layout_marginBottom="12sp"
     app:cardBackgroundColor="?attr/colorPrimary"
     app:cardCornerRadius="0sp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="10sp">
+        android:layout_marginBottom="4sp">
 
         <TextView
             android:id="@+id/tv_reminder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20sp"
+            android:layout_marginStart="32sp"
             android:layout_marginTop="12sp"
             android:layout_marginEnd="20sp"
             android:layout_marginBottom="8sp"
             android:fontFamily="@font/poppinssemibold"
             android:text="Next reminder on your schedule is"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20sp"
-            android:text="Mark Done"
-            android:textSize="16sp"
-            android:fontFamily="@font/poppinssemibold"
-            android:layout_gravity="start"
-            android:visibility="gone"
-            android:textColor="?attr/colorOnPrimary" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

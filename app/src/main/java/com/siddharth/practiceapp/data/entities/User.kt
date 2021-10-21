@@ -5,5 +5,6 @@ data class User(
     var uid: String = "",
     var phoneNumber: String? = null,
     var address: String? = null,
-    var isProUser: Boolean = false
+    var isProUser: Boolean = false,
+    var isLoggedIn : Boolean = false
 )
