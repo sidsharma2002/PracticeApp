@@ -70,7 +70,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.rvFragmentsHome.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(context)
-
             val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     handleItemSwipe(viewHolder, direction)

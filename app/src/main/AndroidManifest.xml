@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticeApp">
         <activity
+            android:name=".ui.activites.AuthActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activites.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -24,15 +27,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activites.MainActivity"/>
+        <activity android:name=".ui.activites.MainActivity" />
 
         <service android:name=".service.MyService" />
         <service android:name=".service.MyForegroundService" />
 
         <receiver
             android:name=".broadcastReceiver.MyBroadcastReceiver"
-            android:enabled="true" /> <!-- If you want to disable android.startup completely. -->
-
+            android:enabled="true" />
     </application>
 
 </manifest>

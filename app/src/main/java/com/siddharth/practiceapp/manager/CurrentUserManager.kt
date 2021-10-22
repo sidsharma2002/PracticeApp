@@ -4,4 +4,5 @@ import com.siddharth.practiceapp.data.entities.User
 
 object CurrentUserManager {
     val currentUser = User()
+    var isLoggedIn : Boolean = true
 }

@@ -6,5 +6,4 @@ data class User(
     var phoneNumber: String? = null,
     var address: String? = null,
     var isProUser: Boolean = false,
-    var isLoggedIn : Boolean = false
 )

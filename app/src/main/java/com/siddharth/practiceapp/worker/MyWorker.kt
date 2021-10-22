@@ -30,10 +30,9 @@ import java.net.URL
  * This Worker fetches top headline from the NewsApi every 15 minutes.
  */
 
-@HiltWorker
-class MyWorker @AssistedInject constructor(
-    @Assisted appContext: Context,
-    @Assisted workerParams: WorkerParameters,
+class MyWorker constructor(
+    appContext: Context,
+    workerParams: WorkerParameters,
     private val repository: Repository
 ) : CoroutineWorker(appContext, workerParams) {
 

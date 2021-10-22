@@ -41,7 +41,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun setFromSharedPrefs() {
-        CurrentUserManager.currentUser.isLoggedIn =
+        CurrentUserManager.isLoggedIn =
             sharedPref.getBoolean("currentUser_isLoggedIn", false)
         CurrentUserManager.currentUser.name =
             sharedPref.getString("currentUser_name", "unknownUser").toString()
@@ -78,23 +78,29 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launchWhenResumed {
             delay(1500)
             runOnUiThread {
-                when (CurrentUserManager.currentUser.isLoggedIn) {
+                when (CurrentUserManager.isLoggedIn) {
                     false -> {
-
+                        Router.with(this@SplashActivity)
+                            .getIntentForActivity(MainActivity::class.java)
+                            .also {
+                                startActivity(it)
+                            }
                     }
                     true -> {
+                        Router.with(this@SplashActivity)
+                            .getIntentForActivity(MainActivity::class.java)
+                            .also {
+                                startActivity(it)
+                            }
                     }
                 }
-                Router.with(this@SplashActivity).getIntentForActivity(MainActivity::class.java)
-                    .also {
-                        startActivity(it)
-                    }
                 finish()
             }
+
         }
     }
 
-private fun fetchFromServer() {
-    // TODO("Not yet implemented")
-}
+    private fun fetchFromServer() {
+        // TODO("Not yet implemented")
+    }
 }

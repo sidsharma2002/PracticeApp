@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.siddharth.computation.splitwise.customDataStructure.HashGapPool
 import com.siddharth.practiceapp.R
 import java.util.*
 
@@ -33,28 +32,28 @@ class CustomRV constructor(
     private val backgroundColor = context.resources.getColor(R.color.black_light)
     private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
-    private var hashGapPool = HashGapPool<Int, Int>()
+    // private var hashGapPool = HashGapPool<Int, Int>()
 
     companion object {
         const val TAG = "CustomRV "
     }
 
     init {
-        hashGapPool.addInitialObjectsInPool()
-        val result = hashGapPool.pop()
-        if (result is HashGapPool.Response.Error) {
-            // TODO : Handle Error here
-        }
-        if (result is HashGapPool.Response.Success) {
-            val hashGap = result.data
-            hashGap!![1] = 1
-            hashGap[2] = 1
-        }
+//        hashGapPool.addInitialObjectsInPool()
+//        val result = hashGapPool.pop()
+//        if (result is HashGapPool.Response.Error) {
+//            // TODO : Handle Error here
+//        }
+//        if (result is HashGapPool.Response.Success) {
+//            val hashGap = result.data
+//            hashGap!![1] = 1
+//            hashGap[2] = 1
+//        }
     }
 
-    fun setMainPool(newPool: HashGapPool<Int, Int>) {
-        hashGapPool = newPool
-    }
+//    fun setMainPool(newPool: HashGapPool<Int, Int>) {
+//        hashGapPool = newPool
+//    }
 
     override fun onScrolled(dx: Int, dy: Int) {
         super.onScrolled(dx, dy)

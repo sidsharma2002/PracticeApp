@@ -34,6 +34,7 @@ class CustomLayoutManager constructor(
         val firstVisiblePosition =
             Math.floor(horizontalScrollOffset.toDouble() / viewWidth.toDouble()).toInt()
         val lastVisiblePosition = (horizontalScrollOffset + screenWidth) / viewWidth
+
     }
 
     override fun scrollHorizontallyBy(
