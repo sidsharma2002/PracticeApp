@@ -33,15 +33,15 @@ class HomeViewModel @Inject constructor(
     private fun mapHomeDataFromNews(news: Response<News?>): LiveData<Response<ArrayList<HomeData>>> {
         val listHomeData = ArrayList<HomeData>()
         val articleList = news.data?.articles
-        articleList?.forEach {
+//        articleList?.forEach {
 //            listHomeData.add(HomeData(HomeRvAdapter.newsType, id = it,id = it.url))
-        }
+//        }
         val finalMappedList = MutableLiveData<Response<ArrayList<HomeData>>>()
         finalMappedList.value = Response.Success(listHomeData)
         return finalMappedList
     }
 
-    fun getNews() {
+    private fun getNews() {
         experimentalHomeDataList.postValue(Response.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             experimentalHomeDataList.postValue(repository.getAllHomeDataList())
