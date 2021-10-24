@@ -4,6 +4,9 @@ import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import com.siddharth.practiceapp.R
 
+/**
+ *  @author Siddharth Sharma
+ */
 class CustomLayoutManager constructor(
     resources: Resources,
     private val screenWidth: Int

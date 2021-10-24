@@ -5,24 +5,23 @@ import com.siddharth.practiceapp.api.NewsApi
 import com.siddharth.practiceapp.util.Constants
 import javax.inject.Inject
 import android.util.Log
-import androidx.room.Database
 import com.siddharth.practiceapp.data.dao.HomeDataDao
 import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.util.Response
 import com.siddharth.practiceapp.util.safeCall
 
 
-class Repository @Inject constructor(
+class HomeFeedRepository @Inject constructor(
     private val api: NewsApi,
     private val homeDataDao: HomeDataDao
-) : DefaultRepository {
+) : DefaultHomeFeedRepository {
 
     private val TAG = this.javaClass.toString()
 
-    suspend fun getTopNewsUsingCoroutine() = api.getTopNewsUsingCoroutine(Constants.API_KEY, "us")
+    suspend fun getTopNewsUsingCoroutine() = api.getTopNewsUsingCoroutine(Constants.NEWS_API_KEY, "us")
     override suspend fun getTopNews() =
         safeCall {
-            val news = api.getTopNewsUsingCoroutine(Constants.API_KEY, "in")
+            val news = api.getTopNewsUsingCoroutine(Constants.NEWS_API_KEY, "in")
             val newsList: MutableList<HomeData> = mutableListOf()
             Log.d(TAG, "news body size : " + news.body()!!.articles.size)
             for((counter, element) in news.body()!!.articles.withIndex()){
@@ -48,7 +47,7 @@ class Repository @Inject constructor(
         return Response.Success(homeDataDao.getAllHomeDataList())
     }
 
-    fun getTopNewsUsingThread() = api.getTopNewsUsingThread(Constants.API_KEY, "us")
+    fun getTopNewsUsingThread() = api.getTopNewsUsingThread(Constants.NEWS_API_KEY, "us")
 
     override suspend fun fetchLikes(uid: Long) {
 

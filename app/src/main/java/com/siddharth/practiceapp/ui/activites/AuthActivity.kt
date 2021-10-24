@@ -6,7 +6,9 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.ui.fragments.AuthFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

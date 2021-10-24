@@ -2,4 +2,5 @@
     <string name="app_name">PracticeApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client">488317292425-sskc3fdpgkj2ld4brv5t6mi2l1esccso.apps.googleusercontent.com</string>
 </resources>

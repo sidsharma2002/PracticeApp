@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 
@@ -15,10 +14,8 @@ import androidx.work.WorkerParameters
 import com.siddharth.practiceapp.data.dto.News.Article
 
 import com.siddharth.practiceapp.data.dto.News.News
-import com.siddharth.practiceapp.repository.Repository
+import com.siddharth.practiceapp.repository.HomeFeedRepository
 import com.siddharth.practiceapp.util.sendNotification
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -33,7 +30,7 @@ import java.net.URL
 class MyWorker constructor(
     appContext: Context,
     workerParams: WorkerParameters,
-    private val repository: Repository
+    private val repository: HomeFeedRepository
 ) : CoroutineWorker(appContext, workerParams) {
 
     private val TAG = "MyWorker : "

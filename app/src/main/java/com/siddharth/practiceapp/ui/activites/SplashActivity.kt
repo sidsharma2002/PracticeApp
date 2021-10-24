@@ -81,7 +81,7 @@ class SplashActivity : AppCompatActivity() {
                 when (CurrentUserManager.isLoggedIn) {
                     false -> {
                         Router.with(this@SplashActivity)
-                            .getIntentForActivity(MainActivity::class.java)
+                            .getIntentForActivity(AuthActivity::class.java)
                             .also {
                                 startActivity(it)
                             }

@@ -3,17 +3,19 @@ package com.siddharth.practiceapp.di
 
 import android.app.Application
 import androidx.room.Room
+import com.siddharth.practiceapp.api.AuthApi
 import com.siddharth.practiceapp.api.NewsApi
-import com.siddharth.practiceapp.data.converter.ArrayListConverter
-import com.siddharth.practiceapp.data.converter.ArticleConverter
 import com.siddharth.practiceapp.data.database.HomeDataDatabase
 import com.siddharth.practiceapp.util.Constants
+import com.siddharth.practiceapp.util.Constants.NEWS_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -21,18 +23,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Provides
-    fun provideBaseUrl() = Constants.BASE_URL
 
     @Provides
     @Singleton
-    fun provideNewsApi(BASE_URL: String): NewsApi =
+    fun providesNewsApi(): NewsApi =
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(NEWS_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NewsApi::class.java)
-
 
     @Singleton
     @Provides
