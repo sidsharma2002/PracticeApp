@@ -18,6 +18,7 @@ import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
 import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
+import com.siddharth.practiceapp.ui.activites.MainActivity
 import com.siddharth.practiceapp.util.Response
 import com.siddharth.practiceapp.util.SwipeToDeleteCallback
 import com.siddharth.practiceapp.util.snackBar
@@ -55,17 +56,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         printLifeCycleState("onCreateView")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        setupUi()
-        setupListeners()
-        subscribeToObservers()
         return binding.root
     }
 
-    private fun setupListeners() {
-        // TODO : to implement
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        printLifeCycleState("onViewCreated")
+        printViewLifeCycleState()
+
+        setupUi()
+        setupListeners()
+        subscribeToObservers()
     }
 
     private fun setupUi() {
+
+
         adapter = HomeRvAdapter()
         binding.rvFragmentsHome.apply {
             adapter = this@HomeFragment.adapter
@@ -82,14 +89,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun handleItemSwipe(viewHolder: ViewHolder, direction: Int) {
         adapter.dataList.removeAt(viewHolder.adapterPosition)
-        val speedItemPosition = this@HomeFragment.adapter.getSpeedItemPosition()
-        if (viewHolder.adapterPosition < speedItemPosition) {
-            adapter.setSpeedItemPosition(speedItemPosition - 1)
-        }
-        if (viewHolder is HomeRvAdapter.ReminderHolder) {
-            adapter.setSpeedItemPosition(-1)
-        }
         adapter.notifyItemRemoved(viewHolder.adapterPosition)
+    }
+
+
+    private fun setupListeners() {
+        // TODO : to implement
     }
 
     private fun subscribeToObservers() {
@@ -105,20 +110,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewmodel.experimentalHomeDataList.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
-                val initSize = adapter.dataList.size
+                (requireActivity() as MainActivity).hideSideBar()
                 Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
-                // adapter.dataList.addAll(it.data)  // TODO : Review this
                 adapter.dataList.clear()
                 adapter.dataList.addAll(it.data)
                 adapter.notifyItemRangeChanged(0, it.data.size)
             }
+            if (it is Response.Loading) {
+                (requireActivity() as MainActivity).showSideBar()
+                adapter.dataList.clear()
+                it.data?.let { it1 ->
+                    adapter.dataList.addAll(it1)
+                    adapter.notifyItemRangeChanged(0, it1.size)
+                }
+            }
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        printLifeCycleState("onViewCreated")
-        printViewLifeCycleState()
     }
 
     override fun onStart() {

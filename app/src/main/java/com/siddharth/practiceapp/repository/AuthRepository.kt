@@ -18,7 +18,7 @@ class AuthRepository() : DefaultAuthRepository {
     override suspend fun authenticateUser(accessToken: String): Response<String?> =
         safeCall {
             Log.d(TAG,"accessToken is = $accessToken")
-            val result = AuthApiInstance.api.sendUserData(AuthRequest(accessToken = accessToken))
+            val result = AuthApiInstance.api.sendUserData(accessToken = accessToken)
             val req = AuthRequest(accessToken = accessToken)
             Log.d(TAG, req.toString())
             Log.d(TAG, "response is : ${result.body()}")

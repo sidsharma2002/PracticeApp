@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -21,6 +22,8 @@ import com.siddharth.practiceapp.databinding.FragmentFragABinding
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
 import com.siddharth.practiceapp.ui.fragments.MainBottomSheet
+import com.siddharth.practiceapp.util.fadeout
+import com.siddharth.practiceapp.util.slideUp
 import com.siddharth.practiceapp.worker.MyWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -50,13 +53,27 @@ class MainActivity : AppCompatActivity() {
 
         // uncomment to start the worker
         setupWorkManager()
-        setupUi()
+        setupAppBarAnim(1)
         handleButtonClick()
     }
 
-    private fun setupUi() {
-        val bottomSheet = MainBottomSheet()
-      //  bottomSheet.show(supportFragmentManager,"MainBottomSheet")
+    private fun setupAppBarAnim(iterationNo: Int) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (iterationNo > 1) {
+                binding.bottomAppBarTitle.fadeout(this@MainActivity, 1000)
+                delay(2000)
+            }
+            binding.bottomAppBarTitle.text = "Hello there!!"
+            binding.bottomAppBarTitle.slideUp(this@MainActivity, 1000, 200)
+            delay(7000)
+            binding.bottomAppBarTitle.fadeout(this@MainActivity, 1000)
+            delay(2000)
+            binding.bottomAppBarTitle.text = "What's up?"
+            binding.bottomAppBarTitle.slideUp(this@MainActivity, 1000, 200)
+            delay(7000)
+            setupAppBarAnim(iterationNo.inc())   // recursion
+        }
+
     }
 
     /**
@@ -135,7 +152,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleButtonClick() {
+        binding.bottomAppBar.setOnClickListener {
+            val bottomFrag = MainBottomSheet()
+            bottomFrag.show(supportFragmentManager, "bottom_nav_fragment")
+        }
+    }
 
+    fun showSideBar() {
+        if (binding.LLSideBar.isVisible.not())
+            binding.LLSideBar.slideUp(this, 800, 250)
+    }
+
+    fun hideSideBar() {
+        if (binding.LLSideBar.isVisible)
+            binding.LLSideBar.fadeout(this, 1200)
     }
 
     override fun onStart() {

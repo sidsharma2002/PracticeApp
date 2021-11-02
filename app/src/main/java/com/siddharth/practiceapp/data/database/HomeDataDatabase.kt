@@ -11,7 +11,7 @@ import com.siddharth.practiceapp.data.entities.HomeData
 
 @Database(
     entities = [HomeData::class],
-    version = 5
+    version = 9
 )
 
 // @TypeConverters(ArticleConverter::class, ArrayListConverter::class)

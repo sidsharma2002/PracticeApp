@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.OnBoardingScreen1">
+
+    <TextView
+        android:id="@+id/tv_onBoard1_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40sp"
+        android:fontFamily="@font/robotoregular"
+        android:text="Hello There!!"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_marginTop="0sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_onBoard1_subhead"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40sp"
+        android:layout_marginTop="12sp"
+        android:layout_marginEnd="60sp"
+        android:fontFamily="@font/poppinsregular"
+        android:text="@string/onBoard1subHead"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_onBoard1_heading" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/auth_fragContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="?attr/colorOnSecondary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

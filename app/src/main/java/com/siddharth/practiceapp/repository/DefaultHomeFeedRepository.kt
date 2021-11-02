@@ -6,6 +6,6 @@ import com.siddharth.practiceapp.util.Response
 
 interface DefaultHomeFeedRepository {
     suspend fun fetchLikes(uid : Long)
-    suspend fun getTopNews() : Response<News?>
+    suspend fun getAndInsertTopNews() : Response<News?>
     suspend fun getAllHomeDataList() : Response<List<HomeData>>
 }

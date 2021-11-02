@@ -19,13 +19,14 @@ class HomeFeedRepository @Inject constructor(
     private val TAG = this.javaClass.toString()
 
     suspend fun getTopNewsUsingCoroutine() = api.getTopNewsUsingCoroutine(Constants.NEWS_API_KEY, "us")
-    override suspend fun getTopNews() =
+    override suspend fun getAndInsertTopNews() =
         safeCall {
             val news = api.getTopNewsUsingCoroutine(Constants.NEWS_API_KEY, "in")
             val newsList: MutableList<HomeData> = mutableListOf()
             Log.d(TAG, "news body size : " + news.body()!!.articles.size)
-            for((counter, element) in news.body()!!.articles.withIndex()){
+            for(element in news.body()!!.articles){
                 val homeData = HomeData(
+                    0,
                     1,
                     element.url,
                     element.author,
@@ -35,6 +36,7 @@ class HomeFeedRepository @Inject constructor(
                     element.url,
                     element.urlToImage
                 )
+                Log.d(TAG, "news list size : " + newsList.size)
                 newsList.add(homeData)
             }
            homeDataDao.deleteAndInsertTransaction(newsList)

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/colorPrimary"
+    android:background="?attr/colorOnSecondary"
     tools:context=".ui.activites.SplashActivity">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -19,19 +19,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/tv_splashScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Glitch"
+            android:text="glitch"
             android:fontFamily="@font/robotoregular"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:layout_gravity="center"
             android:textColor="@color/white"
             android:letterSpacing="0.15"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/lottieView_splashScreen"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

@@ -5,17 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
-import com.bumptech.glide.Glide
 import com.siddharth.practiceapp.R
-import com.siddharth.practiceapp.customImpl.NewsItemView
 import com.siddharth.practiceapp.data.entities.HomeData
-import java.lang.Integer.max
+import com.siddharth.practiceapp.util.slideUp
 
 class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -51,15 +46,10 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         init {
             Log.d("ReminderHolder", "created")
         }
-
-        companion object{
-            @JvmStatic
-            var textToSet : String = "To live a creative life, we must lose our fear of being wrong"
-        }
-
-        private val reminderText: TextView = itemView.findViewById(R.id.tv_reminder)
+        private val headline : TextView = itemView.findViewById(R.id.tv_headline)
         fun setData(data: HomeData, holder: ReminderHolder) {
-            holder.reminderText.text = textToSet
+            // holder.reminderText.text = textToSet
+            headline.slideUp(headline.context,800,250)
         }
     }
 
@@ -87,21 +77,6 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun addSpeedItem(position: Int, text : String, shouldShow : Boolean) {
-        positionForSpeedItem = position
-        shouldShouldSpeedItem = true
-        ReminderHolder.textToSet = text
-        shouldShouldSpeedItem = shouldShow
-    }
-
-    fun getSpeedItemPosition() : Int{
-        return positionForSpeedItem
-    }
-
-    fun setSpeedItemPosition(position: Int){
-        positionForSpeedItem = position
-    }
-
     override fun getItemCount(): Int {
         Log.d("getItemCount", "fired")
         return dataList.size
@@ -109,7 +84,7 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         Log.d("getItemViewType", "fired")
-        if (position == (positionForSpeedItem) && shouldShouldSpeedItem) {
+        if (position == 10) {
             return reminderType
         }
         return newsType

@@ -4,16 +4,20 @@ package com.siddharth.practiceapp.ui.activites
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.navigation.NavigationBarView
 import com.siddharth.practiceapp.R
+import com.siddharth.practiceapp.databinding.ActivitySplashBinding
 import com.siddharth.practiceapp.manager.CurrentUserManager
 import com.siddharth.practiceapp.manager.Router
 import com.siddharth.practiceapp.service.MyService
+import com.siddharth.practiceapp.util.slideUp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,18 +25,23 @@ import kotlinx.coroutines.launch
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var sharedPref: SharedPreferences
+    private var _binding : ActivitySplashBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        window.navigationBarColor = resources.getColor(R.color.purple_200)
-        setContentView(R.layout.activity_splash)
-
+        _binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         sharedPref = this.getSharedPreferences("userInfo", MODE_PRIVATE)
+        setupUi()
         syncDetails()
         startMyService()
         stopMyService(1000)
         navigateToActivity()
+    }
+
+    private fun setupUi() {
+        window.navigationBarColor = Color.BLACK
     }
 
     private fun syncDetails() {
@@ -44,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
         CurrentUserManager.isLoggedIn =
             sharedPref.getBoolean("currentUser_isLoggedIn", false)
         CurrentUserManager.currentUser.name =
-            sharedPref.getString("currentUser_name", "unknownUser").toString()
+            sharedPref.getString("currentUser_name", "unnamedUser").toString()
         CurrentUserManager.currentUser.uid =
             sharedPref.getString("currentUser_uid", "").toString()
     }
@@ -76,7 +85,7 @@ class SplashActivity : AppCompatActivity() {
      */
     private fun navigateToActivity() {
         lifecycleScope.launchWhenResumed {
-            delay(1500)
+            delay(800)
             runOnUiThread {
                 when (CurrentUserManager.isLoggedIn) {
                     false -> {
@@ -96,11 +105,15 @@ class SplashActivity : AppCompatActivity() {
                 }
                 finish()
             }
-
         }
     }
 
-    private fun fetchFromServer() {
-        // TODO("Not yet implemented")
+        private fun fetchFromServer() {
+            // TODO("Not yet implemented")
+        }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
-}
+    }

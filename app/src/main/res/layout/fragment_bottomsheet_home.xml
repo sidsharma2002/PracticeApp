@@ -5,7 +5,7 @@
     android:id="@+id/homeBottomSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorOnSecondary"
+    android:background="?attr/colorSecondary"
     android:elevation="20sp"
     android:orientation="vertical"
     android:padding="2dp"
@@ -20,10 +20,10 @@
         android:layout_gravity="start"
         android:layout_marginStart="20sp"
         android:layout_marginTop="16sp"
-        android:fontFamily="@font/poppinsbold"
-        android:text="Good \nEvening!!"
+        android:fontFamily="@font/robotoregular"
+        android:text="Home"
         android:textColor="@color/white"
-        android:textSize="26sp" />
+        android:textSize="16sp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -37,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/gradient_primary"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

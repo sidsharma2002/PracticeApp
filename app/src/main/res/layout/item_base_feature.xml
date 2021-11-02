@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorOnSecondary">
+    android:background="?attr/colorSecondary">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_baseFragment_name"

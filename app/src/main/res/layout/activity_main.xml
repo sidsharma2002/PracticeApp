@@ -1,15 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activites.MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container_view"
-        android:name="com.siddharth.practiceapp.ui.fragments.HomeFragment"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_view"
+            android:name="com.siddharth.practiceapp.ui.fragments.HomeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="32sp" />
+
+        <RelativeLayout
+            android:id="@+id/LL_sideBar"
+            android:layout_width="16sp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="?attr/colorPrimary"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/tv_sidebar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="50sp"
+                android:fontFamily="@font/robotobold"
+                android:gravity="center"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="6sp"
+                android:maxEms="1"
+                android:text="L\nO\nA\nD\nI\nN\nG"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="10sp" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/teal_200"
+        android:outlineAmbientShadowColor="?attr/colorPrimary"
+        android:outlineProvider="background"
+        android:outlineSpotShadowColor="?attr/colorPrimary"
+        android:visibility="visible"
+        app:elevation="300sp"
+        app:fabAlignmentMode="end"
+        app:fabCradleMargin="12sp"
+        app:fabCradleRoundedCornerRadius="6sp">
+
+        <LinearLayout
+            android:id="@+id/bottom_app_bar_content_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="0sp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="5sp">
+
+            <ImageView
+                android:id="@+id/bottom_app_bar_chevron"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_arrow_drop_up"
+                app:tint="?attr/colorOnPrimary" />
+
+            <TextView
+                android:id="@+id/bottom_app_bar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="4sp"
+                android:layout_marginStart="10sp"
+                android:fontFamily="@font/robotoregular"
+                android:text="Home"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimary"
+        android:contentDescription="TODO"
+        android:visibility="visible"
+        app:borderWidth="0dp"
+        app:layout_anchor="@id/bottom_app_bar"
+        app:srcCompat="@drawable/ic_edit"
+        app:tint="@android:color/white" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
