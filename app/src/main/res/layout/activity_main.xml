@@ -15,7 +15,7 @@
             android:name="com.siddharth.practiceapp.ui.fragments.HomeFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="32sp" />
+            android:paddingBottom="0sp" />
 
         <RelativeLayout
             android:id="@+id/LL_sideBar"

@@ -35,7 +35,7 @@
                 android:fontFamily="@font/robotoregular"
                 android:text="Developers are overpaid"
                 android:textColor="?attr/colorOnPrimary"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_newsDesc"
