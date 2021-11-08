@@ -17,4 +17,5 @@
     <color name="black_dark">#000000</color>
     <color name="black_light">#222124</color>
     <color name="light_grey">#EAEBED</color>
+    <color name="experimental">#CC44FD</color>
 </resources>

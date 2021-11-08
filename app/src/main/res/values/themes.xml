@@ -17,5 +17,7 @@
     <style name="FloatingAccentButtonOverlay" >
         <item name="colorAccent">?attr/colorOnPrimary</item>
     </style>
-
+    <style name="ProgressBarStyle">
+        <item name="colorAccent">?attr/colorPrimary</item>
+    </style>
 </resources>

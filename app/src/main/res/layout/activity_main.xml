@@ -96,6 +96,19 @@
         </LinearLayout>
     </com.google.android.material.bottomappbar.BottomAppBar>
 
+    <ProgressBar
+        android:id="@+id/mainActivity_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:foregroundTint="?attr/colorPrimary"
+        android:progressDrawable="?attr/colorPrimary"
+        android:theme="@style/ProgressBarStyle"
+        android:indeterminate="true"
+        android:indeterminateOnly="true"
+        android:visibility="invisible"
+        android:layout_gravity="bottom"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

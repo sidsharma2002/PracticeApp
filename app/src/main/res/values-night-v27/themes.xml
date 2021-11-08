@@ -15,4 +15,7 @@
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorSecondary</item>
     </style>
+    <style name="ProgressBarStyle">
+        <item name="colorAccent">?attr/colorPrimary</item>
+    </style>
 </resources>
