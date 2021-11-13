@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.add
@@ -24,6 +25,7 @@ import com.siddharth.practiceapp.service.MyService
 import com.siddharth.practiceapp.ui.fragments.MainBottomSheet
 import com.siddharth.practiceapp.util.fadeout
 import com.siddharth.practiceapp.util.slideUp
+import com.siddharth.practiceapp.viewModels.MainActViewModel
 import com.siddharth.practiceapp.worker.MyWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: MainActViewModel by viewModels()
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,13 +56,14 @@ class MainActivity : AppCompatActivity() {
         // manageService()
 
         // uncomment to start the worker
-        setupWorkManager()
+        // setupWorkManager()
         setupAppBarAnim(1)
         handleButtonClick()
     }
 
     private fun setupAppBarAnim(iterationNo: Int) {
         lifecycleScope.launch(Dispatchers.Main) {
+            if (iterationNo > 2 || viewModel.showAppBarGreet.value!!.not()) return@launch
             if (iterationNo > 1) {
                 binding.bottomAppBarTitle.fadeout(this@MainActivity, 1000)
                 delay(2000)
@@ -73,7 +78,6 @@ class MainActivity : AppCompatActivity() {
             delay(7000)
             setupAppBarAnim(iterationNo.inc())   // recursion
         }
-
     }
 
     /**
@@ -159,13 +163,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showSideBar() {
-        if (binding.LLSideBar.isVisible.not())
-            binding.LLSideBar.slideUp(this, 800, 250)
+        binding.mainActivityProgressBar.isVisible = true
+        //    binding.mainActivityProgressBar.slideUp(this, 800, 250)
     }
 
     fun hideSideBar() {
-        if (binding.LLSideBar.isVisible)
-            binding.LLSideBar.fadeout(this, 1200)
+       // binding.mainActivityProgressBar.isVisible = false
+            binding.mainActivityProgressBar.fadeout(this, 1500)
     }
 
     override fun onStart() {
@@ -192,11 +196,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         _binding = null
         printLifeCycleState("onDestroy")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        printLifeCycleState("onRestart")
     }
 
     private fun printLifeCycleState(callbackName: String) {

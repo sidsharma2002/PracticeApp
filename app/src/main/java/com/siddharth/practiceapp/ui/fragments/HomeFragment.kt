@@ -1,9 +1,7 @@
 package com.siddharth.practiceapp.ui.fragments
 
 import android.content.Context
-import android.icu.util.TimeUnit
 import android.os.Bundle
-import android.text.format.Time
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,17 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
-import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
 import com.siddharth.practiceapp.ui.activites.MainActivity
 import com.siddharth.practiceapp.util.Response
 import com.siddharth.practiceapp.util.SwipeToDeleteCallback
-import com.siddharth.practiceapp.util.snackBar
 import com.siddharth.practiceapp.viewModels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Math.abs
-import kotlin.time.ExperimentalTime
-import kotlin.time.toDuration
 
 
 @AndroidEntryPoint
@@ -98,17 +91,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun subscribeToObservers() {
-        viewmodel.homeDataList.observe(viewLifecycleOwner) {
-            if (it is Response.Success) {
-                val initSize = adapter.dataList.size
-                adapter.dataList.addAll(it.data!!)  // TODO : Review this
-                adapter.notifyItemRangeChanged(initSize, it.data.size)
-            } else if (it is Response.Error) {
-                snackBar(it.message!!)
-            }
-        }
 
-        viewmodel.experimentalHomeDataList.observe(viewLifecycleOwner) {
+        viewmodel.homeDataList.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
                 (requireActivity() as MainActivity).hideSideBar()
                 Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
