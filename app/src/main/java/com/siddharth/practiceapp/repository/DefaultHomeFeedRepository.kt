@@ -7,5 +7,5 @@ import com.siddharth.practiceapp.util.Response
 interface DefaultHomeFeedRepository {
     suspend fun fetchLikes(uid : Long)
     suspend fun getAndInsertTopNews() : Response<News?>
-    suspend fun getAllHomeDataList() : Response<List<HomeData>>
+    suspend fun getAllHomeDataList() : Response<MutableList<HomeData>>
 }

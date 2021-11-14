@@ -29,6 +29,7 @@
         <entry key="app/src/main/res/layout/item_advanced_feature.xml" value="0.2" />
         <entry key="app/src/main/res/layout/item_base_feature.xml" value="0.2" />
         <entry key="app/src/main/res/layout/item_header_fragment.xml" value="0.21388888888888888" />
+        <entry key="app/src/main/res/layout/item_misc_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_news_home.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_options.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_remainder_home.xml" value="0.25" />

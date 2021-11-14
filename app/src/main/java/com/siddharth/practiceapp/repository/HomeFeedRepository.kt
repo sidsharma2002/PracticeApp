@@ -43,7 +43,7 @@ class HomeFeedRepository @Inject constructor(
             Response.Success(news.body())
         }
 
-    override suspend fun getAllHomeDataList(): Response<List<HomeData>> {
+    override suspend fun getAllHomeDataList(): Response<MutableList<HomeData>> {
         val size = homeDataDao.getAllHomeDataList().size
         Log.d(TAG, "2. size from db $size")
         return Response.Success(homeDataDao.getAllHomeDataList())

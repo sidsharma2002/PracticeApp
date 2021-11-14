@@ -15,7 +15,10 @@ class HomeViewModel @Inject constructor(
     private val repository: DefaultHomeFeedRepository
 ) : ViewModel() {
 
-    val homeDataList = MutableLiveData<Response<List<HomeData>>>()
+    private var _homeDataList = MutableLiveData<Response<MutableList<HomeData>>>()
+    val homeDataList: LiveData<Response<MutableList<HomeData>>> = _homeDataList
+    private val _isMiscDialogAdded = MutableLiveData(false)
+    val isMiscDialogAdded : LiveData<Boolean> = _isMiscDialogAdded
 
     init {
         getNews()
@@ -25,10 +28,14 @@ class HomeViewModel @Inject constructor(
         //     experimentalHomeDataList.postValue(Response.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             var result = repository.getAllHomeDataList()
-            homeDataList.postValue(Response.Loading(result.data))
+            _homeDataList.postValue(Response.Loading(result.data))
             repository.getAndInsertTopNews() // insert in db
             result = repository.getAllHomeDataList()
-            homeDataList.postValue(result)
+            _homeDataList.postValue(result)
         }
+    }
+
+    fun miscDialogAdded(boolean: Boolean){
+        _isMiscDialogAdded.postValue(boolean)
     }
 }

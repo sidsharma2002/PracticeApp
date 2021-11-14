@@ -23,6 +23,9 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         @JvmStatic
         val reminderType = 2
+
+        @JvmStatic
+        val miscDialogType = 3
     }
 
     private var positionForSpeedItem = -1
@@ -38,11 +41,19 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val newsDescription: TextView = itemView.findViewById(R.id.tv_newsDesc)
         // private val newsView = itemView as NewsItemView
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun setData(data: HomeData, holder: NewsHolder, position: Int) {
             holder.newsHeadline.text = data.title
             holder.newsDescription.text = data.description
             // newsView.populate(data)
+        }
+    }
+
+    class MiscDialog(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val heading: TextView = itemView.findViewById(R.id.tv_miscDiag_heading)
+        private val subHeading: TextView = itemView.findViewById(R.id.tv_miscDiag_subhead)
+        fun setData(data: HomeData, holder: MiscDialog) {
+            heading.text = data.miscDialogHeading
+            subHeading.text = data.miscDialogSubHeading
         }
     }
 
@@ -69,18 +80,25 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     .inflate(R.layout.item_remainder_home, parent, false)
             return ReminderHolder(view)
         }
+        if (viewType == miscDialogType) {
+            val view =
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_misc_dialog, parent, false)
+            return MiscDialog(view)
+        }
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_news_home, parent, false)
         // NewsItemView(parent.context)
         return NewsHolder(view)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("OnBindViewHolder", "fired")
         if (holder is NewsHolder) {
             holder.setData(dataList[position], holder, position)
         } else if (holder is ReminderHolder) {
+            holder.setData(dataList[position], holder)
+        } else if (holder is MiscDialog) {
             holder.setData(dataList[position], holder)
         }
     }
@@ -94,7 +112,9 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         Log.d("getItemViewType", "fired")
         if (position == 10) {
             return reminderType
-        }
-        return newsType
+        } else if (dataList[position].type == miscDialogType)
+            return miscDialogType
+        else
+            return newsType
     }
 }

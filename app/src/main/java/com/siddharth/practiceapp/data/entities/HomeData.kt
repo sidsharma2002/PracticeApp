@@ -20,8 +20,9 @@ data class HomeData(
     val title: String? = "",
     val url: String? = "",
     val urlToImage: String? = "",
-    var extraString: String? = ""
-
+    var extraString: String? = "",
+    var miscDialogHeading: String? = "",
+    var miscDialogSubHeading: String? = ""
 )
 
 data class SavingsHomeData(

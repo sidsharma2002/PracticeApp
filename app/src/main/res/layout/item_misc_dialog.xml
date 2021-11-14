@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView_welcome"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8sp"
+    android:layout_marginTop="22sp"
+    android:layout_marginBottom="8sp"
+    android:background="?attr/colorPrimary"
+    android:visibility="visible"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:id="@+id/tv_miscDiag_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="16sp"
+        android:fontFamily="@font/robotomedium"
+        android:letterSpacing="0.05"
+        android:text="Hello There\nLet's get started"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="26sp"
+        android:ems="10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_miscDiag_subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="6sp"
+        android:fontFamily="@font/poppinsregular"
+        android:letterSpacing="0.04"
+        android:maxEms="15"
+        android:text="Okay! we have seen some hype and took action on it. Hope you liked our service!"
+        android:textColor="@color/semi_white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_miscDiag_heading" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_getStarted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="12sp"
+        android:layout_marginBottom="8sp"
+        android:text="yeah sure!"
+        app:cornerRadius="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_miscDiag_subhead"
+        app:strokeColor="?attr/colorOnPrimary"
+        app:strokeWidth="0.5sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

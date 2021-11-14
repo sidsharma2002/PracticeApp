@@ -6,20 +6,30 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
+import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
 import com.siddharth.practiceapp.ui.activites.MainActivity
 import com.siddharth.practiceapp.util.Response
 import com.siddharth.practiceapp.util.SwipeToDeleteCallback
+import com.siddharth.practiceapp.util.slideUp
+import com.siddharth.practiceapp.util.snackBar
 import com.siddharth.practiceapp.viewModels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 
 @AndroidEntryPoint
@@ -30,6 +40,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding get() = _binding!!
     private lateinit var adapter: HomeRvAdapter
     private val viewmodel: HomeViewModel by viewModels()
+    private lateinit var remoteConfig: FirebaseRemoteConfig
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,7 +59,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     ): View {
         printLifeCycleState("onCreateView")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -58,13 +68,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         printLifeCycleState("onViewCreated")
         printViewLifeCycleState()
 
+        setupRemoteConfig()
         setupUi()
         setupListeners()
         subscribeToObservers()
     }
 
-    private fun setupUi() {
+    private fun setupRemoteConfig() {
+        remoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.fetchAndActivate()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    Log.d(TAG, "Config params updated: $updated")
+                }
+            }
+    }
 
+    private fun setupUi() {
 
         adapter = HomeRvAdapter()
         binding.rvFragmentsHome.apply {
@@ -91,11 +116,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun subscribeToObservers() {
-
         viewmodel.homeDataList.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
                 (requireActivity() as MainActivity).hideSideBar()
                 Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
+                val shouldShow = remoteConfig.getBoolean("text")
+                //   snackBar("remoteConfig : $shouldShow")
+                if (viewmodel.isMiscDialogAdded.value!!.not() && shouldShow) {
+                    it.data.add(
+                        4, HomeData(
+                            type = HomeRvAdapter.miscDialogType,
+                            miscDialogHeading = "Mind give us a Feedback?",
+                            miscDialogSubHeading = "We really appreciate you giving us a feedback and a rating. Be it good or back we would be helpful"
+                        )
+                    )
+                    viewmodel.miscDialogAdded(true)
+                }
+
                 adapter.dataList.clear()
                 adapter.dataList.addAll(it.data)
                 adapter.notifyItemRangeChanged(0, it.data.size)

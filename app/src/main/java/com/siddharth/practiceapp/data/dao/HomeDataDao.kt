@@ -6,7 +6,7 @@ import com.siddharth.practiceapp.data.entities.HomeData
 @Dao
 interface HomeDataDao {
     @Query("SELECT * FROM homeData_table")
-    suspend fun getAllHomeDataList(): List<HomeData>
+    suspend fun getAllHomeDataList(): MutableList<HomeData>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertHomeData(homeData: HomeData)
