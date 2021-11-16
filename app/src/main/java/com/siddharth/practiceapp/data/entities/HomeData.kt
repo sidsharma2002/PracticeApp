@@ -6,12 +6,11 @@ import androidx.room.PrimaryKey
 import com.siddharth.practiceapp.data.dto.News.Article
 import com.siddharth.practiceapp.data.dto.News.News
 
-@Keep
-@Entity(tableName = "homeData_table")
+
 data class HomeData(
 
-    @PrimaryKey(autoGenerate = true)    //must be at the end
-    val idKey: Long = 0,                     //Long type recommend
+ //   @PrimaryKey(autoGenerate = true)    //must be at the end
+//    val idKey: Long = 0,                     //Long type recommend
     var type: Int,
     var id: String? = "",
     val author: String? = "",

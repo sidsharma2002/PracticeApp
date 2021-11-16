@@ -36,53 +36,18 @@ class MyWorker constructor(
     private val TAG = "MyWorker : "
 
     override suspend fun doWork(): Result {
-        return try {
-            withContext(Dispatchers.IO) {
-                fetchDataUsingCoroutine()
-            }
-            Result.success()
-        } catch (throwable: Throwable) {
-            Log.d(TAG, "Error")
-            Result.failure()
-        }
-    }
-
-    /**
-     * This function fetches the top news from the api using coroutine and
-     * Shows the fetched news as Notification using showNotification().
-     */
-
-    private suspend fun fetchDataUsingCoroutine() {
-        val rawData = repository.getTopNewsUsingCoroutine()
-        Log.d(TAG, rawData.isSuccessful.toString())
-        val results = rawData.body()
-        val index =  (0..5).random()
-        val news = results?.articles?.get(index)
-        news?.let {
-            showNotification(news)
-        }
+//        return try {
+//            withContext(Dispatchers.IO) {
+//                fetchDataUsingCoroutine()
+//            }
+          return Result.success()
+//        } catch (throwable: Throwable) {
+//            Log.d(TAG, "Error")
+//            Result.failure()
     }
 
 
-    /**
-     * This function fetches the top news from the api using thread class and
-     * Shows the fetched news as Notification using showNotification().
-     */
-    private fun fetchPostsUsingThread() {
-        var rawData: Response<News>? = null
-        val thread = Thread {
-            //code to do the HTTP request
-            rawData = repository.getTopNewsUsingThread()
-        }
-        thread.start()
-        Log.d(TAG, rawData?.isSuccessful.toString())
-        val results = rawData?.body()
-        // fetching the title of first article from results.
-        val news = results?.articles?.get(0)
-        news?.let {
-            showNotification(news)
-        }
-    }
+
 
     private fun showNotification(article: Article) {
         val notificationManager = ContextCompat.getSystemService(

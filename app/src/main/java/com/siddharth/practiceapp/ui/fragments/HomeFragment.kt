@@ -6,30 +6,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
 import com.siddharth.practiceapp.data.entities.HomeData
+import com.siddharth.practiceapp.data.entities.HomeFeed
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
 import com.siddharth.practiceapp.ui.activites.MainActivity
+import com.siddharth.practiceapp.util.Constants
 import com.siddharth.practiceapp.util.Response
 import com.siddharth.practiceapp.util.SwipeToDeleteCallback
-import com.siddharth.practiceapp.util.slideUp
-import com.siddharth.practiceapp.util.snackBar
 import com.siddharth.practiceapp.viewModels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 
 
 @AndroidEntryPoint
@@ -116,18 +111,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun subscribeToObservers() {
-        viewmodel.homeDataList.observe(viewLifecycleOwner) {
+        viewmodel.homeFeedList.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
                 (requireActivity() as MainActivity).hideSideBar()
                 Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
                 val shouldShow = remoteConfig.getBoolean("text")
-                //   snackBar("remoteConfig : $shouldShow")
+
                 if (viewmodel.isMiscDialogAdded.value!!.not() && shouldShow) {
                     it.data.add(
-                        4, HomeData(
-                            type = HomeRvAdapter.miscDialogType,
+                        0, HomeFeed(
+                            dataType = Constants.HomeFeedNaming.MISC_DIALOG,
                             miscDialogHeading = "Mind give us a Feedback?",
-                            miscDialogSubHeading = "We really appreciate you giving us a feedback and a rating. Be it good or back we would be helpful"
+                            miscDialogSubheading = "We really appreciate you giving us a feedback and a rating. Be it good or back we would be helpful"
                         )
                     )
                     viewmodel.miscDialogAdded(true)

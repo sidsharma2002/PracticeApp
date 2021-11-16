@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/colorOnSecondary"
+    app:cardCornerRadius="8sp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14sp"
+        android:layout_marginTop="6sp"
+        android:layout_marginEnd="14sp"
+        android:layout_marginBottom="6sp"
+        android:background="?attr/colorSecondary"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_rickmortyAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="150sp"
+            android:layout_marginTop="12sp"
+            android:layout_marginStart="10sp" />
+
+        <TextView
+            android:id="@+id/tv_rickmortyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="12sp"
+            android:layout_marginEnd="10sp"
+            android:fontFamily="@font/robotoregular"
+            android:letterSpacing="0.06"
+            android:text="Developers are overpaid"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="22sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8sp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12sp">
+
+            <TextView
+                android:id="@+id/tv_rickmortyDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10sp"
+                android:layout_marginTop="0sp"
+                android:fontFamily="@font/poppinsregular"
+                android:letterSpacing="0.04"
+                android:maxLines="30"
+                android:text="Movie suggestion"
+                android:textColor="@color/semi_white"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

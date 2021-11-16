@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/colorOnSecondary"
+    app:cardCornerRadius="8sp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14sp"
+        android:layout_marginTop="6sp"
+        android:layout_marginEnd="14sp"
+        android:layout_marginBottom="6sp"
+        android:background="?attr/colorSecondary"
+        android:orientation="vertical"
+        android:paddingTop="8sp"
+        android:paddingBottom="8sp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14sp"
+            android:layout_marginTop="4sp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="38sp"
+                android:layout_height="38sp"
+                android:layout_marginStart="4sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_jokeAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4sp"
+                    android:layout_marginTop="0sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:letterSpacing="0.04"
+                    android:maxLines="30"
+                    android:text="Papa Norris"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tv_authorDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4sp"
+                    android:layout_marginTop="0sp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:letterSpacing="0.04"
+                    android:maxLines="30"
+                    android:text="Jobless person"
+                    android:textColor="@color/semi_white"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_jokeContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18sp"
+            android:layout_marginTop="8sp"
+            android:layout_marginEnd="10sp"
+            android:fontFamily="@font/robotoregular"
+            android:letterSpacing="0.06"
+            android:text="Developers are overpaid"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

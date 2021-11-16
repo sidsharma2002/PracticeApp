@@ -3,19 +3,17 @@ package com.siddharth.practiceapp.di
 
 import android.app.Application
 import androidx.room.Room
-import com.siddharth.practiceapp.api.AuthApi
+import com.siddharth.practiceapp.api.HomeFeedApi
 import com.siddharth.practiceapp.api.NewsApi
-import com.siddharth.practiceapp.data.database.HomeDataDatabase
-import com.siddharth.practiceapp.util.Constants
+import com.siddharth.practiceapp.data.database.HomeFeedDatabase
 import com.siddharth.practiceapp.util.Constants.NEWS_BASE_URL
+import com.siddharth.practiceapp.util.Constants.SERVER_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -33,15 +31,24 @@ object AppModule {
             .build()
             .create(NewsApi::class.java)
 
+    @Provides
+    @Singleton
+    fun providesHomeFeedApi(): HomeFeedApi =
+        Retrofit.Builder()
+            .baseUrl(SERVER_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(HomeFeedApi::class.java)
+
     @Singleton
     @Provides
-    fun provideHomeDataDatabase(
+    fun provideHomeFeedDatabase(
         app: Application
     ) =
-        Room.databaseBuilder(app, HomeDataDatabase::class.java, "homeData_database")
+        Room.databaseBuilder(app, HomeFeedDatabase::class.java, "homeFeed_database")
             .fallbackToDestructiveMigration()
             .build()
 
     @Provides
-    fun provideHomeDataDao(db: HomeDataDatabase) = db.getHomeDataDao()
+    fun provideHomeFeedDao(db: HomeFeedDatabase) = db.getHomeFeedDao()
 }

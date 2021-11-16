@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/colorOnSecondary"
+    app:cardCornerRadius="8sp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="14sp"
+        android:layout_marginTop="6sp"
+        android:layout_marginEnd="14sp"
+        android:layout_marginBottom="6sp"
+        android:background="?attr/colorSecondary"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14sp"
+            android:layout_marginTop="12sp"
+            android:layout_marginEnd="10sp"
+            android:layout_marginBottom="12sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_quotesHeadline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0sp"
+                android:fontFamily="@font/robotoregular"
+                android:letterSpacing="0.06"
+                android:text="Developers are overpaid"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_quotesDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:fontFamily="@font/poppinsregular"
+                android:letterSpacing="0.04"
+                android:maxLines="30"
+                android:text="Phillip Lackner"
+                android:textColor="@color/semi_white"
+                android:textSize="11sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10sp"
+                android:layout_marginEnd="12sp"
+                app:cardBackgroundColor="?attr/colorOnSecondary"
+                app:cardCornerRadius="10sp"
+                app:strokeColor="?attr/colorOnPrimary"
+                app:strokeWidth="0.5sp"
+                android:layout_gravity="end">
+
+                <TextView
+                    android:id="@+id/tv_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginTop="6sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_marginBottom="6sp"
+                    android:text="Motivation"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnPrimary" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

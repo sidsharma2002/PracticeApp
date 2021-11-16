@@ -1,59 +1,143 @@
 package com.siddharth.practiceapp.adapter
 
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.siddharth.practiceapp.R
-import com.siddharth.practiceapp.data.entities.HomeData
+import com.siddharth.practiceapp.data.entities.HomeFeed
+import com.siddharth.practiceapp.util.Constants
 import com.siddharth.practiceapp.util.slideUp
 
 class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         @JvmStatic
-        val newsType = 1
+        val quotesType = 1
 
         @JvmStatic
         val reminderType = 2
 
         @JvmStatic
         val miscDialogType = 3
+
+        @JvmStatic
+        val rickAndMortyType = 4
+
+        @JvmStatic
+        val jokesType = 5
+
+        @JvmStatic
+        val marvelsType = 6
+
+        @JvmStatic
+        val imdbType = 7
+
+        @JvmStatic
+        val animeType = 8
     }
 
-    private var positionForSpeedItem = -1
-    private var shouldShouldSpeedItem = false
-    val dataList = ArrayList<HomeData>()
+    val dataList = ArrayList<HomeFeed>()
 
-    class NewsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class QuotesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
-            Log.d("NewsHolder", "created")
+            Log.d("QuotesHolder", "created")
         }
 
-        private val newsHeadline: TextView = itemView.findViewById(R.id.tv_newsHeadline)
-        private val newsDescription: TextView = itemView.findViewById(R.id.tv_newsDesc)
-        // private val newsView = itemView as NewsItemView
+        private val quotesHeadline: TextView = itemView.findViewById(R.id.tv_quotesHeadline)
+        private val quotesDescription: TextView = itemView.findViewById(R.id.tv_quotesDesc)
 
-        fun setData(data: HomeData, holder: NewsHolder, position: Int) {
-            holder.newsHeadline.text = data.title
-            holder.newsDescription.text = data.description
-            // newsView.populate(data)
+        fun setData(data: HomeFeed, holder: QuotesHolder) {
+            holder.quotesHeadline.text = data.quotes_content
+            holder.quotesDescription.text = data.quotes_author
+        }
+    }
+
+    class JokesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val jokeContent: TextView = itemView.findViewById(R.id.tv_jokeContent)
+        private val jokeIcon: ImageView = itemView.findViewById(R.id.iv_icon)
+
+        fun setData(data: HomeFeed, holder: JokesHolder) {
+            holder.jokeContent.text = data.jokes_text
+            Glide.with(holder.itemView.context).load(data.jokes_icon).circleCrop()
+                .into(holder.jokeIcon)
+        }
+    }
+
+    class RickMortyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val name: TextView = itemView.findViewById(R.id.tv_rickmortyName)
+        private val desc: TextView = itemView.findViewById(R.id.tv_rickmortyDesc)
+        private val avatar: ImageView = itemView.findViewById(R.id.iv_rickmortyAvatar)
+
+        fun setData(data: HomeFeed, holder: RickMortyHolder) {
+            holder.name.text = data.rickAndMortyName
+            holder.desc.text = "Status : " +
+                    data.rickAndMortyStatus + "\n" + "Species : " + data.rickAndMortySpecies + "\n" + "Location : " + data.rickAndMortyLocation
+            Glide.with(holder.itemView.context).load(data.rickAndMortyAvatarImage)
+                .circleCrop().into(holder.avatar)
+        }
+    }
+
+    class MarvelHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val name: TextView = itemView.findViewById(R.id.tv_marvelName)
+        private val desc: TextView = itemView.findViewById(R.id.tv_marvelDesc)
+        private val thumbnail: ImageView = itemView.findViewById(R.id.iv_marvelThumbnail)
+
+        fun setData(data: HomeFeed, holder: MarvelHolder) {
+            holder.name.text = data.marvelTitle
+            Glide.with(holder.itemView.context)
+                .load(data.marvelThumbnailImage)
+                .into(holder.thumbnail)
+        }
+    }
+
+    class ImdbHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val name: TextView = itemView.findViewById(R.id.tv_imdbName)
+        private val desc: TextView = itemView.findViewById(R.id.tv_imdbDesc)
+        private val rating: TextView = itemView.findViewById(R.id.tv_imdbRating)
+        private val thumbnail: ImageView = itemView.findViewById(R.id.iv_imdbThumbnail)
+
+        fun setData(data: HomeFeed, holder: ImdbHolder) {
+            holder.name.text = data.imdbTitle
+            holder.desc.text = data.imdbOverview
+            holder.rating.text = data.imdbRating.toString()
+            Glide.with(holder.itemView.context).load(data.imdbPosterUrl)
+                .centerInside()
+                .into(holder.thumbnail)
+
+        }
+    }
+
+    class AnimeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val nameEng: TextView = itemView.findViewById(R.id.tv_animeNameEng)
+        private val nameJap: TextView = itemView.findViewById(R.id.tv_animeNameJap)
+        private val desc: TextView = itemView.findViewById(R.id.tv_animeDesc)
+        private val rating: TextView = itemView.findViewById(R.id.tv_animeRating)
+        private val thumbnail: ImageView = itemView.findViewById(R.id.iv_animeThumbnail)
+
+        fun setData(data: HomeFeed, holder: AnimeHolder) {
+            holder.nameEng.text = data.animeTitleEn
+            holder.nameJap.text = data.animeTitleJap
+            holder.desc.text = data.animeGenre
+            holder.rating.text = data.animeScore.toString()
+            Glide.with(holder.itemView.context).load(data.animeCoverImage)
+                .centerInside()
+                .into(holder.thumbnail)
         }
     }
 
     class MiscDialog(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val heading: TextView = itemView.findViewById(R.id.tv_miscDiag_heading)
         private val subHeading: TextView = itemView.findViewById(R.id.tv_miscDiag_subhead)
-        fun setData(data: HomeData, holder: MiscDialog) {
+        fun setData(data: HomeFeed, holder: MiscDialog) {
             heading.text = data.miscDialogHeading
-            subHeading.text = data.miscDialogSubHeading
+            subHeading.text = data.miscDialogSubheading
         }
     }
 
@@ -63,7 +147,7 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
         private val headline: ImageView = itemView.findViewById(R.id.iv_image)
-        fun setData(data: HomeData, holder: ReminderHolder) {
+        fun setData(data: HomeFeed, holder: ReminderHolder) {
             Glide.with(holder.headline.context)
                 .load("https://firebasestorage.googleapis.com/v0/b/firechat-5a222.appspot.com/o/Artboard%201.jpg?alt=media&token=45796976-3aff-4678-92b5-59592fad499f")
                 .into(holder.headline)
@@ -86,19 +170,58 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     .inflate(R.layout.item_misc_dialog, parent, false)
             return MiscDialog(view)
         }
+        if (viewType == quotesType) {
+            val view =
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_quotes_home, parent, false)
+            return QuotesHolder(view)
+        }
+        if (viewType == rickAndMortyType) {
+            val view =
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_rickandmorty, parent, false)
+            return RickMortyHolder(view)
+        }
+        if (viewType == marvelsType) {
+            val view =
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_marvel, parent, false)
+            return MarvelHolder(view)
+        }
+        if (viewType == imdbType) {
+            val view =
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_imdb, parent, false)
+            return ImdbHolder(view)
+        }
+        if (viewType == animeType) {
+            val view =
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_anime, parent, false)
+            return AnimeHolder(view)
+        }
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_news_home, parent, false)
-        // NewsItemView(parent.context)
-        return NewsHolder(view)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_jokes, parent, false)
+        return JokesHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("OnBindViewHolder", "fired")
-        if (holder is NewsHolder) {
-            holder.setData(dataList[position], holder, position)
+        if (holder is QuotesHolder) {
+            holder.setData(dataList[position], holder)
         } else if (holder is ReminderHolder) {
             holder.setData(dataList[position], holder)
         } else if (holder is MiscDialog) {
+            holder.setData(dataList[position], holder)
+        } else if (holder is JokesHolder) {
+            holder.setData(dataList[position], holder)
+        } else if (holder is RickMortyHolder) {
+            holder.setData(dataList[position], holder)
+        } else if (holder is MarvelHolder) {
+            holder.setData(dataList[position], holder)
+        } else if (holder is ImdbHolder) {
+            holder.setData(dataList[position], holder)
+        } else if (holder is AnimeHolder) {
             holder.setData(dataList[position], holder)
         }
     }
@@ -110,11 +233,15 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         Log.d("getItemViewType", "fired")
-        if (position == 10) {
-            return reminderType
-        } else if (dataList[position].type == miscDialogType)
-            return miscDialogType
-        else
-            return newsType
+        return when (dataList[position].dataType) {
+            Constants.HomeFeedNaming.MISC_DIALOG -> miscDialogType
+            Constants.HomeFeedNaming.QUOTES -> quotesType
+            Constants.HomeFeedNaming.JOKES -> jokesType
+            Constants.HomeFeedNaming.RICK_MORTY -> rickAndMortyType
+            Constants.HomeFeedNaming.MARVEL -> marvelsType
+            Constants.HomeFeedNaming.IMDB -> imdbType
+            Constants.HomeFeedNaming.ANIME -> animeType
+            else -> quotesType
+        }
     }
 }

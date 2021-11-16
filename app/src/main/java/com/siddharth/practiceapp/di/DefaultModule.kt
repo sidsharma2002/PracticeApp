@@ -1,10 +1,11 @@
 package com.siddharth.practiceapp.di
 
-import com.siddharth.practiceapp.api.NewsApi
-import com.siddharth.practiceapp.data.dao.HomeDataDao
+import com.siddharth.practiceapp.api.HomeFeedApi
+
+import com.siddharth.practiceapp.data.dao.HomeFeedDao
 import com.siddharth.practiceapp.repository.DefaultHomeFeedRepository
 import com.siddharth.practiceapp.repository.HomeFeedRepository
-import com.siddharth.practiceapp.util.Constants
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +23,6 @@ object DefaultModule {
     // Lives as long as  ViewModel lives
     @ViewModelScoped
     @Provides
-    fun providesRepository(newsApi: NewsApi, dao: HomeDataDao) =
-        HomeFeedRepository(newsApi, dao) as DefaultHomeFeedRepository
+    fun providesRepository(homeFeedApi: HomeFeedApi, dao: HomeFeedDao) =
+        HomeFeedRepository(homeFeedApi, dao) as DefaultHomeFeedRepository
 }

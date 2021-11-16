@@ -14,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PracticeApp">
+        android:theme="@style/Theme.PracticeApp"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.activites.AuthActivity"
             android:exported="true" />

@@ -1,58 +1,50 @@
 package com.siddharth.practiceapp.repository
 
 
-import com.siddharth.practiceapp.api.NewsApi
-import com.siddharth.practiceapp.util.Constants
 import javax.inject.Inject
 import android.util.Log
-import com.siddharth.practiceapp.data.dao.HomeDataDao
-import com.siddharth.practiceapp.data.entities.HomeData
+import android.widget.Toast
+import com.siddharth.practiceapp.api.HomeFeedApi
+import com.siddharth.practiceapp.data.dao.HomeFeedDao
+import com.siddharth.practiceapp.data.entities.HomeFeed
+import com.siddharth.practiceapp.data.mapper.Mappers
 import com.siddharth.practiceapp.util.Response
 import com.siddharth.practiceapp.util.safeCall
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 
 class HomeFeedRepository @Inject constructor(
-    private val api: NewsApi,
-    private val homeDataDao: HomeDataDao
+    private val api: HomeFeedApi,
+    private val homeFeedDao: HomeFeedDao
 ) : DefaultHomeFeedRepository {
 
     private val TAG = this.javaClass.toString()
 
-    suspend fun getTopNewsUsingCoroutine() = api.getTopNewsUsingCoroutine(Constants.NEWS_API_KEY, "us")
-    override suspend fun getAndInsertTopNews() =
+    override suspend fun getAndInsertHomeFeed() = withContext(Dispatchers.IO) {
         safeCall {
-            val news = api.getTopNewsUsingCoroutine(Constants.NEWS_API_KEY, "in")
-            val newsList: MutableList<HomeData> = mutableListOf()
-            Log.d(TAG, "news body size : " + news.body()!!.articles.size)
-            for(element in news.body()!!.articles){
-                val homeData = HomeData(
-                    0,
-                    1,
-                    element.url,
-                    element.author,
-                    element.content,
-                    element.description,
-                    element.title,
-                    element.url,
-                    element.urlToImage
-                )
-                Log.d(TAG, "news list size : " + newsList.size)
-                newsList.add(homeData)
+            val feedDtoList = api.getHomeFeedData()
+            val homeFeedList: MutableList<HomeFeed> = mutableListOf()
+            if (feedDtoList.body() == null) {
+                Log.d(TAG, " NULL")
             }
-           homeDataDao.deleteAndInsertTransaction(newsList)
-            Response.Success(news.body())
+            for(i in feedDtoList.body()!!.feed){
+                Log.d(TAG, "homeFeed BODY : $i")
+            }
+            Log.d(TAG, "homeFeed body size : " + feedDtoList.body()!!.feed.size)
+            val mappedHomeFeed =
+                Mappers.homeFeedDTOtoEntity(feedDtoList.body()!!)
+            homeFeedDao.deleteAllHomeFeed()
+            homeFeedDao.insertHomeFeedList(mappedHomeFeed)
+            Response.Success(homeFeedList)
         }
-
-    override suspend fun getAllHomeDataList(): Response<MutableList<HomeData>> {
-        val size = homeDataDao.getAllHomeDataList().size
-        Log.d(TAG, "2. size from db $size")
-        return Response.Success(homeDataDao.getAllHomeDataList())
     }
 
-    fun getTopNewsUsingThread() = api.getTopNewsUsingThread(Constants.NEWS_API_KEY, "us")
-
-    override suspend fun fetchLikes(uid: Long) {
-
+    override suspend fun getAllHomeFeedList(): Response<MutableList<HomeFeed>> {
+        val size = homeFeedDao.getAllHomeFeedList().size
+        Log.d(TAG, "2. size from db $size")
+        return Response.Success(homeFeedDao.getAllHomeFeedList())
     }
 
 }

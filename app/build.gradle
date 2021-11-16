@@ -20,9 +20,14 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,6 +41,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+}
+
+hilt {
+    enableExperimentalClasspathAggregation = true
 }
 
 dependencies {
