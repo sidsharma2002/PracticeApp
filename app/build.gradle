@@ -90,4 +90,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
     // Add the dependencies for any other desired Firebase products
 
+    def nav_version = "2.3.5"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
 }

@@ -3,6 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/drawable/background_indicator.xml" value="0.26615384615384613" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/drawable/ic_add.xml" value="0.26615384615384613" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/drawable/ic_save.xml" value="0.26615384615384613" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/drawable/rounded_corner.xml" value="0.26615384615384613" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/fragment_add_todo.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/fragment_auth.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/fragment_onboarding.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/fragment_onboarding_1.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/fragment_onboarding_2.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/fragment_todo_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/fragment_update_todo.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/item_base_feature.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/item_header_fragment.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/item_news_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/item_remainder_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/recycler_view_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/layout/todo_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/PracticeApp1/app/src/main/res/menu/menu_item.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/drawable/bottomNavButton.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/drawable/bottom_app_bar_title_foreground.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/drawable/bottomnavbutton.xml" value="0.2916666666666667" />
@@ -35,7 +55,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -20,4 +20,10 @@
     <style name="ProgressBarStyle">
         <item name="colorAccent">?attr/colorPrimary</item>
     </style>
+    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal" tools:targetApi="o">10dp</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
 </resources>
