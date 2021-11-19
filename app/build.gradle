@@ -101,6 +101,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
-    // Add the dependencies for any other desired Firebase products
-
+    // youtube api
+    implementation files('libs/YoutubeAndroidPlayerApi.jar')
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+    // neumorphic ui by CRED
+    implementation 'club.cred.android:synth:1.0.0'
 }

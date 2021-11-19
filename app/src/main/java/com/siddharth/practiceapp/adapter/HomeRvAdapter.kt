@@ -1,15 +1,19 @@
 package com.siddharth.practiceapp.adapter
 
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.data.entities.HomeFeed
 import com.siddharth.practiceapp.util.Constants
@@ -120,6 +124,7 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val desc: TextView = itemView.findViewById(R.id.tv_animeDesc)
         private val rating: TextView = itemView.findViewById(R.id.tv_animeRating)
         private val thumbnail: ImageView = itemView.findViewById(R.id.iv_animeThumbnail)
+        private val playerContainer: FrameLayout = itemView.findViewById(R.id.player_container)
 
         fun setData(data: HomeFeed, holder: AnimeHolder) {
             holder.nameEng.text = data.animeTitleEn
@@ -129,6 +134,42 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             Glide.with(holder.itemView.context).load(data.animeCoverImage)
                 .centerInside()
                 .into(holder.thumbnail)
+            Log.d("HomeRVAdapt", data.animeTrailerLink)
+            if (data.animeTrailerLink.isNotEmpty())
+                setupPlayer(holder, data)
+        }
+
+        private fun setupPlayer(holder: AnimeHolder, data: HomeFeed) {
+            val playerView = YouTubePlayerView(holder.playerContainer.context)
+
+            holder.playerContainer.addView(
+                playerView,
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
+
+            playerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+                    super.onReady(youTubePlayer)
+                    val len = data.animeTrailerLink.length
+                    if (len > 12) {
+                        Log.d("HomeRVAapt", data.animeTrailerLink)
+                        Log.d(
+                            "HomeRVAapt",
+                            data.animeTrailerLink.subSequence(len - 11, len).toString()
+                        )
+                        val videoId =
+                            data.animeTrailerLink.subSequence(len - 11, len).toString()
+                        youTubePlayer.cueVideo(videoId, 0F)
+                    }
+                }
+
+                override fun onVideoId(youTubePlayer: YouTubePlayer, videoId: String) {
+                    super.onVideoId(youTubePlayer, videoId)
+                }
+            })
         }
     }
 
@@ -243,5 +284,10 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             Constants.HomeFeedNaming.ANIME -> animeType
             else -> quotesType
         }
+    }
+
+    private var onPageEndReachedListener: (() -> Unit)? = null
+    fun setOnPageEndReached(listener: () -> Unit) {
+        onPageEndReachedListener = listener
     }
 }

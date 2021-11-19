@@ -87,6 +87,12 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launchWhenResumed {
             delay(800)
             runOnUiThread {
+
+//                Intent(this@SplashActivity, YoutubeActivity::class.java).apply {
+//                    startActivity(this)
+//                    finish()
+//                }
+
                 when (CurrentUserManager.isLoggedIn) {
                     false -> {
                         Router.with(this@SplashActivity)

@@ -15,17 +15,19 @@
         <entry key="app/src/main/res/layout/activity_auth.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_youtube.xml" value="0.3078125" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_bottom_nav_drawer.xml" value="0.18425925925925926" />
         <entry key="app/src/main/res/layout/fragment_bottomsheet_home.xml" value="0.1648148148148148" />
         <entry key="app/src/main/res/layout/fragment_frag_a.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_frag_b.xml" value="0.18333333333333332" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1814814814814815" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_onboarding.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_onboarding_1.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_onboarding_2.xml" value="0.22685185185185186" />
         <entry key="app/src/main/res/layout/fragment_options.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_signin.xml" value="0.2564814814814815" />
+        <entry key="app/src/main/res/layout/fragment_youtube_player.xml" value="0.3078125" />
         <entry key="app/src/main/res/layout/item_advanced_feature.xml" value="0.2" />
         <entry key="app/src/main/res/layout/item_anime.xml" value="0.3078125" />
         <entry key="app/src/main/res/layout/item_base_feature.xml" value="0.2" />
@@ -36,7 +38,7 @@
         <entry key="app/src/main/res/layout/item_misc_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_news_home.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_options.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_quotes_home.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/item_quotes_home.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_remainder_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_rickandmorty.xml" value="0.25" />
       </map>

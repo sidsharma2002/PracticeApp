@@ -39,21 +39,7 @@ class CustomRV constructor(
     }
 
     init {
-//        hashGapPool.addInitialObjectsInPool()
-//        val result = hashGapPool.pop()
-//        if (result is HashGapPool.Response.Error) {
-//            // TODO : Handle Error here
-//        }
-//        if (result is HashGapPool.Response.Success) {
-//            val hashGap = result.data
-//            hashGap!![1] = 1
-//            hashGap[2] = 1
-//        }
     }
-
-//    fun setMainPool(newPool: HashGapPool<Int, Int>) {
-//        hashGapPool = newPool
-//    }
 
     override fun onScrolled(dx: Int, dy: Int) {
         super.onScrolled(dx, dy)

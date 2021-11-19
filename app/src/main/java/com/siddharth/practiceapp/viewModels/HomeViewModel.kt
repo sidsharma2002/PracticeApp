@@ -1,7 +1,6 @@
 package com.siddharth.practiceapp.viewModels
 
 import androidx.lifecycle.*
-import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.data.entities.HomeFeed
 import com.siddharth.practiceapp.repository.DefaultHomeFeedRepository
 import com.siddharth.practiceapp.util.Response
@@ -21,16 +20,27 @@ class HomeViewModel @Inject constructor(
     private val _isMiscDialogAdded = MutableLiveData(false)
     val isMiscDialogAdded: LiveData<Boolean> = _isMiscDialogAdded
 
+    // TODO refactor this
+    val currentPage = MutableLiveData(1)
+    val isNextPageLoading = MutableLiveData(false)
+
     init {
-        getNews()
+        getNews(true)
     }
 
-    private fun getNews() {
+    fun getNews(forFirstPage: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            var result = repository.getAllHomeFeedList()
-            _homeFeedList.postValue(Response.Loading(result.data))
-            repository.getAndInsertHomeFeed() // insert in db
-            result = repository.getAllHomeFeedList()
+            if (forFirstPage) {
+                val result = repository.getAllHomeFeedList()
+                _homeFeedList.postValue(Response.Loading(result.data))
+            }
+            if (!forFirstPage) {
+                isNextPageLoading.postValue(true)
+                _homeFeedList.postValue(Response.LoadingForNextPage())
+            }
+            repository.getAndInsertHomeFeed(forFirstPage) // insert in db
+            val result = repository.getAllHomeFeedList()
+            isNextPageLoading.postValue(false)
             _homeFeedList.postValue(result)
         }
     }

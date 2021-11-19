@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="14sp"
         android:layout_marginTop="6sp"
         android:layout_marginEnd="14sp"
@@ -52,13 +52,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-10sp"
+                android:layout_gravity="start"
+                android:padding="12sp"
+                android:layout_marginTop="10sp"
                 android:layout_marginEnd="12sp"
-                app:cardBackgroundColor="?attr/colorOnSecondary"
-                app:cardCornerRadius="10sp"
-                app:strokeColor="?attr/colorOnPrimary"
-                app:strokeWidth="0.5sp"
-                android:layout_gravity="end">
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="10sp">
 
                 <TextView
                     android:id="@+id/tv_tags"
@@ -69,8 +68,9 @@
                     android:layout_marginRight="10sp"
                     android:layout_marginBottom="6sp"
                     android:text="Motivation"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="12sp"
-                    android:textColor="?attr/colorOnPrimary" />
+                    android:visibility="gone"/>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </LinearLayout>

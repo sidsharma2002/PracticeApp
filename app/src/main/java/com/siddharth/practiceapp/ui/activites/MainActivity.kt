@@ -42,14 +42,11 @@ class MainActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     private val viewModel: MainActViewModel by viewModels()
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
         printLifeCycleState("onCreate")
 
         // uncomment to start the services
@@ -168,8 +165,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun hideSideBar() {
-       // binding.mainActivityProgressBar.isVisible = false
-            binding.mainActivityProgressBar.fadeout(this, 1500)
+        // binding.mainActivityProgressBar.isVisible = false
+        binding.mainActivityProgressBar.fadeout(this, 1500)
     }
 
     override fun onStart() {

@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14sp"
+        android:layout_marginStart="10sp"
         android:layout_marginTop="6sp"
         android:layout_marginEnd="14sp"
         android:layout_marginBottom="6sp"
@@ -75,6 +75,7 @@
             android:layout_marginEnd="10sp"
             android:fontFamily="@font/robotoregular"
             android:letterSpacing="0.06"
+            android:lineSpacingExtra="3sp"
             android:text="Developers are overpaid"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="16sp" />

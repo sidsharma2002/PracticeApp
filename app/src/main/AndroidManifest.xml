@@ -17,6 +17,9 @@
         android:theme="@style/Theme.PracticeApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.activites.YoutubeActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activites.AuthActivity"
             android:exported="true" />
         <activity

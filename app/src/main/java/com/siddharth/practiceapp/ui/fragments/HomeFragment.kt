@@ -6,6 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,7 +19,6 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
-import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.data.entities.HomeFeed
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
 import com.siddharth.practiceapp.ui.activites.MainActivity
@@ -85,7 +87,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupUi() {
-
+        ViewCompat.setNestedScrollingEnabled(binding.rvFragmentsHome, false)
         adapter = HomeRvAdapter()
         binding.rvFragmentsHome.apply {
             adapter = this@HomeFragment.adapter
@@ -96,7 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             }
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
-            itemTouchHelper.attachToRecyclerView(this)
+            // itemTouchHelper.attachToRecyclerView(this)
         }
     }
 
@@ -105,43 +107,84 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter.notifyItemRemoved(viewHolder.adapterPosition)
     }
 
-
     private fun setupListeners() {
-        // TODO : to implement
+        var paginatedRV: RecyclerView? = null
+        binding.nestedSV.viewTreeObserver?.addOnScrollChangedListener {
+            if (paginatedRV == null) {
+                val holder = binding.nestedSV.getChildAt(0) as ViewGroup
+                for (i in 0 until holder.childCount) {
+                    //Pull the pagination recyclerview child
+                    if (holder.getChildAt(i).id == binding.rvFragmentsHome.id) {
+                        paginatedRV = holder.getChildAt(i) as RecyclerView
+                        break
+                    }
+                }
+            }
+
+            paginatedRV?.let {
+                if (it.bottom == (binding.nestedSV.height + binding.nestedSV.scrollY))
+                    checkForNextPage()
+            }
+        }
     }
+
+    private fun checkForNextPage() {
+        if (viewmodel.isNextPageLoading.value!!.not()
+            && adapter.dataList.size > 0
+        ) {
+            val value = viewmodel.currentPage.value!!.inc()
+            //Log.d(TAG, "${viewmodel.currentPage.value!! * 13} , ${adapter.dataList.size}")
+            viewmodel.currentPage.postValue(value)
+        } else {
+            //Log.d(TAG, "${viewmodel.currentPage.value!! * 13} > ${adapter.dataList.size}")
+        }
+    }
+
 
     private fun subscribeToObservers() {
         viewmodel.homeFeedList.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
                 (requireActivity() as MainActivity).hideSideBar()
                 Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
-                val shouldShow = remoteConfig.getBoolean("text")
-
-                if (viewmodel.isMiscDialogAdded.value!!.not() && shouldShow) {
-                    it.data.add(
-                        0, HomeFeed(
-                            dataType = Constants.HomeFeedNaming.MISC_DIALOG,
-                            miscDialogHeading = "Mind give us a Feedback?",
-                            miscDialogSubheading = "We really appreciate you giving us a feedback and a rating. Be it good or back we would be helpful"
-                        )
-                    )
-                    viewmodel.miscDialogAdded(true)
-                }
-
-                adapter.dataList.clear()
-                adapter.dataList.addAll(it.data)
-                adapter.notifyItemRangeChanged(0, it.data.size)
+                val newList = addMiscDialog(it)
+                adapter.dataList.clear()    // https://stackoverflow.com/a/49223268/15914855
+                adapter.notifyDataSetChanged()  // TODO use ListAdapter 
+                adapter.dataList.addAll(newList)
+                adapter.notifyDataSetChanged()
             }
-            if (it is Response.Loading) {
+            if (it is Response.Loading || it is Response.LoadingForNextPage) {
                 (requireActivity() as MainActivity).showSideBar()
-                adapter.dataList.clear()
+                if (it is Response.Loading) adapter.dataList.clear()
                 it.data?.let { it1 ->
+                    Log.d(TAG, "list from cache isn't null")
                     adapter.dataList.addAll(it1)
                     adapter.notifyItemRangeChanged(0, it1.size)
                 }
             }
         }
+
+        viewmodel.currentPage.observe(viewLifecycleOwner) {
+            if (it > 1)
+                viewmodel.getNews(false)
+        }
     }
+
+    private fun addMiscDialog(dataList: Response.Success<MutableList<HomeFeed>>)
+            : MutableList<HomeFeed> {
+        val shouldShow = remoteConfig.getBoolean("text")
+//        if (viewmodel.isMiscDialogAdded.value!!.not() && shouldShow) {
+//            dataList.data?.add(
+//                0, HomeFeed(
+//                    dataType = Constants.HomeFeedNaming.MISC_DIALOG,
+//                    miscDialogHeading = "Mind give us a Feedback?",
+//                    miscDialogSubheading = "We really appreciate you giving us a feedback and a rating. Be it good or back we would be helpful"
+//                )
+//            )
+//            viewmodel.miscDialogAdded(true)
+//        }
+        return dataList.data!!
+    }
+
 
     override fun onStart() {
         super.onStart()
