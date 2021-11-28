@@ -1,6 +1,6 @@
 # PracticeApp
 
-## Helping the Newbies
+## Newbie to Intermediate
 
 This app is made with a purpose to help newbies understand core concepts of Android Development.
 There are very limited and not so clear resources available out there, Hence I've decided to fix it.
