@@ -5,7 +5,9 @@
 This app is made with a purpose to help newbies understand core concepts of Android Development.
 There are very limited and not so clear resources available out there, Hence I've decided to fix it.
 
-![upload2](https://user-images.githubusercontent.com/53833109/137579229-96f8a86c-76ae-4979-bcb0-517ac12804a4.jpg)  ![upload1](https://user-images.githubusercontent.com/53833109/137579221-400b8be0-157b-47d4-9ddb-9166714c8055.jpg) ![upload3](https://user-images.githubusercontent.com/53833109/137579234-232100db-40e3-4d2c-8569-763dac193287.jpg)
+![poster1](https://user-images.githubusercontent.com/53833109/143741701-1d3aec0d-849e-4326-92b7-2087b37737b3.jpg)
+![poster2](https://user-images.githubusercontent.com/53833109/143741747-b5441e5d-fe16-46ff-8246-652ff6146c1a.jpg)
+
 
 ## Topics Implemented
 
