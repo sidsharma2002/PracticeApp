@@ -19,8 +19,12 @@ object Mappers {
             val homeFeed = HomeFeed(dataType = feedDto.dataType)
             when (feedDto.dataType) {
                 QUOTES -> {
-                        homeFeed.quotes_author = feedDto.author
-                        homeFeed.quotes_content = feedDto.content
+                    feedDto.author?.let{
+                        homeFeed.quotes_author = it
+                        }
+                        feedDto.content?.let{
+                            homeFeed.quotes_content = it
+                        }
                 }
 
                 JOKES -> {

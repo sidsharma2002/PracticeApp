@@ -6,21 +6,34 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.transition.MaterialElevationScale
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
 import com.siddharth.practiceapp.data.entities.HomeFeed
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
+import com.siddharth.practiceapp.interfaces.OnItemClickListener
 import com.siddharth.practiceapp.ui.activites.MainActivity
 import com.siddharth.practiceapp.util.Constants
 import com.siddharth.practiceapp.util.Response
@@ -59,14 +72,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         printLifeCycleState("onViewCreated")
         printViewLifeCycleState()
 
         setupRemoteConfig()
-        setupUi()
+        setupUi(view)   // transitions , Adapter and RecyclerView
         setupListeners()
         subscribeToObservers()
     }
@@ -86,20 +98,47 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
     }
 
-    private fun setupUi() {
+    private fun setupUi(view : View) {
+        // Postpone enter transitions to allow shared element transitions to run.
+        // https://github.com/googlesamples/android-architecture-components/issues/495
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
         ViewCompat.setNestedScrollingEnabled(binding.rvFragmentsHome, false)
-        adapter = HomeRvAdapter()
+
+        adapter = HomeRvAdapter().apply {
+            this.setOnItemClickedListener(object : OnItemClickListener {
+                override fun onItemClicked(view: View, pos: Int, type: String, obj: Any?) {
+                    val extras = FragmentNavigatorExtras(view to Constants.Transitions.MarvelItem)
+                    val directions =
+                        HomeFragmentDirections.actionHomeFragToMarvelFrag((obj as HomeFeed))
+                    getNavController().navigate(directions, extras)
+                }
+            })
+        }
+
         binding.rvFragmentsHome.apply {
             adapter = this@HomeFragment.adapter
-            layoutManager = LinearLayoutManager(context)
-            val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    handleItemSwipe(viewHolder, direction)
+            layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+            val swipeHandler =
+                object : SwipeToDeleteCallback(requireContext(), ItemTouchHelper.RIGHT) {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        handleItemSwipe(viewHolder, direction)
+                    }
                 }
-            }
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
-            // itemTouchHelper.attachToRecyclerView(this)
+            itemTouchHelper.attachToRecyclerView(this)
+         //   this.recycledViewPool.setMaxRecycledViews(HomeRvAdapter.marvelsType,15)
+         //   this.recycledViewPool.setMaxRecycledViews(HomeRvAdapter.quotesType,15)
+         //   this.recycledViewPool.setMaxRecycledViews(HomeRvAdapter.imdbType,15)
+         //   this.recycledViewPool.setMaxRecycledViews(HomeRvAdapter.rickAndMortyType,15)
+            this.hasFixedSize()
         }
+    }
+
+    private fun getNavController(): NavController {
+        val navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
+        return navHostFragment.navController
     }
 
     private fun handleItemSwipe(viewHolder: ViewHolder, direction: Int) {
@@ -148,7 +187,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
                 val newList = addMiscDialog(it)
                 adapter.dataList.clear()    // https://stackoverflow.com/a/49223268/15914855
-                adapter.notifyDataSetChanged()  // TODO use ListAdapter 
+                adapter.notifyDataSetChanged()   // TODO use ListAdapter
                 adapter.dataList.addAll(newList)
                 adapter.notifyDataSetChanged()
             }
@@ -160,6 +199,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     adapter.dataList.addAll(it1)
                     adapter.notifyItemRangeChanged(0, it1.size)
                 }
+                startPostponedEnterTransition()
             }
         }
 
@@ -189,11 +229,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onStart() {
         super.onStart()
         printLifeCycleState("onStart")
+        onFragmentCreated?.let {
+            it()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         printLifeCycleState("onResume")
+    }
+
+
+    private var onFragmentCreated: (() -> Unit)? = null
+    fun setOnFragTriggeredListener(listener: () -> Unit) {
+        onFragmentCreated = listener
     }
 
     override fun onPause() {
@@ -229,4 +278,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun printLifeCycleState(callbackName: String) {
         println("Fragment B lifecycle state is : $callbackName +  " + lifecycle.currentState.name)
     }
+
 }

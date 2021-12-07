@@ -4,16 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4sp"
     app:cardBackgroundColor="?attr/colorOnSecondary"
-    app:cardCornerRadius="8sp">
+    app:cardCornerRadius="14sp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14sp"
-        android:layout_marginTop="6sp"
-        android:layout_marginEnd="14sp"
-        android:layout_marginBottom="6sp"
         android:background="?attr/colorSecondary"
         android:orientation="horizontal">
 
@@ -23,8 +20,20 @@
             android:layout_marginStart="14sp"
             android:layout_marginTop="12sp"
             android:layout_marginEnd="10sp"
-            android:layout_marginBottom="12sp"
+            android:layout_marginBottom="6sp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_quotesDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:fontFamily="@font/robotobold"
+                android:letterSpacing="0.06"
+                android:maxLines="30"
+                android:text="Phillip Lackner"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_quotesHeadline"
@@ -33,29 +42,18 @@
                 android:layout_marginEnd="0sp"
                 android:fontFamily="@font/robotoregular"
                 android:letterSpacing="0.06"
+                android:layout_marginTop="6sp"
                 android:text="Developers are overpaid"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_quotesDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8sp"
-                android:fontFamily="@font/poppinsregular"
-                android:letterSpacing="0.04"
-                android:maxLines="30"
-                android:text="Phillip Lackner"
                 android:textColor="@color/semi_white"
-                android:textSize="11sp" />
+                android:textSize="13sp" />
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:padding="12sp"
-                android:layout_marginTop="10sp"
+                android:layout_marginTop="14sp"
                 android:layout_marginEnd="12sp"
+                android:padding="0sp"
                 app:cardBackgroundColor="@android:color/transparent"
                 app:cardCornerRadius="10sp">
 
@@ -63,15 +61,28 @@
                     android:id="@+id/tv_tags"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10sp"
-                    android:layout_marginTop="6sp"
-                    android:layout_marginRight="10sp"
-                    android:layout_marginBottom="6sp"
-                    android:text="Motivation"
+                    android:fontFamily="@font/poppinsbold"
+                    android:text="20,012"
                     android:textColor="?attr/colorOnPrimary"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_tags1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3sp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="Likes"
+                    android:layout_marginBottom="3sp"
+                    android:textColor="@color/semi_white"
                     android:textSize="12sp"
-                    android:visibility="gone"/>
-            </com.google.android.material.card.MaterialCardView>
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_tags" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

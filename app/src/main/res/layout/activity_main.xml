@@ -6,47 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.activites.MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container_view"
-            android:name="com.siddharth.practiceapp.ui.fragments.HomeFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="0sp" />
-
-        <RelativeLayout
-            android:id="@+id/LL_sideBar"
-            android:layout_width="16sp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="?attr/colorPrimary"
-            android:orientation="horizontal"
-            android:visibility="invisible">
-
-            <TextView
-                android:id="@+id/tv_sidebar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center"
-                android:layout_marginBottom="50sp"
-                android:fontFamily="@font/robotobold"
-                android:gravity="center"
-                android:letterSpacing="0.05"
-                android:lineSpacingExtra="6sp"
-                android:maxEms="1"
-                android:text="L\nO\nA\nD\nI\nN\nG"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="10sp" />
-        </RelativeLayout>
-
-    </FrameLayout>
+            android:paddingBottom="0sp"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph_main"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
@@ -54,13 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:backgroundTint="@color/teal_200"
-        android:outlineAmbientShadowColor="?attr/colorPrimary"
         android:outlineProvider="background"
-        android:outlineSpotShadowColor="?attr/colorPrimary"
         android:visibility="visible"
         app:elevation="300sp"
         app:fabAlignmentMode="end"
-        app:fabCradleMargin="12sp"
+        app:fabCradleMargin="8sp"
         app:fabCradleRoundedCornerRadius="6sp">
 
         <LinearLayout
@@ -116,6 +81,7 @@
         android:backgroundTint="?attr/colorPrimary"
         android:contentDescription="TODO"
         android:visibility="visible"
+        android:stateListAnimator="@animator/scale_on_pressed_anim"
         app:borderWidth="0dp"
         app:layout_anchor="@id/bottom_app_bar"
         app:srcCompat="@drawable/ic_edit"

@@ -1,9 +1,7 @@
 package com.siddharth.practiceapp.data.dao
 
 import androidx.room.*
-import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.data.entities.HomeFeed
-import kotlinx.coroutines.delay
 
 @Dao
 interface HomeFeedDao {
@@ -22,7 +20,6 @@ interface HomeFeedDao {
     @Transaction
     suspend fun deleteAndInsertTransaction(homeFeedList: List<HomeFeed>) {
         deleteAllHomeFeed()
-        delay(1000)
         insertHomeFeedList(homeFeedList)
     }
 }

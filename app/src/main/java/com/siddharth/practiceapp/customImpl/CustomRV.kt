@@ -7,6 +7,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.siddharth.practiceapp.R
@@ -39,6 +40,7 @@ class CustomRV constructor(
     }
 
     init {
+      //  edgeEffectFactory = CustomEdgeEffectFactory()
     }
 
     override fun onScrolled(dx: Int, dy: Int) {

@@ -15,4 +15,8 @@ object Constants {
         const val ANIME = "anime"
         const val MISC_DIALOG = "miscDialog"
     }
+
+    object Transitions {
+        const val MarvelItem = "marvel_item_transition"
+    }
 }

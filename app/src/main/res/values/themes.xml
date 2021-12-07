@@ -14,10 +14,21 @@
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorSecondary</item>
     </style>
-    <style name="FloatingAccentButtonOverlay" >
+
+    <style name="FloatingAccentButtonOverlay">
         <item name="colorAccent">?attr/colorOnPrimary</item>
     </style>
+
     <style name="ProgressBarStyle">
         <item name="colorAccent">?attr/colorPrimary</item>
     </style>
+
+    <style name="Theme.PracticeApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.PracticeApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.PracticeApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

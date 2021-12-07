@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorOnSecondary"
+    android:minHeight="600sp"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    tools:context=".ui.fragments.AddTodoFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editText_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12sp"
+                android:layout_marginTop="16sp"
+                android:layout_marginEnd="12sp"
+                android:backgroundTint="?attr/colorOnSecondary"
+                android:text="Heading"
+                android:textColor="?attr/colorOnPrimary"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="24sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editText_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12sp"
+                android:layout_marginTop="0sp"
+                android:layout_marginEnd="12sp"
+                android:backgroundTint="?attr/colorOnSecondary"
+                android:text="Description"
+                android:textColor="@color/semi_white"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/editText_heading" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12sp"
+                android:layout_marginTop="6sp"
+                android:text="add"
+                android:textColor="?attr/colorOnPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editText_desc"
+                app:strokeColor="?attr/colorOnPrimary"
+                app:strokeWidth="0.5sp" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.5sp"
+                android:layout_marginStart="12sp"
+                android:layout_marginTop="12sp"
+                android:layout_marginEnd="6sp"
+                android:background="@color/semi_white"
+                app:layout_constraintTop_toBottomOf="@id/btn_add" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_todo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12sp"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

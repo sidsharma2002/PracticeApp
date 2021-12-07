@@ -18,7 +18,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object DefaultModule {
+object HomeModule {
 
     // Lives as long as  ViewModel lives
     @ViewModelScoped

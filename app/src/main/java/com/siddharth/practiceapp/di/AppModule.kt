@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.siddharth.practiceapp.api.HomeFeedApi
 import com.siddharth.practiceapp.api.NewsApi
 import com.siddharth.practiceapp.data.database.HomeFeedDatabase
+import com.siddharth.practiceapp.data.database.TodoDatabase
 import com.siddharth.practiceapp.util.Constants.NEWS_BASE_URL
 import com.siddharth.practiceapp.util.Constants.SERVER_BASE_URL
 import dagger.Module
@@ -51,4 +52,16 @@ object AppModule {
 
     @Provides
     fun provideHomeFeedDao(db: HomeFeedDatabase) = db.getHomeFeedDao()
+
+    @Singleton
+    @Provides
+    fun provideTodoDatabase(
+        app: Application
+    ) =
+        Room.databaseBuilder(app, TodoDatabase::class.java, "todo_database")
+            .fallbackToDestructiveMigration()
+            .build()
+
+    @Provides
+    fun provideTodoDao(db: TodoDatabase) = db.getTodoDao()
 }

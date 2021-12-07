@@ -4,18 +4,23 @@ package com.siddharth.practiceapp.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.data.entities.HomeFeed
+import com.siddharth.practiceapp.interfaces.OnItemClickListener
 import com.siddharth.practiceapp.util.Constants
 import com.siddharth.practiceapp.util.slideUp
 
@@ -89,15 +94,33 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     class MarvelHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val name: TextView = itemView.findViewById(R.id.tv_marvelName)
-        private val desc: TextView = itemView.findViewById(R.id.tv_marvelDesc)
-        private val thumbnail: ImageView = itemView.findViewById(R.id.iv_marvelThumbnail)
-
+        val thumbnail: ImageView = itemView.findViewById(R.id.iv_marvelThumbnail)
+        val cardView: CardView = itemView.findViewById(R.id.marvel_cardView)
         fun setData(data: HomeFeed, holder: MarvelHolder) {
-            holder.name.text = data.marvelTitle
             Glide.with(holder.itemView.context)
                 .load(data.marvelThumbnailImage)
+                .apply(
+                    RequestOptions().dontTransform() // this line
+                )
                 .into(holder.thumbnail)
+            ViewCompat.setTransitionName(holder.cardView, data.marvelThumbnailImage)
+        }
+
+        fun createCircularRevealEffect(holder: MarvelHolder) {
+            val myView = holder.cardView
+            myView.isVisible = false
+            val cx = myView.width / 2
+            val cy = myView.height / 2
+            // get the final radius for the clipping circle
+            val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
+            // create the animator for this view (the start radius is zero)
+            val anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0f, finalRadius)
+            // make the view visible and start the animation
+            myView.visibility = View.VISIBLE
+            anim.apply {
+                duration = 1000
+                start()
+            }
         }
     }
 
@@ -112,7 +135,7 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.desc.text = data.imdbOverview
             holder.rating.text = data.imdbRating.toString()
             Glide.with(holder.itemView.context).load(data.imdbPosterUrl)
-                .centerInside()
+                .centerCrop()
                 .into(holder.thumbnail)
 
         }
@@ -127,16 +150,16 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val playerContainer: FrameLayout = itemView.findViewById(R.id.player_container)
 
         fun setData(data: HomeFeed, holder: AnimeHolder) {
-            holder.nameEng.text = data.animeTitleEn
-            holder.nameJap.text = data.animeTitleJap
-            holder.desc.text = data.animeGenre
-            holder.rating.text = data.animeScore.toString()
-            Glide.with(holder.itemView.context).load(data.animeCoverImage)
-                .centerInside()
-                .into(holder.thumbnail)
+//            holder.nameEng.text = data.animeTitleEn
+//            holder.nameJap.text = data.animeTitleJap
+//            holder.desc.text = data.animeGenre
+//            holder.rating.text = data.animeScore.toString()
+//            Glide.with(holder.itemView.context).load(data.animeCoverImage)
+//                .centerInside()
+//                .into(holder.thumbnail)
             Log.d("HomeRVAdapt", data.animeTrailerLink)
-            if (data.animeTrailerLink.isNotEmpty())
-                setupPlayer(holder, data)
+            // if (data.animeTrailerLink.isNotEmpty())
+            setupPlayer(holder, data)
         }
 
         private fun setupPlayer(holder: AnimeHolder, data: HomeFeed) {
@@ -260,6 +283,14 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.setData(dataList[position], holder)
         } else if (holder is MarvelHolder) {
             holder.setData(dataList[position], holder)
+            holder.thumbnail.setOnClickListener {
+                onItemClickedListener?.onItemClicked(
+                    holder.cardView,
+                    position,
+                    Constants.HomeFeedNaming.MARVEL,
+                    dataList[holder.adapterPosition]
+                )
+            }
         } else if (holder is ImdbHolder) {
             holder.setData(dataList[position], holder)
         } else if (holder is AnimeHolder) {
@@ -286,8 +317,8 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    private var onPageEndReachedListener: (() -> Unit)? = null
-    fun setOnPageEndReached(listener: () -> Unit) {
-        onPageEndReachedListener = listener
+    private var onItemClickedListener: OnItemClickListener? = null
+    fun setOnItemClickedListener(listener: OnItemClickListener) {
+        onItemClickedListener = listener
     }
 }

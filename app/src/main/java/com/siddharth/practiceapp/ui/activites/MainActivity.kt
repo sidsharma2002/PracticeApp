@@ -1,30 +1,35 @@
 package com.siddharth.practiceapp.ui.activites
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
-import androidx.fragment.app.add
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.ui.NavigationUI
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.navigation.NavigationBarMenu
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.ActivityMainBinding
-import com.siddharth.practiceapp.databinding.FragmentFragABinding
+import com.siddharth.practiceapp.interfaces.FragmentFiredListener
+import com.siddharth.practiceapp.interfaces.FragmentType
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
 import com.siddharth.practiceapp.ui.fragments.MainBottomSheet
+import com.siddharth.practiceapp.ui.fragments.AddTodoFragment
+import com.siddharth.practiceapp.ui.fragments.HomeFragment
+import com.siddharth.practiceapp.ui.fragments.SmartReplyFragment
 import com.siddharth.practiceapp.util.fadeout
 import com.siddharth.practiceapp.util.slideUp
+import com.siddharth.practiceapp.util.snackBar
 import com.siddharth.practiceapp.viewModels.MainActViewModel
 import com.siddharth.practiceapp.worker.MyWorker
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,11 +41,12 @@ import java.util.concurrent.TimeUnit
 // @AndroidEntryPoint generates an individual Hilt component for each Android class in your project
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentFiredListener {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainActViewModel by viewModels()
+    private var fragmentFiredListener: FragmentFiredListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +54,27 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         printLifeCycleState("onCreate")
-
-        // uncomment to start the services
         // manageService()
-
-        // uncomment to start the worker
         // setupWorkManager()
+        setupUi()
+        // setupFabAnim()
         setupAppBarAnim(1)
+        setupFragmentTriggerListeners()
         handleButtonClick()
+    }
+
+    private fun setupUi() {
+
+    }
+
+    private fun setupFabAnim() {
+        lifecycleScope.launchWhenResumed {
+            ObjectAnimator.ofFloat(binding.fab, "translationX", -200f).apply {
+                duration = 2000
+                startDelay = 4000
+                start()
+            }
+        }
     }
 
     private fun setupAppBarAnim(iterationNo: Int) {
@@ -154,14 +173,48 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleButtonClick() {
         binding.bottomAppBar.setOnClickListener {
-            val bottomFrag = MainBottomSheet()
+            val bottomFrag = SmartReplyFragment()
             bottomFrag.show(supportFragmentManager, "bottom_nav_fragment")
         }
+        binding.fab.setOnClickListener {
+            if (!isFragAlreadyAdded(FragmentType.AddToDoFrag)) {
+                val bottomFrag = AddTodoFragment()
+                //bottomFrag.show(supportFragmentManager, "AddTodoFragment")
+            }
+        }
+    }
+
+    private fun isFragAlreadyAdded(frag: FragmentType): Boolean {
+        var fragFound: Fragment? = null
+        fragFound = when (frag) {
+            FragmentType.AddToDoFrag -> {
+                supportFragmentManager.findFragmentByTag("AddTodoFragment")
+            }
+            FragmentType.HomeFrag -> {
+                supportFragmentManager.findFragmentByTag("HomeFragment")
+            }
+        }
+        fragFound?.let {
+            return true
+        }
+        return false
+    }
+
+    private fun setupFragmentTriggerListeners() {
+        fragmentFiredListener = this
+        fragmentFiredListener!!.onFragmentFired(FragmentType.HomeFrag)  // initially homeFrag is added
     }
 
     fun showSideBar() {
         binding.mainActivityProgressBar.isVisible = true
         //    binding.mainActivityProgressBar.slideUp(this, 800, 250)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (isFragAlreadyAdded(FragmentType.HomeFrag)) {
+            binding.fab.isVisible = true
+        }
     }
 
     fun hideSideBar() {
@@ -197,5 +250,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun printLifeCycleState(callbackName: String) {
         println("Activity lifecycle state is : $callbackName +  " + lifecycle.currentState.name)
+    }
+
+    override fun onFragmentFired(type: FragmentType) {
+        when (type) {
+            FragmentType.AddToDoFrag -> {
+                binding.fab.isVisible = false
+            }
+            FragmentType.HomeFrag -> {
+                if (!binding.fab.isVisible)
+                    binding.fab.isVisible = true
+            }
+        }
     }
 }

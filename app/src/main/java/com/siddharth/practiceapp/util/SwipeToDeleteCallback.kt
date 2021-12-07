@@ -10,14 +10,15 @@ import com.siddharth.practiceapp.R
 
 
 abstract class SwipeToDeleteCallback (
-    context: Context
-) : ItemTouchHelper.SimpleCallback(0 , ItemTouchHelper.RIGHT) {
+    context: Context,
+    Direction : Int
+) : ItemTouchHelper.SimpleCallback(0 , Direction) {
 
     private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_delete_sweep_24)
     private val intrinsicWidth = deleteIcon!!.intrinsicWidth
     private val intrinsicHeight = deleteIcon!!.intrinsicHeight
     private val background = ColorDrawable()
-    private val backgroundColor = context.resources.getColor(R.color.purple_200)
+    private val backgroundColor = context.resources.getColor(R.color.black)
     private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
@@ -36,6 +37,10 @@ abstract class SwipeToDeleteCallback (
         target: RecyclerView.ViewHolder
     ): Boolean {
         return false
+    }
+
+    override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
+        return super.getSwipeThreshold(viewHolder)
     }
 
     override fun onChildDraw(
@@ -74,6 +79,7 @@ abstract class SwipeToDeleteCallback (
         deleteIcon.draw(c)
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
+
     private fun clearCanvas(c: Canvas?, left: Float, top: Float, right: Float, bottom: Float) {
         c?.drawRect(left, top, right, bottom, clearPaint)
     }
