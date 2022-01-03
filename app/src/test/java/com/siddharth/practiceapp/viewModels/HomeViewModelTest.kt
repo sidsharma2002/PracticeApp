@@ -8,48 +8,67 @@ import com.siddharth.practiceapp.getOrAwaitValueTest
 import com.siddharth.practiceapp.repository.DefaultHomeFeedRepository
 import com.siddharth.practiceapp.util.Constants
 import com.siddharth.practiceapp.util.Response
+import io.mockk.*
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.withContext
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.*
 
 
+@ExperimentalCoroutinesApi
 class HomeViewModelTest {
     private lateinit var viewmodel: HomeViewModel
-    private lateinit var repository: DefaultHomeFeedRepository
+
+    @MockK
+    lateinit var repository: FakeHomeFeedRepository
+    private lateinit var testMainDispatcher: TestCoroutineDispatcher
+    private lateinit var testIODispatcher: TestCoroutineDispatcher
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     @Before
     fun setup() {
-        repository = FakeHomeFeedRepository()
-        viewmodel = HomeViewModel(repository)
+        testMainDispatcher = TestCoroutineDispatcher()
+        testIODispatcher = TestCoroutineDispatcher()
+        MockKAnnotations.init(this, relaxed = true, relaxUnitFun = true)
     }
 
     @After
     fun tearDown() {
-
+        unmockkAll()
     }
 
     @Test
-    fun `database should be single source of truth`() {
-        val result = viewmodel.homeFeedList.getOrAwaitValueTest()
-        assertThat(result.data).hasSize(1)
-        assertThat(result.data?.get(0)).isEqualTo(HomeFeed(Constants.HomeFeedNaming.ANIME))
+    fun `data is fetched from db in correct sequence`() = runBlockingTest {
+        // arrange
+        val forFirstPage = true
+        coEvery {
+            repository.getAndInsertHomeFeed(forFirstPage)
+        } returns forFirstPage
+
+        coEvery {
+            repository.getAllHomeFeedList()
+        } returns Response.Success(mutableListOf(HomeFeed(Constants.HomeFeedNaming.ANIME)))
+
+        // action
+        viewmodel = HomeViewModel(repository, testIODispatcher, testMainDispatcher)
+
+        // assert
+        coVerifySequence {
+            repository.getAllHomeFeedList()
+            repository.getAndInsertHomeFeed(forFirstPage)
+            repository.getAllHomeFeedList()
+        }
     }
 }
 
-class FakeHomeFeedRepository : DefaultHomeFeedRepository {
+
+open class FakeHomeFeedRepository : DefaultHomeFeedRepository {
     override suspend fun getAndInsertHomeFeed(forFirstPage: Boolean): Any {
         return forFirstPage
     }

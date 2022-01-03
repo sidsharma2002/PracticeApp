@@ -6,27 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.doOnPreDraw
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.RecyclerView.*
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.android.material.transition.MaterialElevationScale
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.siddharth.practiceapp.R
@@ -69,6 +58,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     ): View {
         printLifeCycleState("onCreateView")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -79,7 +69,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         setupRemoteConfig()
         setupUi(view)   // transitions , Adapter and RecyclerView
-        setupListeners()
+        setupPageEndListener()
         subscribeToObservers()
     }
 
@@ -98,13 +88,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
     }
 
-    private fun setupUi(view : View) {
+    private fun setupUi(view: View) {
         // Postpone enter transitions to allow shared element transitions to run.
         // https://github.com/googlesamples/android-architecture-components/issues/495
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
         ViewCompat.setNestedScrollingEnabled(binding.rvFragmentsHome, false)
+        setupAdapter()
+        setupRv()
+    }
 
+    private fun setupAdapter() {
         adapter = HomeRvAdapter().apply {
             this.setOnItemClickedListener(object : OnItemClickListener {
                 override fun onItemClicked(view: View, pos: Int, type: String, obj: Any?) {
@@ -115,7 +109,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             })
         }
+    }
 
+    private fun setupRv() {
         binding.rvFragmentsHome.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
@@ -127,11 +123,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
             itemTouchHelper.attachToRecyclerView(this)
-         //   this.recycledViewPool.setMaxRecycledViews(HomeRvAdapter.marvelsType,15)
-         //   this.recycledViewPool.setMaxRecycledViews(HomeRvAdapter.quotesType,15)
-         //   this.recycledViewPool.setMaxRecycledViews(HomeRvAdapter.imdbType,15)
-         //   this.recycledViewPool.setMaxRecycledViews(HomeRvAdapter.rickAndMortyType,15)
-            this.hasFixedSize()
         }
     }
 
@@ -146,7 +137,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter.notifyItemRemoved(viewHolder.adapterPosition)
     }
 
-    private fun setupListeners() {
+    private fun setupPageEndListener() {
         var paginatedRV: RecyclerView? = null
         binding.nestedSV.viewTreeObserver?.addOnScrollChangedListener {
             if (paginatedRV == null) {
@@ -172,37 +163,48 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             && adapter.dataList.size > 0
         ) {
             val value = viewmodel.currentPage.value!!.inc()
-            //Log.d(TAG, "${viewmodel.currentPage.value!! * 13} , ${adapter.dataList.size}")
             viewmodel.currentPage.postValue(value)
-        } else {
-            //Log.d(TAG, "${viewmodel.currentPage.value!! * 13} > ${adapter.dataList.size}")
         }
     }
 
-
     private fun subscribeToObservers() {
+        observeHomeFeed()
+        observeCurrentPage()
+    }
+
+    private fun observeHomeFeed() {
         viewmodel.homeFeedList.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
-                (requireActivity() as MainActivity).hideSideBar()
-                Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
-                val newList = addMiscDialog(it)
-                adapter.dataList.clear()    // https://stackoverflow.com/a/49223268/15914855
-                adapter.notifyDataSetChanged()   // TODO use ListAdapter
-                adapter.dataList.addAll(newList)
-                adapter.notifyDataSetChanged()
+                onHomeFeedSuccess(it)
             }
             if (it is Response.Loading || it is Response.LoadingForNextPage) {
-                (requireActivity() as MainActivity).showSideBar()
-                if (it is Response.Loading) adapter.dataList.clear()
-                it.data?.let { it1 ->
-                    Log.d(TAG, "list from cache isn't null")
-                    adapter.dataList.addAll(it1)
-                    adapter.notifyItemRangeChanged(0, it1.size)
-                }
-                startPostponedEnterTransition()
+                onHomeFeedLoading(it)
             }
         }
+    }
 
+    private fun onHomeFeedSuccess(it: Response.Success<MutableList<HomeFeed>>) {
+        (requireActivity() as MainActivity).hideSideBar()
+        Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
+        val newList = addMiscDialog(it)
+        adapter.dataList.clear()    // https://stackoverflow.com/a/49223268/15914855
+        adapter.notifyDataSetChanged()   // TODO use ListAdapter
+        adapter.dataList.addAll(newList)
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun onHomeFeedLoading(it: Response<MutableList<HomeFeed>>) {
+        (requireActivity() as MainActivity).showSideBar()
+        if (it is Response.Loading) adapter.dataList.clear()
+        it.data?.let { it1 ->
+            Log.d(TAG, "list from cache isn't null")
+            adapter.dataList.addAll(it1)
+            adapter.notifyItemRangeChanged(0, it1.size)
+        }
+        startPostponedEnterTransition()
+    }
+
+    private fun observeCurrentPage() {
         viewmodel.currentPage.observe(viewLifecycleOwner) {
             if (it > 1)
                 viewmodel.getNews(false)
@@ -224,8 +226,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        }
         return dataList.data!!
     }
-
-
+    
     override fun onStart() {
         super.onStart()
         printLifeCycleState("onStart")
@@ -234,41 +235,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        printLifeCycleState("onResume")
-    }
-
-
     private var onFragmentCreated: (() -> Unit)? = null
     fun setOnFragTriggeredListener(listener: () -> Unit) {
         onFragmentCreated = listener
-    }
-
-    override fun onPause() {
-        super.onPause()
-        printLifeCycleState("onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        printLifeCycleState("onStop")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         printLifeCycleState("onDestroyView")
         _binding = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        printLifeCycleState("onDestroy")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        printLifeCycleState("onDetach")
     }
 
     private fun printViewLifeCycleState() {

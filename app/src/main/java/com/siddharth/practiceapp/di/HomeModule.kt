@@ -11,6 +11,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
@@ -23,6 +25,18 @@ object HomeModule {
     // Lives as long as  ViewModel lives
     @ViewModelScoped
     @Provides
-    fun providesRepository(homeFeedApi: HomeFeedApi, dao: HomeFeedDao) =
-        HomeFeedRepository(homeFeedApi, dao) as DefaultHomeFeedRepository
+    fun providesRepository(
+        homeFeedApi: HomeFeedApi,
+        dao: HomeFeedDao,
+        dispatcherIO: CoroutineDispatcher
+    ) =
+        HomeFeedRepository(homeFeedApi, dao, dispatcherIO) as DefaultHomeFeedRepository
+
+    @ViewModelScoped
+    @Provides
+    fun providesMainDispatcher() = Dispatchers.Main
+
+    @ViewModelScoped
+    @Provides
+    fun providesIODispatcher() = Dispatchers.IO
 }
