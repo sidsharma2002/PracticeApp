@@ -22,18 +22,20 @@ class AuthViewModel @Inject constructor(
     private val repository: DefaultAuthRepository
 ) : AndroidViewModel(application) {
 
-    private val _tokenFromServer = MutableLiveData<Response<String?>>()
-    val tokenFromServer : LiveData<Response<String?>> = _tokenFromServer
+    private val _account = MutableLiveData<Response<GoogleSignInAccount>>()
+    val account: LiveData<Response<GoogleSignInAccount>> = _account
+
 
     fun proceedToAuthenticate(completedTask: Task<GoogleSignInAccount>) {
-        _tokenFromServer.postValue(Response.Loading())
+        _account.postValue(Response.Loading())
         viewModelScope.launch(Dispatchers.IO) {
-            val account =
-                completedTask.getResult(ApiException::class.java)!!
-            val scope = "oauth2:" + Scopes.EMAIL + " " + Scopes.PROFILE
-            val token = GoogleAuthUtil.getToken(getApplication(), account.account, scope)
-            val result = repository.authenticateUser(token)
-            _tokenFromServer.postValue(result)
+            try {
+                val account =
+                    completedTask.getResult(ApiException::class.java)!!
+                _account.postValue(Response.Success(account))
+            } catch (e: ApiException) {
+                _account.postValue(Response.Error(e.localizedMessage ?: "some error occurred"))
+            }
         }
     }
 }

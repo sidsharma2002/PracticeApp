@@ -46,7 +46,7 @@ class AuthFragment : Fragment() {
     }
 
     private fun subscribeToObservers() {
-        viewmodel.tokenFromServer.observe(viewLifecycleOwner) {
+        viewmodel.account.observe(viewLifecycleOwner) {
             when (it) {
                 is Response.Loading -> {
                     binding.progressAuth.isVisible = true
@@ -54,8 +54,7 @@ class AuthFragment : Fragment() {
                 }
                 is Response.Success -> {
                     binding.progressAuth.isVisible = false
-                    tokenFromServer = it.data!!
-                    saveDetails()
+                    // saveDetails()
                     navigateToOnBoardingScreen()
                 }
                 is Response.Error -> {
