@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.basys.ProfileFragment">
+
+    <ImageView
+        android:id="@+id/iv_user"
+        android:layout_width="172sp"
+        android:layout_height="172sp"
+        android:layout_marginTop="22sp"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22sp"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Hey!, Siddharth sharma"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_user" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-60sp"
+        android:layout_marginTop="22sp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_username">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsbold"
+            android:text="Enter Your Public Data"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/edt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your NicName"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your Address"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48sp"
+            android:fontFamily="@font/poppinsbold"
+            android:text="Enter Private Data"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/edt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your Phone Number"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edt4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your ZipCode"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

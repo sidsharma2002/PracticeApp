@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "488317292425-1qg056923n54615or8ohd01n05m7c2h3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.siddharth",
+            "certificate_hash": "46ddd2c60e5a0de50433520dd964e479cb285b5d"
+          }
+        },
+        {
           "client_id": "488317292425-sskc3fdpgkj2ld4brv5t6mi2l1esccso.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -48,6 +56,14 @@
           "android_info": {
             "package_name": "com.siddharth.practiceapp",
             "certificate_hash": "46ddd2c60e5a0de50433520dd964e479cb285b5d"
+          }
+        },
+        {
+          "client_id": "488317292425-bm6fv9434kbekde7k4mhchprpgfig68q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.siddharth.practiceapp",
+            "certificate_hash": "4b8aaa29e7cfa8d2377c4b8fbf08484f6598426c"
           }
         },
         {

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.basys.RecordFragment">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-60sp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsbold"
+            android:text="Enter Your Health Data"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/edt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your Bp Level"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your Glucose Level"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48sp"
+            android:fontFamily="@font/poppinsbold"
+            android:text="Enter Cornor Bidities Data"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/edt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your hypertension data"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edt4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your CKD"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edt5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black_light"
+            android:hint="Enter Your CVD"
+            android:textSize="16sp" />
+    </LinearLayout>sopl
+
+    <TextView
+        android:id="@+id/tv_uploaded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20sp"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Hurray! Synced"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="45sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginBottom="70sp"
+        android:text="done"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ll" />
+</androidx.constraintlayout.widget.ConstraintLayout>

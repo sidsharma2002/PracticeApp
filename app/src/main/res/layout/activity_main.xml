@@ -6,118 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.activites.MainActivity">
 
-    <FrameLayout
+    <fragment
+        android:id="@+id/nav_host_fragment_activity_main"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/mobile_navigation" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_container_view"
-            android:name="com.siddharth.practiceapp.ui.fragments.HomeFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="0sp" />
-
-        <RelativeLayout
-            android:id="@+id/LL_sideBar"
-            android:layout_width="16sp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="?attr/colorPrimary"
-            android:orientation="horizontal"
-            android:visibility="invisible">
-
-            <TextView
-                android:id="@+id/tv_sidebar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center"
-                android:layout_marginBottom="50sp"
-                android:fontFamily="@font/robotobold"
-                android:gravity="center"
-                android:letterSpacing="0.05"
-                android:lineSpacingExtra="6sp"
-                android:maxEms="1"
-                android:text="L\nO\nA\nD\nI\nN\nG"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="10sp" />
-        </RelativeLayout>
-
-    </FrameLayout>
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/teal_200"
-        android:outlineAmbientShadowColor="?attr/colorPrimary"
-        android:outlineProvider="background"
-        android:outlineSpotShadowColor="?attr/colorPrimary"
-        android:visibility="visible"
-        app:elevation="300sp"
-        app:fabAlignmentMode="end"
-        app:fabCradleMargin="12sp"
-        app:fabCradleRoundedCornerRadius="6sp">
-
-        <LinearLayout
-            android:id="@+id/bottom_app_bar_content_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="0sp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="5sp">
-
-            <ImageView
-                android:id="@+id/bottom_app_bar_chevron"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_arrow_drop_up"
-                app:tint="?attr/colorOnPrimary" />
-
-            <TextView
-                android:id="@+id/bottom_app_bar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="4sp"
-                android:layout_marginStart="10sp"
-                android:fontFamily="@font/robotoregular"
-                android:text="Home"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="16sp"
-                android:visibility="gone" />
-
-        </LinearLayout>
-    </com.google.android.material.bottomappbar.BottomAppBar>
+        android:background="@color/black_dark1"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_nav_menu" />
 
     <ProgressBar
         android:id="@+id/mainActivity_progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_gravity="bottom"
         android:foregroundTint="?attr/colorPrimary"
-        android:progressDrawable="?attr/colorPrimary"
-        android:theme="@style/ProgressBarStyle"
         android:indeterminate="true"
         android:indeterminateOnly="true"
-        android:visibility="invisible"
-        android:layout_gravity="bottom"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="?attr/colorPrimary"
-        android:contentDescription="TODO"
-        android:visibility="visible"
-        app:borderWidth="0dp"
-        app:layout_anchor="@id/bottom_app_bar"
-        app:srcCompat="@drawable/ic_edit"
-        app:tint="@android:color/white" />
+        android:progressDrawable="?attr/colorPrimary"
+        android:theme="@style/ProgressBarStyle"
+        android:visibility="invisible" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

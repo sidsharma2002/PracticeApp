@@ -1,7 +1,6 @@
 package com.siddharth.practiceapp.ui.fragments
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,18 +11,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.FragmentAuthBinding
 import com.siddharth.practiceapp.manager.CurrentUserManager
-import com.siddharth.practiceapp.manager.Router
-import com.siddharth.practiceapp.ui.activites.MainActivity
 import com.siddharth.practiceapp.util.Response
 import com.siddharth.practiceapp.util.snackBar
 import com.siddharth.practiceapp.viewModels.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class AuthFragment : Fragment() {
@@ -54,7 +58,7 @@ class AuthFragment : Fragment() {
                 }
                 is Response.Success -> {
                     binding.progressAuth.isVisible = false
-                    // saveDetails()
+                    saveDetails()
                     navigateToOnBoardingScreen()
                 }
                 is Response.Error -> {
@@ -75,22 +79,32 @@ class AuthFragment : Fragment() {
 
     private fun signIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
-        val googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
-        val signInIntent = googleSignInClient.signInIntent
+
+        val mGoogleApiClient = GoogleApiClient.Builder(requireContext())
+            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+            .build()
+        val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            viewmodel.proceedToAuthenticate(task)
+            val result = data?.let { Auth.GoogleSignInApi.getSignInResultFromIntent(it) }
+            if (result?.isSuccess == true) {
+                val acct = result.signInAccount
+                if (acct != null) {
+                    viewmodel.firebaseAuthWithGoogle(acct)
+                }
+            }
         }
     }
+
 
     private fun saveDetails() {
         val sharedPreferences = requireContext().getSharedPreferences(
@@ -99,12 +113,13 @@ class AuthFragment : Fragment() {
         )
         sharedPreferences.edit().apply {
             this.putBoolean("currentUser_isLoggedIn", true)
-            this.putString("currentUser_uid", tokenFromServer)
+            this.putString("currentUser_uid", FirebaseAuth.getInstance().currentUser?.uid)
             apply()
         }
         CurrentUserManager.isLoggedIn = true
-        // NOTE this token string is very large and will occupy much space
-        CurrentUserManager.currentUser.uid = tokenFromServer
+        CurrentUserManager.currentUser.uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        CurrentUserManager.currentUser.name =
+            FirebaseAuth.getInstance().currentUser?.displayName.toString()
     }
 
     private fun navigateToOnBoardingScreen() {

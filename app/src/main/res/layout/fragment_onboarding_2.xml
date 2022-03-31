@@ -11,7 +11,7 @@
         android:layout_marginStart="40sp"
         android:layout_marginTop="0sp"
         android:fontFamily="@font/robotoregular"
-        android:text="Experience \nlike never before"
+        android:text="what we do at\nBasys.ai"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,13 +22,13 @@
     <TextView
         android:layout_width="0sp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="40sp"
         android:layout_marginTop="12sp"
         android:layout_marginEnd="60sp"
-        android:textSize="12sp"
         android:fontFamily="@font/poppinsregular"
-        android:text="Get a rollercoster ride on our app. We are more then happy to announce a very valueable assest of ours. Welcome to the family"
+        android:text="we take an oath to help you and your family be disease safe.Even if you sneeze we are there for you!! So don't worry."
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_onBoard2_heading"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_onBoard2_heading" />
 </androidx.constraintlayout.widget.ConstraintLayout>

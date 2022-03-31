@@ -12,6 +12,7 @@ import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.auth.FirebaseAuth
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.ActivitySplashBinding
 import com.siddharth.practiceapp.manager.CurrentUserManager
@@ -56,6 +57,8 @@ class SplashActivity : AppCompatActivity() {
             sharedPref.getString("currentUser_name", "unnamedUser").toString()
         CurrentUserManager.currentUser.uid =
             sharedPref.getString("currentUser_uid", "").toString()
+        CurrentUserManager.currentUser.name =
+            FirebaseAuth.getInstance().currentUser?.displayName.toString()
     }
 
     private fun startMyService() {

@@ -24,7 +24,7 @@
         android:id="@+id/tv_getStarted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome To Glitch. \n Login to get started and enjoy our services!!"
+        android:text="Welcome To Basys. \n Login to get started and enjoy our services!!"
         android:gravity="center"
         android:textColor="?attr/colorOnPrimary"
         android:textSize="14sp"
