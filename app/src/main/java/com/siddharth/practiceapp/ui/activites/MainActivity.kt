@@ -156,10 +156,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleButtonClick() {
-        binding.bottomAppBar.setOnClickListener {
-            val bottomFrag = MainBottomSheet()
-            bottomFrag.show(supportFragmentManager, "bottom_nav_fragment")
-        }
+
     }
 
     fun showSideBar() {
