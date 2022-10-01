@@ -13,7 +13,7 @@ import com.siddharth.practiceapp.databinding.ItemNewsHomeBinding
 import com.siddharth.practiceapp.databinding.ItemRemainderHomeBinding
 import com.siddharth.practiceapp.util.slideUp
 
-class HomeRvAdapter : ListAdapter<HomeData, HomeRvAdapter.MyAbstractViewHolder>(COMPARATOR) {
+class HomeRvAdapter : ListAdapter<HomeData, HomeRvAdapter.AbstractViewHolder>(COMPARATOR) {
 
     companion object {
         @JvmStatic
@@ -33,21 +33,18 @@ class HomeRvAdapter : ListAdapter<HomeData, HomeRvAdapter.MyAbstractViewHolder>(
         }
     }
 
-    private var positionForSpeedItem = -1
-    private var shouldShouldSpeedItem = false
-
-    class NewsHolder(private val binding: ItemNewsHomeBinding) : MyAbstractViewHolder(binding) {
+    private class NewsHolder(private val binding: ItemNewsHomeBinding) : AbstractViewHolder(binding) {
         override fun bind(item: HomeData) {
             binding.tvNewsHeadline.text = item.title
             binding.tvNewsDesc.text = item.description
         }
     }
 
-    abstract class MyAbstractViewHolder(binding: ViewBinding): ViewHolder(binding.root){
+    abstract class AbstractViewHolder(binding: ViewBinding): ViewHolder(binding.root){
         abstract fun bind(item:HomeData)
     }
 
-    class ReminderHolder(private val binding: ItemRemainderHomeBinding) : MyAbstractViewHolder(binding) {
+    private class ReminderHolder(private val binding: ItemRemainderHomeBinding) : AbstractViewHolder(binding) {
         override fun bind(item: HomeData) {
             Glide.with(binding.ivImage.context)
                 .load("https://firebasestorage.googleapis.com/v0/b/firechat-5a222.appspot.com/o/Artboard%201.jpg?alt=media&token=45796976-3aff-4678-92b5-59592fad499f")
@@ -57,7 +54,7 @@ class HomeRvAdapter : ListAdapter<HomeData, HomeRvAdapter.MyAbstractViewHolder>(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAbstractViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
         return if (viewType == reminderType){
             ReminderHolder(ItemRemainderHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         } else {
@@ -66,7 +63,7 @@ class HomeRvAdapter : ListAdapter<HomeData, HomeRvAdapter.MyAbstractViewHolder>(
     }
 
 
-    override fun onBindViewHolder(holder: MyAbstractViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AbstractViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

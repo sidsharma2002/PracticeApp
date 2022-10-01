@@ -92,17 +92,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewmodel.homeDataList.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
                 (requireActivity() as MainActivity).hideSideBar()
-                Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
-                //adapter.dataList.clear()
                 adapter.submitList(it.data)
-                adapter.notifyItemRangeChanged(0, it.data.size)
             }
             if (it is Response.Loading) {
                 (requireActivity() as MainActivity).showSideBar()
-                //adapter.dataList.clear()
                 it.data?.let { it1 ->
                     adapter.submitList(it1)
-                    adapter.notifyItemRangeChanged(0, it1.size)
                 }
             }
         }

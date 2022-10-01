@@ -1,21 +1,16 @@
 package com.siddharth.practiceapp.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.google.android.material.chip.Chip
-import com.siddharth.practiceapp.R
-import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.data.entities.MainDataFrag
 import com.siddharth.practiceapp.databinding.ItemBaseFeatureBinding
 import com.siddharth.practiceapp.databinding.ItemHeaderFragmentBinding
 
-class MainFragmentsAdapter : ListAdapter<MainDataFrag, MainFragmentsAdapter.MyAbstractViewHolder>(
+class MainFragmentsAdapter : ListAdapter<MainDataFrag, MainFragmentsAdapter.AbstractViewHolder>(
     COMPARATOR) {
 
     companion object {
@@ -32,28 +27,28 @@ class MainFragmentsAdapter : ListAdapter<MainDataFrag, MainFragmentsAdapter.MyAb
     private val headerType = 2
     private val fragmentType = 1
 
-    class BasicFeatureViewHolder(private val binding: ItemBaseFeatureBinding) : MyAbstractViewHolder(binding) {
+    private class BasicFeatureViewHolder(private val binding: ItemBaseFeatureBinding) : AbstractViewHolder(binding) {
         override fun bind(item: MainDataFrag) {
             binding.tvBaseFragmentName.text = item.fragmentName
             binding.tvBaseFragmentSubName.text = item.fragmentSubName
         }
     }
 
-    abstract class MyAbstractViewHolder(binding: ViewBinding): RecyclerView.ViewHolder(binding.root){
+    abstract class AbstractViewHolder(binding: ViewBinding): RecyclerView.ViewHolder(binding.root){
         abstract fun bind(item: MainDataFrag)
     }
 
-    class HeaderViewHolder(private val binding: ItemHeaderFragmentBinding) : MyAbstractViewHolder(binding) {
+    private class HeaderViewHolder(private val binding: ItemHeaderFragmentBinding) : AbstractViewHolder(binding) {
         override fun bind(item: MainDataFrag) {
             binding.chipHeader.text = item.headingName
         }
     }
 
-    override fun onBindViewHolder(holder: MyAbstractViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AbstractViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAbstractViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
         return if (viewType == headerType) {
             HeaderViewHolder(ItemHeaderFragmentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         } else {
