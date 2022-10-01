@@ -1,21 +1,19 @@
 package com.siddharth.practiceapp.adapter
 
-import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
-import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.data.entities.HomeData
+import com.siddharth.practiceapp.databinding.ItemNewsHomeBinding
+import com.siddharth.practiceapp.databinding.ItemRemainderHomeBinding
 import com.siddharth.practiceapp.util.slideUp
 
-class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeRvAdapter : ListAdapter<HomeData, HomeRvAdapter.MyAbstractViewHolder>(COMPARATOR) {
 
     companion object {
         @JvmStatic
@@ -23,75 +21,56 @@ class HomeRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         @JvmStatic
         val reminderType = 2
+
+        private val COMPARATOR = object : DiffUtil.ItemCallback<HomeData>(){
+            override fun areContentsTheSame(oldItem: HomeData, newItem: HomeData): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areItemsTheSame(oldItem: HomeData, newItem: HomeData): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 
     private var positionForSpeedItem = -1
     private var shouldShouldSpeedItem = false
-    val dataList = ArrayList<HomeData>()
 
-    class NewsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            Log.d("NewsHolder", "created")
-        }
-
-        private val newsHeadline: TextView = itemView.findViewById(R.id.tv_newsHeadline)
-        private val newsDescription: TextView = itemView.findViewById(R.id.tv_newsDesc)
-        // private val newsView = itemView as NewsItemView
-
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun setData(data: HomeData, holder: NewsHolder, position: Int) {
-            holder.newsHeadline.text = data.title
-            holder.newsDescription.text = data.description
-            // newsView.populate(data)
+    class NewsHolder(private val binding: ItemNewsHomeBinding) : MyAbstractViewHolder(binding) {
+        override fun bind(item: HomeData) {
+            binding.tvNewsHeadline.text = item.title
+            binding.tvNewsDesc.text = item.description
         }
     }
 
-    class ReminderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            Log.d("ReminderHolder", "created")
-        }
+    abstract class MyAbstractViewHolder(binding: ViewBinding): ViewHolder(binding.root){
+        abstract fun bind(item:HomeData)
+    }
 
-        private val headline: ImageView = itemView.findViewById(R.id.iv_image)
-        fun setData(data: HomeData, holder: ReminderHolder) {
-            Glide.with(holder.headline.context)
+    class ReminderHolder(private val binding: ItemRemainderHomeBinding) : MyAbstractViewHolder(binding) {
+        override fun bind(item: HomeData) {
+            Glide.with(binding.ivImage.context)
                 .load("https://firebasestorage.googleapis.com/v0/b/firechat-5a222.appspot.com/o/Artboard%201.jpg?alt=media&token=45796976-3aff-4678-92b5-59592fad499f")
-                .into(holder.headline)
-            holder.itemView.isVisible = false
-            holder.itemView.slideUp(headline.context, 500, 250)
+                .into(binding.ivImage)
+            binding.root.isVisible = false
+            binding.root.slideUp(binding.root.context, 500, 250)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.d("OnCreateViewHolder", "fired")
-        if (viewType == reminderType) {
-            val view =
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_remainder_home, parent, false)
-            return ReminderHolder(view)
-        }
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_news_home, parent, false)
-        // NewsItemView(parent.context)
-        return NewsHolder(view)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d("OnBindViewHolder", "fired")
-        if (holder is NewsHolder) {
-            holder.setData(dataList[position], holder, position)
-        } else if (holder is ReminderHolder) {
-            holder.setData(dataList[position], holder)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAbstractViewHolder {
+        return if (viewType == reminderType){
+            ReminderHolder(ItemRemainderHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        } else {
+            NewsHolder(ItemNewsHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
     }
 
-    override fun getItemCount(): Int {
-        Log.d("getItemCount", "fired")
-        return dataList.size
+
+    override fun onBindViewHolder(holder: MyAbstractViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
     override fun getItemViewType(position: Int): Int {
-        Log.d("getItemViewType", "fired")
         if (position == 10) {
             return reminderType
         }
