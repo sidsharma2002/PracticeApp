@@ -72,14 +72,6 @@
             android:orientation="horizontal"
             android:paddingHorizontal="5sp">
 
-            <ImageView
-                android:id="@+id/bottom_app_bar_chevron"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_arrow_drop_up"
-                app:tint="?attr/colorOnPrimary" />
-
             <TextView
                 android:id="@+id/bottom_app_bar_title"
                 android:layout_width="wrap_content"
@@ -109,15 +101,4 @@
         android:visibility="invisible"
         android:layout_gravity="bottom"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="?attr/colorPrimary"
-        android:contentDescription="TODO"
-        android:visibility="visible"
-        app:borderWidth="0dp"
-        app:layout_anchor="@id/bottom_app_bar"
-        app:srcCompat="@drawable/ic_edit"
-        app:tint="@android:color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

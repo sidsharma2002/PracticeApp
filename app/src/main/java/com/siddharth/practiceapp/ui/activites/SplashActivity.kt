@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var sharedPref: SharedPreferences
-    private var _binding : ActivitySplashBinding? = null
+    private var _binding: ActivitySplashBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,33 +87,22 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launchWhenResumed {
             delay(800)
             runOnUiThread {
-                when (CurrentUserManager.isLoggedIn) {
-                    false -> {
-                        Router.with(this@SplashActivity)
-                            .getIntentForActivity(AuthActivity::class.java)
-                            .also {
-                                startActivity(it)
-                            }
+                Router.with(this@SplashActivity)
+                    .getIntentForActivity(MainActivity::class.java)
+                    .also {
+                        startActivity(it)
                     }
-                    true -> {
-                        Router.with(this@SplashActivity)
-                            .getIntentForActivity(MainActivity::class.java)
-                            .also {
-                                startActivity(it)
-                            }
-                    }
-                }
                 finish()
             }
         }
     }
 
-        private fun fetchFromServer() {
-            // TODO("Not yet implemented")
-        }
+    private fun fetchFromServer() {
+        // TODO("Not yet implemented")
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-    }
+}
