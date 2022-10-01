@@ -54,10 +54,10 @@ dependencies {
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
     // workManager
-    implementation("androidx.work:work-runtime:2.6.0") {
+    implementation("androidx.work:work-runtime:2.7.1") {
         force = true
     }
-    implementation("androidx.work:work-runtime-ktx:2.6.0") {
+    implementation("androidx.work:work-runtime-ktx:2.7.1") {
         force = true
     }
     //Retrofit
@@ -68,7 +68,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     // Room
-    def room_version = "2.3.0"
+    def room_version = "2.4.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor "androidx.room:room-compiler:$room_version"
     // To use Kotlin annotation processing tool (kapt)

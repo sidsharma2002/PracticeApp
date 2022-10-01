@@ -28,7 +28,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val TAG = this.javaClass.simpleName
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: HomeRvAdapter
+    private val adapter: HomeRvAdapter by lazy { HomeRvAdapter() }
     private val viewmodel: HomeViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -64,9 +64,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupUi() {
-
-
-        adapter = HomeRvAdapter()
         binding.rvFragmentsHome.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(context)
@@ -81,7 +78,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun handleItemSwipe(viewHolder: ViewHolder, direction: Int) {
-        adapter.dataList.removeAt(viewHolder.adapterPosition)
+        adapter.currentList.removeAt(viewHolder.adapterPosition)
         adapter.notifyItemRemoved(viewHolder.adapterPosition)
     }
 
@@ -95,17 +92,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewmodel.homeDataList.observe(viewLifecycleOwner) {
             if (it is Response.Success) {
                 (requireActivity() as MainActivity).hideSideBar()
-                Log.d(TAG, "size of homeDataList from db is ${it.data!!.size}")
-                adapter.dataList.clear()
-                adapter.dataList.addAll(it.data)
-                adapter.notifyItemRangeChanged(0, it.data.size)
+                adapter.submitList(it.data)
             }
             if (it is Response.Loading) {
                 (requireActivity() as MainActivity).showSideBar()
-                adapter.dataList.clear()
                 it.data?.let { it1 ->
-                    adapter.dataList.addAll(it1)
-                    adapter.notifyItemRangeChanged(0, it1.size)
+                    adapter.submitList(it1)
                 }
             }
         }

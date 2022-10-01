@@ -1,67 +1,67 @@
 package com.siddharth.practiceapp.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
-import com.siddharth.practiceapp.R
+import androidx.viewbinding.ViewBinding
 import com.siddharth.practiceapp.data.entities.MainDataFrag
+import com.siddharth.practiceapp.databinding.ItemBaseFeatureBinding
+import com.siddharth.practiceapp.databinding.ItemHeaderFragmentBinding
 
-class MainFragmentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainFragmentsAdapter : ListAdapter<MainDataFrag, MainFragmentsAdapter.AbstractViewHolder>(
+    COMPARATOR) {
 
-    val dataList = ArrayList<MainDataFrag>()
+    companion object {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<MainDataFrag>(){
+            override fun areContentsTheSame(oldItem: MainDataFrag, newItem: MainDataFrag): Boolean {
+                return oldItem.toString() == newItem.toString()
+            }
+
+            override fun areItemsTheSame(oldItem: MainDataFrag, newItem: MainDataFrag): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
     private val headerType = 2
     private val fragmentType = 1
 
-    class BasicFeatureViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val fragName: TextView = itemView.findViewById(R.id.tv_baseFragment_name)
-        val fragSubName: TextView = itemView.findViewById(R.id.tv_baseFragment_subName)
-        fun setData(dataFrag: MainDataFrag, holder: BasicFeatureViewHolder) {
-            holder.fragName.text = dataFrag.fragmentName
-            holder.fragSubName.text = dataFrag.fragmentSubName
+    private class BasicFeatureViewHolder(private val binding: ItemBaseFeatureBinding) : AbstractViewHolder(binding) {
+        override fun bind(item: MainDataFrag) {
+            binding.tvBaseFragmentName.text = item.fragmentName
+            binding.tvBaseFragmentSubName.text = item.fragmentSubName
         }
     }
 
-    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val headingName: Chip = itemView.findViewById(R.id.chip_header)
-        fun setData(dataFrag: MainDataFrag, holder: HeaderViewHolder) {
-            holder.headingName.text = dataFrag.headingName
+    abstract class AbstractViewHolder(binding: ViewBinding): RecyclerView.ViewHolder(binding.root){
+        abstract fun bind(item: MainDataFrag)
+    }
+
+    private class HeaderViewHolder(private val binding: ItemHeaderFragmentBinding) : AbstractViewHolder(binding) {
+        override fun bind(item: MainDataFrag) {
+            binding.chipHeader.text = item.headingName
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view: View
+    override fun onBindViewHolder(holder: AbstractViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
         return if (viewType == headerType) {
-            view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_header_fragment, parent, false)
-            HeaderViewHolder(view)
+            HeaderViewHolder(ItemHeaderFragmentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         } else {
-            view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_base_feature, parent, false)
-            BasicFeatureViewHolder(view)
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is BasicFeatureViewHolder) {
-            holder.setData(dataList[position], holder)
-        } else {
-            (holder as HeaderViewHolder).setData(dataList[position], holder)
+            BasicFeatureViewHolder(ItemBaseFeatureBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val type = dataList[position].viewType
+        val type = getItemViewType(position)
         return if (type == headerType) {
             headerType
         } else {
             fragmentType
         }
-    }
-
-    override fun getItemCount(): Int {
-        return dataList.size
     }
 }
