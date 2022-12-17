@@ -14,4 +14,6 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    val string = "Hey, so you have found the us. all you have to do is post your ss using moreficent and a testimonial  on linkedin tagging moreficent"
 }
