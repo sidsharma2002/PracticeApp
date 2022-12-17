@@ -3,14 +3,14 @@ package com.siddharth.practiceapp.viewModels
 import android.graphics.Bitmap
 import androidx.lifecycle.*
 import com.siddharth.practiceapp.bitmapModifiers.BitmapModifier
-import com.siddharth.practiceapp.repository.HomeFeedRepository
+import com.siddharth.practiceapp.repository.HomeFeedRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelA @Inject constructor(private val repository: HomeFeedRepository) : ViewModel() {
+class ViewModelA @Inject constructor(private val repository: HomeFeedRepositoryImpl) : ViewModel() {
 
     private val TAG = "viewmodelA : "
 

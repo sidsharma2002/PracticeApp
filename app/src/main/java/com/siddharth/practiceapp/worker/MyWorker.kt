@@ -14,7 +14,7 @@ import androidx.work.WorkerParameters
 import com.siddharth.practiceapp.data.dto.News.Article
 
 import com.siddharth.practiceapp.data.dto.News.News
-import com.siddharth.practiceapp.repository.HomeFeedRepository
+import com.siddharth.practiceapp.repository.HomeFeedRepositoryImpl
 import com.siddharth.practiceapp.util.sendNotification
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,7 +30,7 @@ import java.net.URL
 class MyWorker constructor(
     appContext: Context,
     workerParams: WorkerParameters,
-    private val repository: HomeFeedRepository
+    private val repository: HomeFeedRepositoryImpl
 ) : CoroutineWorker(appContext, workerParams) {
 
     private val TAG = "MyWorker : "

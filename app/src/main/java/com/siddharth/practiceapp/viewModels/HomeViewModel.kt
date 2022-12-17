@@ -1,9 +1,8 @@
 package com.siddharth.practiceapp.viewModels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.siddharth.practiceapp.data.entities.HomeData
-import com.siddharth.practiceapp.repository.DefaultHomeFeedRepository
+import com.siddharth.practiceapp.repository.IHomeFeedRepository
 import com.siddharth.practiceapp.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -12,23 +11,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: DefaultHomeFeedRepository
+    private val repository: IHomeFeedRepository
 ) : ViewModel() {
 
-    val homeDataList = MutableLiveData<Response<List<HomeData>>>()
+    // ui observes this, update this to notify data to ui.
+    val homeDataListLiveData = MutableLiveData<Response<List<HomeData>>>()
 
     init {
         getNews()
     }
 
     private fun getNews() {
-        //     experimentalHomeDataList.postValue(Response.Loading())
         viewModelScope.launch(Dispatchers.IO) {
-            var result = repository.getAllHomeDataList()
-            homeDataList.postValue(Response.Loading(result.data))
-            repository.getAndInsertTopNews() // insert in db
-            result = repository.getAllHomeDataList()
-            homeDataList.postValue(result)
-        }
+            // TODO : complete this
+            // show already present data in loading state, fetch the data from server and save it in db,
+            // now, fetch all the data from db and show it to user.
+          }
     }
 }

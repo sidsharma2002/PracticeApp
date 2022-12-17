@@ -2,7 +2,6 @@ package com.siddharth.practiceapp.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
+import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
 import com.siddharth.practiceapp.ui.activites.MainActivity
 import com.siddharth.practiceapp.util.Response
@@ -59,7 +59,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         printViewLifeCycleState()
 
         setupUi()
-        setupListeners()
         subscribeToObservers()
     }
 
@@ -67,39 +66,37 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.rvFragmentsHome.apply {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(context)
-            val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    handleItemSwipe(viewHolder, direction)
-                }
-            }
-            val itemTouchHelper = ItemTouchHelper(swipeHandler)
-            itemTouchHelper.attachToRecyclerView(this)
         }
     }
 
-    private fun handleItemSwipe(viewHolder: ViewHolder, direction: Int) {
-        adapter.currentList.removeAt(viewHolder.adapterPosition)
-        adapter.notifyItemRemoved(viewHolder.adapterPosition)
-    }
-
-
-    private fun setupListeners() {
-        // TODO : to implement
-    }
-
     private fun subscribeToObservers() {
+        viewmodel.homeDataListLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Response.Success -> {
+                    TODO()
+                }
 
-        viewmodel.homeDataList.observe(viewLifecycleOwner) {
-            if (it is Response.Success) {
-                (requireActivity() as MainActivity).hideSideBar()
-                adapter.submitList(it.data)
-            }
-            if (it is Response.Loading) {
-                (requireActivity() as MainActivity).showSideBar()
-                it.data?.let { it1 ->
-                    adapter.submitList(it1)
+                is Response.Loading -> {
+                    TODO()
+                }
+
+                is Response.Error -> {
+                    TODO()
                 }
             }
+        }
+    }
+
+    private fun hideProgressBarAndSubmitListToAdapter(homeDataList : List<HomeData>) {
+        hideProgressBarAndSubmitListToAdapter(homeDataList)
+        (requireActivity() as MainActivity).hideSideBar()
+        adapter.submitList(homeDataList)
+    }
+
+    private fun showProgressBarAndSubmitListToAdapter(homeDataList: List<HomeData>?) {
+        (requireActivity() as MainActivity).showSideBar()
+        homeDataList?.let { it1 ->
+            adapter.submitList(it1)
         }
     }
 
