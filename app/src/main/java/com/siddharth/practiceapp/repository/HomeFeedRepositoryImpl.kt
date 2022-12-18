@@ -23,7 +23,13 @@ class HomeFeedRepositoryImpl @Inject constructor(
 
     override suspend fun fetchAndInsertTopNewsInDb() = withContext(Dispatchers.IO) {
         safeCall {
-            TODO("fetch from server, handle errors, parse and insert in db")
+            val data = getTopNewsFromServer()
+            getErrorIfNewsFetchWasUnSuccessful(data)?.let {
+                return@safeCall Response.Error("some error")
+            }
+
+            parseHomeDataFromNewsAndInsertInDb(data.body()!!)
+            return@safeCall Response.Success(data.body()!!)
         }
     }
 
@@ -66,6 +72,6 @@ class HomeFeedRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getHomeDataList(): Response<List<HomeData>> {
-        TODO()
+        return Response.Success(homeDataDao.getAllHomeDataList())
     }
 }

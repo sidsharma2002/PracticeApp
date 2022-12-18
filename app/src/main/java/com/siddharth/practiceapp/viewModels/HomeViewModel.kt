@@ -23,9 +23,9 @@ class HomeViewModel @Inject constructor(
 
     private fun getNews() {
         viewModelScope.launch(Dispatchers.IO) {
-            // TODO : complete this
-            // show already present data in loading state, fetch the data from server and save it in db,
-            // now, fetch all the data from db and show it to user.
+            homeDataListLiveData.postValue(repository.getHomeDataList())
+            repository.fetchAndInsertTopNewsInDb()
+            homeDataListLiveData.postValue(repository.getHomeDataList())
           }
     }
 }

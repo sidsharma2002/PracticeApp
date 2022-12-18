@@ -73,15 +73,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewmodel.homeDataListLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Response.Success -> {
-                    TODO()
+                    showProgressBarAndSubmitListToAdapter(it.data!!)
                 }
 
                 is Response.Loading -> {
-                    TODO()
+                    hideProgressBarAndSubmitListToAdapter(it.data!!)
                 }
 
                 is Response.Error -> {
-                    TODO()
+
                 }
             }
         }

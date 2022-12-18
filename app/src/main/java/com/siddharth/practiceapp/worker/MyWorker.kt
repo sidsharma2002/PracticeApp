@@ -53,14 +53,7 @@ class MyWorker constructor(
      */
 
     private suspend fun fetchDataUsingCoroutine() {
-        val rawData = repository.getTopNewsUsingCoroutine()
-        Log.d(TAG, rawData.isSuccessful.toString())
-        val results = rawData.body()
-        val index =  (0..5).random()
-        val news = results?.articles?.get(index)
-        news?.let {
-            showNotification(news)
-        }
+
     }
 
 
@@ -69,19 +62,7 @@ class MyWorker constructor(
      * Shows the fetched news as Notification using showNotification().
      */
     private fun fetchPostsUsingThread() {
-        var rawData: Response<News>? = null
-        val thread = Thread {
-            //code to do the HTTP request
-            rawData = repository.getTopNewsUsingThread()
-        }
-        thread.start()
-        Log.d(TAG, rawData?.isSuccessful.toString())
-        val results = rawData?.body()
-        // fetching the title of first article from results.
-        val news = results?.articles?.get(0)
-        news?.let {
-            showNotification(news)
-        }
+
     }
 
     private fun showNotification(article: Article) {
