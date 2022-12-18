@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
 import androidx.core.view.isVisible
@@ -30,26 +31,28 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initViewsAndSharedPrefs(layoutInflater)
+        setupUi()
+        syncUserDetails()
+        navigateToActivity()
+    }
+
+    private fun syncUserDetails() {
+        setUserManagerDetailsFromSharedPrefs()
+        fetchUserFromServerAndSetToUserManager()
+    }
+
+    private fun initViewsAndSharedPrefs(layoutInflater: LayoutInflater) {
         _binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sharedPref = this.getSharedPreferences("userInfo", MODE_PRIVATE)
-        setupUi()
-        syncDetails()
-        startMyService()
-        stopMyService(1000)
-        navigateToActivity()
     }
 
     private fun setupUi() {
         window.navigationBarColor = Color.BLACK
     }
 
-    private fun syncDetails() {
-        setFromSharedPrefs()
-        fetchFromServer()
-    }
-
-    private fun setFromSharedPrefs() {
+    private fun setUserManagerDetailsFromSharedPrefs() {
         CurrentUserManager.isLoggedIn =
             sharedPref.getBoolean("currentUser_isLoggedIn", false)
         CurrentUserManager.currentUser.name =
@@ -58,46 +61,28 @@ class SplashActivity : AppCompatActivity() {
             sharedPref.getString("currentUser_uid", "").toString()
     }
 
-    private fun startMyService() {
-        Intent(this, MyService::class.java).also {
-            startService(it)
-        }
-    }
-
-    /**
-     * stops the service after x seconds
-     * NOTE : if the app gets killed before that,
-     * then the service will run in a never ending loop
-     */
-    private fun stopMyService(x: Long) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            delay(x)
-            Intent(applicationContext, MyService::class.java).also {
-                stopService(it)
-            }
-        }
-    }
-
     /**
      * navigate to login screen  or mainActivity
      * NOTE : the delay must not be greater than 1.5 secs otherwise
      * it will annoy the user. Here the delay is just for reference purposes
      */
-    private fun navigateToActivity() {
-        lifecycleScope.launchWhenResumed {
-            delay(800)
-            runOnUiThread {
-                Router.with(this@SplashActivity)
-                    .getIntentForActivity(MainActivity::class.java)
-                    .also {
-                        startActivity(it)
-                    }
-                finish()
-            }
+    private fun navigateToActivity() = lifecycleScope.launchWhenResumed {
+        delay(800)
+        runOnUiThread {
+            navigateToMainActivity()
+            finish()
         }
     }
 
-    private fun fetchFromServer() {
+    private fun navigateToMainActivity() {
+        Router.with(this@SplashActivity)
+            .getIntentForActivity(MainActivity::class.java)
+            .also {
+                startActivity(it)
+            }
+    }
+
+    private fun fetchUserFromServerAndSetToUserManager() {
         // TODO("Not yet implemented")
     }
 

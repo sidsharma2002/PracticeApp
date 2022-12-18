@@ -2,7 +2,6 @@ package com.siddharth.practiceapp.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.adapter.HomeRvAdapter
+import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
 import com.siddharth.practiceapp.ui.activites.MainActivity
 import com.siddharth.practiceapp.util.Response
@@ -48,32 +48,51 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     ): View {
         printLifeCycleState("onCreateView")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         printLifeCycleState("onViewCreated")
         printViewLifeCycleState()
-
-        setupUi()
-        setupListeners()
+        setupHomeFragRv()
         subscribeToObservers()
     }
 
-    private fun setupUi() {
-        binding.rvFragmentsHome.apply {
-            adapter = this@HomeFragment.adapter
-            layoutManager = LinearLayoutManager(context)
-            val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    handleItemSwipe(viewHolder, direction)
-                }
+    private fun subscribeToObservers() {
+        viewmodel.homeDataList.observe(viewLifecycleOwner) {
+            if (it is Response.Success) {
+                hideSideBarAndSubmitListToAdapter(it.data!!)
             }
-            val itemTouchHelper = ItemTouchHelper(swipeHandler)
-            itemTouchHelper.attachToRecyclerView(this)
+
+            if (it is Response.Loading) {
+                showSideBarAndSubmitListToAdapter(it.data)
+            }
+        }
+    }
+
+    private fun setupHomeFragRv() = binding.rvFragmentsHome.apply {
+        adapter = this@HomeFragment.adapter
+        layoutManager = LinearLayoutManager(context)
+
+        val swipeHandler = getSwipeHandler(onSwiped = { viewHolder, direction ->
+            handleItemSwipe(viewHolder, direction)
+        })
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(this)
+    }
+
+
+    private fun getSwipeHandler(
+        onSwiped: (
+            viewHolder: ViewHolder,
+            direction: Int
+        ) -> Unit
+    ): SwipeToDeleteCallback {
+        return object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+                onSwiped.invoke(viewHolder, direction)
+            }
         }
     }
 
@@ -82,24 +101,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter.notifyItemRemoved(viewHolder.adapterPosition)
     }
 
-
-    private fun setupListeners() {
-        // TODO : to implement
+    private fun hideSideBarAndSubmitListToAdapter(data: List<HomeData>) {
+        (requireActivity() as MainActivity).hideSideBar()
+        adapter.submitList(data)
     }
 
-    private fun subscribeToObservers() {
-
-        viewmodel.homeDataList.observe(viewLifecycleOwner) {
-            if (it is Response.Success) {
-                (requireActivity() as MainActivity).hideSideBar()
-                adapter.submitList(it.data)
-            }
-            if (it is Response.Loading) {
-                (requireActivity() as MainActivity).showSideBar()
-                it.data?.let { it1 ->
-                    adapter.submitList(it1)
-                }
-            }
+    private fun showSideBarAndSubmitListToAdapter(data: List<HomeData>?) {
+        (requireActivity() as MainActivity).showSideBar()
+        data?.let { it1 ->
+            adapter.submitList(it1)
         }
     }
 

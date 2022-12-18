@@ -4,25 +4,16 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.siddharth.practiceapp.R
 import com.siddharth.practiceapp.databinding.ActivityMainBinding
-import com.siddharth.practiceapp.databinding.FragmentFragABinding
 import com.siddharth.practiceapp.service.MyForegroundService
 import com.siddharth.practiceapp.service.MyService
-import com.siddharth.practiceapp.ui.fragments.MainBottomSheet
 import com.siddharth.practiceapp.util.fadeout
 import com.siddharth.practiceapp.util.slideUp
 import com.siddharth.practiceapp.viewModels.MainActViewModel
@@ -46,38 +37,63 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        printLifeCycleState("onCreate")
+        initViewBinding()
+        setupMyServices()
+        setupWorkManager()
+        handleButtonClick()
+
+        lifecycleScope.launch {
+            setupAppBarAnim(iterationNo = 1)
+        }
+    }
+
+    private fun initViewBinding() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        printLifeCycleState("onCreate")
-
-        // uncomment to start the services
-        // manageService()
-
-        // uncomment to start the worker
-        // setupWorkManager()
-        setupAppBarAnim(1)
-        handleButtonClick()
     }
 
-    private fun setupAppBarAnim(iterationNo: Int) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            if (iterationNo > 2 || viewModel.showAppBarGreet.value!!.not()) return@launch
-            if (iterationNo > 1) {
-                binding.bottomAppBarTitle.fadeout(this@MainActivity, 1000)
-                delay(2000)
-            }
-            binding.bottomAppBarTitle.text = "Hello there!!"
-            binding.bottomAppBarTitle.slideUp(this@MainActivity, 1000, 200)
-            delay(7000)
-            binding.bottomAppBarTitle.fadeout(this@MainActivity, 1000)
-            delay(2000)
-            binding.bottomAppBarTitle.text = "What's up?"
-            binding.bottomAppBarTitle.slideUp(this@MainActivity, 1000, 200)
-            delay(7000)
-            setupAppBarAnim(iterationNo.inc())   // recursion
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setupMyServices() {
+        startMyService()
+        stopMyService(2000)
+
+        startMyForegroundService()
+        stopMyForegroundService(100 * 1000)
+    }
+
+    private suspend fun setupAppBarAnim(iterationNo: Int) {
+        if (iterationNo > 2 || shouldShowAppGreet().not()) {
+            return
         }
+
+        if (iterationNo > 1) {
+            fadeoutBottomAppBarTitle()
+            delay(2000)
+        }
+
+        setTextAndSlideUpBottomAppBarTitle("Hello There!!")
+        delay(7000)
+        fadeoutBottomAppBarTitle()
+        delay(2000)
+        setTextAndSlideUpBottomAppBarTitle("What's up!")
+        delay(7000)
+        setupAppBarAnim(iterationNo.inc())   // recur for continuous animation
+
+    }
+
+    private fun shouldShowAppGreet() : Boolean {
+        return viewModel.showAppBarGreet.value!!
+    }
+
+    private fun fadeoutBottomAppBarTitle(animTime : Int = 1000) {
+        binding.bottomAppBarTitle.fadeout(this@MainActivity, 1000)
+    }
+
+    private fun setTextAndSlideUpBottomAppBarTitle(text : String) {
+        binding.bottomAppBarTitle.text = text
+        binding.bottomAppBarTitle.slideUp(this@MainActivity, 1000, 200)
     }
 
     /**
@@ -92,15 +108,6 @@ class MainActivity : AppCompatActivity() {
             "showNews",
             ExistingPeriodicWorkPolicy.KEEP, saveRequest
         )
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun manageService() {
-        startMyService()
-        stopMyService(2000)
-
-        startMyForegroundService()
-        stopMyForegroundService(100000)
     }
 
     /**
