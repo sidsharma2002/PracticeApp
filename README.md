@@ -1,6 +1,4 @@
-# PracticeApp
-
-## Newbie to Intermediate
+# Become an "Industry Ready" Android Developer!!
 
 This app is made with a purpose to help newbies understand core concepts of Android Development.
 There are very limited and not so clear resources available out there, Hence I've decided to fix it.
@@ -8,7 +6,7 @@ There are very limited and not so clear resources available out there, Hence I'v
 ![poster1](https://user-images.githubusercontent.com/53833109/143741701-1d3aec0d-849e-4326-92b7-2087b37737b3.jpg)
 ![poster2](https://user-images.githubusercontent.com/53833109/143741747-b5441e5d-fe16-46ff-8246-652ff6146c1a.jpg)
 
-## Rewrite In Progress!!
+# Rewrite In Progress!!
 I am currently rewritting the whole codebase in a more cleaner way, mvc architecture pattern and with TDD approach. This is work in progress, please checkout the branch "cleanCode1" for the same.
 
 ## Topics Implemented
@@ -29,15 +27,6 @@ I am currently rewritting the whole codebase in a more cleaner way, mvc architec
 * [Higher Order functions](https://kotlinlang.org/docs/lambdas.html)
 * [Returning functions](https://kotlinlang.org/docs/functions.html)
 * Higher Order functions which returns a function (almost the same thing)
-
-
-
-
-## For backend developers
-
-* a must 'have a look' project for Backend developers. [in initial stage]
-* https://github.com/Naman-2001/PracticeApp-Backend
-
 
 ## Resources
 
