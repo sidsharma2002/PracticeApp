@@ -8,6 +8,8 @@ There are very limited and not so clear resources available out there, Hence I'v
 ![poster1](https://user-images.githubusercontent.com/53833109/143741701-1d3aec0d-849e-4326-92b7-2087b37737b3.jpg)
 ![poster2](https://user-images.githubusercontent.com/53833109/143741747-b5441e5d-fe16-46ff-8246-652ff6146c1a.jpg)
 
+## Rewrite In Progress!!
+I am currently rewritting the whole codebase in a more cleaner way, mvc architecture pattern and with TDD approach. This is work in progress, please checkout the branch "cleanCode1" for the same.
 
 ## Topics Implemented
 
