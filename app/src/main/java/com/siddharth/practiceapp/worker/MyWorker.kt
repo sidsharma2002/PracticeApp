@@ -13,12 +13,10 @@ import androidx.work.WorkerParameters
 
 import com.siddharth.practiceapp.data.dto.News.Article
 
-import com.siddharth.practiceapp.data.dto.News.News
 import com.siddharth.practiceapp.repository.HomeFeedRepository
 import com.siddharth.practiceapp.util.sendNotification
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 import java.io.IOException
 import java.net.URL
 
@@ -53,35 +51,15 @@ class MyWorker constructor(
      */
 
     private suspend fun fetchDataUsingCoroutine() {
-        val rawData = repository.getTopNewsUsingCoroutine()
-        Log.d(TAG, rawData.isSuccessful.toString())
-        val results = rawData.body()
-        val index =  (0..5).random()
-        val news = results?.articles?.get(index)
-        news?.let {
-            showNotification(news)
-        }
-    }
-
-
-    /**
-     * This function fetches the top news from the api using thread class and
-     * Shows the fetched news as Notification using showNotification().
-     */
-    private fun fetchPostsUsingThread() {
-        var rawData: Response<News>? = null
-        val thread = Thread {
-            //code to do the HTTP request
-            rawData = repository.getTopNewsUsingThread()
-        }
-        thread.start()
-        Log.d(TAG, rawData?.isSuccessful.toString())
-        val results = rawData?.body()
-        // fetching the title of first article from results.
-        val news = results?.articles?.get(0)
-        news?.let {
-            showNotification(news)
-        }
+        TODO("")
+//        val rawData = repository.getTopNewsFromServer()
+//        Log.d(TAG, rawData.isSuccessful.toString())
+//        val results = rawData.body()
+//        val index = (0..5).random()
+//        val news = results?.articles?.get(index)
+//        news?.let {
+//            showNotification(news)
+//        }
     }
 
     private fun showNotification(article: Article) {

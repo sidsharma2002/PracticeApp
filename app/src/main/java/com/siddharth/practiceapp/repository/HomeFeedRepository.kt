@@ -1,56 +1,54 @@
 package com.siddharth.practiceapp.repository
 
 import com.siddharth.practiceapp.api.NewsApi
-import com.siddharth.practiceapp.util.Constants
-import javax.inject.Inject
-import android.util.Log
 import com.siddharth.practiceapp.data.dao.HomeDataDao
+import com.siddharth.practiceapp.data.dto.News.News
 import com.siddharth.practiceapp.data.entities.HomeData
+import com.siddharth.practiceapp.util.Constants
+import com.siddharth.practiceapp.util.ErrorHandler
 import com.siddharth.practiceapp.util.Response
-import com.siddharth.practiceapp.util.safeCall
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class HomeFeedRepository @Inject constructor(
-    private val api: NewsApi,
-    private val homeDataDao: HomeDataDao
+    private val newsApi: NewsApi,
+    private val homeDataDao: HomeDataDao,
+    private val homeDataMapper: HomeDataMapper,
+    private val errorHandler: ErrorHandler
 ) {
 
-    private val TAG = this.javaClass.toString()
+    suspend fun fetchNewsFromServerAndInsertInLocalDb(): Response<Unit> = errorHandler.safeCall {
+        val newsResult = newsApi.getTopNews(Constants.NEWS_API_KEY)
 
-    suspend fun getTopNewsUsingCoroutine() =
-        api.getTopNewsUsingCoroutine(Constants.NEWS_API_KEY, "us")
-
-    suspend fun fetchNewsFromServerAndInsertInLocalDb() = withContext(Dispatchers.IO) {
-        safeCall {
-            val news = api.getTopNewsUsingCoroutine(Constants.NEWS_API_KEY, "in")
-            val newsList: MutableList<HomeData> = mutableListOf()
-            Log.d(TAG, "news body size : " + news.body()!!.articles.size)
-            for (element in news.body()!!.articles) {
-                val homeData = HomeData(
-                    0,
-                    1,
-                    element.url,
-                    element.author,
-                    element.content,
-                    element.description,
-                    element.title,
-                    element.url,
-                    element.urlToImage
-                )
-                Log.d(TAG, "news list size : " + newsList.size)
-                newsList.add(homeData)
-            }
-            homeDataDao.deleteAndInsertTransaction(newsList)
-            Response.Success(Unit)
+        if (errorHandler.isResultInValid(newsResult)) {
+            return@safeCall Response.Error(newsResult.message() ?: "some error occurred")
         }
+
+        // make this operation non cancellable, we don't want to loose the fetched data in any case.
+        withContext(NonCancellable) {
+            val homeDataList = parseAndGetHomeDataListFromNewsResponse(newsResult)
+
+            if (homeDataList.isNotEmpty())
+                homeDataDao.deleteAndInsertTransaction(homeDataList)
+        }
+
+        return@safeCall Response.Success(Unit)
     }
 
-    suspend fun getAllHomeDataList(): Response<List<HomeData>> {
-        val size = homeDataDao.getAllHomeDataList().size
-        Log.d(TAG, "2. size from db $size")
-        return Response.Success(homeDataDao.getAllHomeDataList())
+    private fun parseAndGetHomeDataListFromNewsResponse(newsResult: retrofit2.Response<News>): List<HomeData> {
+        val homeDataList = mutableListOf<HomeData>()
+
+        newsResult.body()?.articles?.forEach { article ->
+            val homeData = homeDataMapper.getHomeDataFromArticle(article)
+            homeDataList.add(homeData)
+        }
+
+        return homeDataList
     }
 
-    fun getTopNewsUsingThread() = api.getTopNewsUsingThread(Constants.NEWS_API_KEY, "us")
+    suspend fun getAllHomeDataList(): Response<List<HomeData>> = errorHandler.safeCall {
+        val result = homeDataDao.getAllHomeDataList()
+        return@safeCall Response.Success(result)
+    }
 }

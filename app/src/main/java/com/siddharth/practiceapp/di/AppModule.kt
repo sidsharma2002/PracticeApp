@@ -6,8 +6,10 @@ import androidx.room.Room
 import com.siddharth.practiceapp.api.AuthApi
 import com.siddharth.practiceapp.api.NewsApi
 import com.siddharth.practiceapp.data.database.HomeDataDatabase
+import com.siddharth.practiceapp.repository.HomeDataMapper
 import com.siddharth.practiceapp.util.Constants
 import com.siddharth.practiceapp.util.Constants.NEWS_BASE_URL
+import com.siddharth.practiceapp.util.ErrorHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,6 +25,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    @Provides
+    @Singleton
+    fun getHomeDataMapper(): HomeDataMapper = HomeDataMapper()
+
+    @Provides
+    @Singleton
+    fun getErrorHandler(): ErrorHandler = ErrorHandler()
 
     @Provides
     @Singleton
@@ -37,10 +46,9 @@ object AppModule {
     @Provides
     fun provideHomeDataDatabase(
         app: Application
-    ) =
-        Room.databaseBuilder(app, HomeDataDatabase::class.java, "homeData_database")
-            .fallbackToDestructiveMigration()
-            .build()
+    ) = Room.databaseBuilder(app, HomeDataDatabase::class.java, "homeData_database")
+        .fallbackToDestructiveMigration()
+        .build()
 
     @Provides
     fun provideHomeDataDao(db: HomeDataDatabase) = db.getHomeDataDao()

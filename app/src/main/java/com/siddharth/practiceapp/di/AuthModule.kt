@@ -8,6 +8,7 @@ import com.siddharth.practiceapp.data.dao.HomeDataDao
 import com.siddharth.practiceapp.repository.AuthRepository
 import com.siddharth.practiceapp.repository.DefaultAuthRepository
 import com.siddharth.practiceapp.util.Constants
+import com.siddharth.practiceapp.util.ErrorHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,18 +23,7 @@ import javax.inject.Singleton
 @InstallIn(ViewModelComponent::class)
 object AuthModule {
 
-//    @Provides
-//    @ViewModelScoped
-//    @Named("AuthApi")
-//    fun providesAuthApi(AUTH_BASE_URL: String = Constants.AUTH_BASE_URL): AuthApi =
-//        Retrofit.Builder()
-//            .baseUrl(AUTH_BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//            .create(AuthApi::class.java)
-
-    // Lives as long as  ViewModel lives
     @ViewModelScoped
     @Provides
-    fun providesAuthRepository() = AuthRepository() as DefaultAuthRepository
+    fun providesAuthRepository(errorHandler: ErrorHandler) = AuthRepository(errorHandler) as DefaultAuthRepository
 }

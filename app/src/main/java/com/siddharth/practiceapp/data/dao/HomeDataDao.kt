@@ -18,7 +18,8 @@ interface HomeDataDao {
     suspend fun deleteAllHomeData()
 
     @Transaction
-    suspend fun deleteAndInsertTransaction(homeDataList: List<HomeData>){
+    suspend fun deleteAndInsertTransaction(homeDataList: List<HomeData>) {
+        // NOTE : coroutines can resume on a different thread at anytime, due to this behaviour it can cause critical bugs
         deleteAllHomeData()
         insertHomeDataList(homeDataList)
     }
