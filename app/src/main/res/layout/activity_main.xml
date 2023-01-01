@@ -12,7 +12,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container_view"
-            android:name="com.siddharth.practiceapp.ui.fragments.HomeFragment"
+            android:name="com.siddharth.practiceapp.ui.home.HomeFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="0sp" />

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorOnSecondary"
-    tools:context=".ui.fragments.HomeFragment">
+    tools:context=".ui.home.HomeFragment">
 
     <com.siddharth.practiceapp.customImpl.CustomRV
         android:id="@+id/rv_fragments_home"
@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp"
         android:paddingBottom="20sp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
