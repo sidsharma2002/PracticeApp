@@ -11,12 +11,13 @@ import javax.inject.Inject
 
 class HomeFeedController @Inject constructor(
     private val homeFeedRepository: HomeFeedRepository
-) {
+) : HomeFeedViewMvc.Listener {
 
     private lateinit var viewMvc: HomeFeedViewMvc
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     fun onStart() = coroutineScope.launch {
+        viewMvc.registerListener(this@HomeFeedController)
         fetchHomeFeedDataAndBindToView()
     }
 
@@ -40,5 +41,13 @@ class HomeFeedController @Inject constructor(
 
     private fun isResponseSuccessAndDataNonNull(response: Response<List<HomeData>>): Boolean {
         return response is Response.Success && response.data.isNullOrEmpty().not()
+    }
+
+    fun onPause() {
+        viewMvc.unregisterListener(this)
+    }
+
+    override fun onHomeItemClicked(homeData: HomeData, position: Int) {
+
     }
 }

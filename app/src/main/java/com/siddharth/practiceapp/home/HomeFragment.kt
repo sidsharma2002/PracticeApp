@@ -5,15 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.siddharth.practiceapp.R
-import com.siddharth.practiceapp.adapter.HomeRvAdapter
-import com.siddharth.practiceapp.data.entities.HomeData
-import com.siddharth.practiceapp.databinding.FragmentHomeBinding
-import com.siddharth.practiceapp.ui.activites.MainActivity
-import com.siddharth.practiceapp.util.SwipeToDeleteCallback
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

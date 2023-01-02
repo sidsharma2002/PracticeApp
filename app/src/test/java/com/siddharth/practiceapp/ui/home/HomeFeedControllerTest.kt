@@ -94,6 +94,34 @@ class HomeFeedControllerTest {
             }
         }
 
+    @Test
+    fun onStart_registersListeners() = runBlocking {
+        // arrange
+
+        // act
+        SUT.bindView(homeFeedViewMvc)
+        SUT.onStart()
+
+        // assert
+        coVerify(exactly = 1) {
+            homeFeedViewMvc.registerListener(SUT)
+        }
+    }
+
+    @Test
+    fun onPause_unregistersListeners() = runBlocking {
+        // arrange
+
+        // act
+        SUT.bindView(homeFeedViewMvc)
+        SUT.onPause()
+
+        // assert
+        coVerify(exactly = 1) {
+            homeFeedViewMvc.unregisterListener(SUT)
+        }
+    }
+
     /////////////////////////////// Methods Region ///////////////////////////////
 
     private fun getAllHomeDataListReturnsSuccessData() {
