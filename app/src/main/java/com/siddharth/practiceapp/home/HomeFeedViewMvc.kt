@@ -1,4 +1,4 @@
-package com.siddharth.practiceapp.ui.home
+package com.siddharth.practiceapp.home
 
 import android.view.LayoutInflater
 import android.view.View

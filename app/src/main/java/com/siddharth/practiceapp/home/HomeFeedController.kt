@@ -1,4 +1,4 @@
-package com.siddharth.practiceapp.ui.home
+package com.siddharth.practiceapp.home
 
 import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.repository.HomeFeedRepository
