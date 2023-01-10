@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.databinding.FragmentHomeBinding
+import com.siddharth.practiceapp.di.compositionRoot.ViewMvcCompositionRoot
 import com.siddharth.practiceapp.mvcs.BaseObservableMvcImpl
 import com.siddharth.practiceapp.mvcs.ObservableMvc
 
@@ -17,9 +18,8 @@ interface HomeFeedViewMvc : ObservableMvc<HomeFeedViewMvc.Listener> {
 }
 
 class HomeFeedViewMvcImpl constructor(
-    layoutInflater: LayoutInflater,
-    container: ViewGroup,
-    binding: FragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+    viewMvcCompositionRoot: ViewMvcCompositionRoot,
+    binding: FragmentHomeBinding
 ) : BaseObservableMvcImpl<HomeFeedViewMvc.Listener>(binding.root), HomeFeedViewMvc {
 
     private val homeItemViewMvcListener = object : HomeItemViewMvc.Listener {
@@ -32,7 +32,7 @@ class HomeFeedViewMvcImpl constructor(
     }
 
     private val adapter: HomeRvAdapter =
-        HomeRvAdapter(homeItemViewMvcListener = homeItemViewMvcListener)
+        HomeRvAdapter(viewMvcCompositionRoot, homeItemViewMvcListener)
 
     init {
         binding.rvFragmentsHome.adapter = adapter

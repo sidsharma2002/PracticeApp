@@ -1,4 +1,4 @@
-package com.siddharth.practiceapp.di
+package com.siddharth.practiceapp.di.hilt
 
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel

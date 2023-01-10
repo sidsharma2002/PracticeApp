@@ -9,19 +9,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class HomeFeedController @Inject constructor(
     private val homeFeedRepository: HomeFeedRepository
 ) {
 
-    private lateinit var viewMvc: HomeFeedViewMvc
-    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val homeFeedViewMvcListener = object: HomeFeedViewMvc.Listener {
         override fun onHomeItemClicked(homeData: HomeData, position: Int) {
             /* no-op */
         }
     }
+
+    private lateinit var viewMvc: HomeFeedViewMvc
+    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     fun onStart() = coroutineScope.launch {
         viewMvc.registerListener(homeFeedViewMvcListener)

@@ -18,12 +18,7 @@ interface HomeItemViewMvc: ObservableMvc<Listener> {
 }
 
 class HomeItemViewMvcImpl constructor(
-    parent: ViewGroup,
-    private val binding: ItemNewsHomeBinding = ItemNewsHomeBinding.inflate(
-            /* inflater = */ LayoutInflater.from(parent.context),
-            /* parent = */ parent,
-            /* attachToParent = */ false
-        )
+    private val binding: ItemNewsHomeBinding
 ) : BaseObservableMvcImpl<Listener>(binding.root), HomeItemViewMvc {
 
     override fun bindHomeItemToView(homeData: HomeData, position: Int) {

@@ -5,12 +5,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.siddharth.practiceapp.data.entities.HomeData
+import com.siddharth.practiceapp.di.compositionRoot.ViewMvcCompositionRoot
 
 class HomeRvAdapter constructor(
+    private val viewMvcCompositionRoot: ViewMvcCompositionRoot,
     private val homeItemViewMvcListener: HomeItemViewMvc.Listener
 ) : ListAdapter<HomeData, ViewHolder>(COMPARATOR) {
 
-    class NewsHolder(private val homeItemViewMvc: HomeItemViewMvc) :
+    class HomeItemViewHolder(private val homeItemViewMvc: HomeItemViewMvc) :
         ViewHolder(homeItemViewMvc.getRootView()) {
 
         fun bind(item: HomeData, position: Int) {
@@ -19,14 +21,14 @@ class HomeRvAdapter constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val homeItemViewMvc: HomeItemViewMvc = HomeItemViewMvcImpl(parent)
+        val homeItemViewMvc = viewMvcCompositionRoot.getHomeFeedItemViewMvc(parent)
         homeItemViewMvc.registerListener(homeItemViewMvcListener)
-        return NewsHolder(homeItemViewMvc)
+        return HomeItemViewHolder(homeItemViewMvc)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (holder) {
-            is NewsHolder -> holder.bind(getItem(position), position)
+            is HomeItemViewHolder -> holder.bind(getItem(position), position)
         }
     }
 
