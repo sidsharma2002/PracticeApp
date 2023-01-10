@@ -104,7 +104,7 @@ class HomeFeedControllerTest {
 
         // assert
         coVerify(exactly = 1) {
-            homeFeedViewMvc.registerListener(SUT)
+            homeFeedViewMvc.registerListener(SUT.homeFeedViewMvcListener)
         }
     }
 
@@ -118,7 +118,7 @@ class HomeFeedControllerTest {
 
         // assert
         coVerify(exactly = 1) {
-            homeFeedViewMvc.unregisterListener(SUT)
+            homeFeedViewMvc.unregisterListener(SUT.homeFeedViewMvcListener)
         }
     }
 

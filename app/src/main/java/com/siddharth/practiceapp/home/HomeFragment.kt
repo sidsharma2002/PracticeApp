@@ -34,4 +34,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onStart()
         homeFeedController.onStart()
     }
+
+    override fun onPause() {
+        super.onPause()
+        homeFeedController.onPause()
+    }
 }

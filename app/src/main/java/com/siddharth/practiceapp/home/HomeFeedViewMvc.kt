@@ -20,11 +20,19 @@ class HomeFeedViewMvcImpl constructor(
     layoutInflater: LayoutInflater,
     container: ViewGroup,
     binding: FragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-) : BaseObservableMvcImpl<HomeFeedViewMvc.Listener>(binding.root), HomeFeedViewMvc,
-    HomeItemViewMvc.Listener {
+) : BaseObservableMvcImpl<HomeFeedViewMvc.Listener>(binding.root), HomeFeedViewMvc {
 
+    private val homeItemViewMvcListener = object : HomeItemViewMvc.Listener {
+        override fun onHomeItemClicked(homeData: HomeData, position: Int) {
+            // delegate to homeFeedViewMvc listeners
+            this@HomeFeedViewMvcImpl.getListeners().forEach { listener ->
+                listener.onHomeItemClicked(homeData, position)
+            }
+        }
+    }
 
-    private val adapter: HomeRvAdapter = HomeRvAdapter(homeItemViewMvcListener = this)
+    private val adapter: HomeRvAdapter =
+        HomeRvAdapter(homeItemViewMvcListener = homeItemViewMvcListener)
 
     init {
         binding.rvFragmentsHome.adapter = adapter
@@ -32,12 +40,5 @@ class HomeFeedViewMvcImpl constructor(
 
     override fun bindHomeDataListToView(homeDataList: List<HomeData>) {
         adapter.submitList(homeDataList)
-    }
-
-    override fun onHomeItemClicked(homeData: HomeData, position: Int) {
-        // delegate to homeFeedViewMvc's listeners
-        this@HomeFeedViewMvcImpl.getListeners().forEach { listener ->
-            listener.onHomeItemClicked(homeData, position)
-        }
     }
 }

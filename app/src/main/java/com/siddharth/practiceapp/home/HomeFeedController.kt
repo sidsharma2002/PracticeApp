@@ -1,5 +1,6 @@
 package com.siddharth.practiceapp.home
 
+import androidx.annotation.VisibleForTesting
 import com.siddharth.practiceapp.data.entities.HomeData
 import com.siddharth.practiceapp.repository.HomeFeedRepository
 import com.siddharth.practiceapp.util.Response
@@ -11,13 +12,19 @@ import javax.inject.Inject
 
 class HomeFeedController @Inject constructor(
     private val homeFeedRepository: HomeFeedRepository
-) : HomeFeedViewMvc.Listener {
+) {
 
     private lateinit var viewMvc: HomeFeedViewMvc
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val homeFeedViewMvcListener = object: HomeFeedViewMvc.Listener {
+        override fun onHomeItemClicked(homeData: HomeData, position: Int) {
+            /* no-op */
+        }
+    }
 
     fun onStart() = coroutineScope.launch {
-        viewMvc.registerListener(this@HomeFeedController)
+        viewMvc.registerListener(homeFeedViewMvcListener)
         fetchHomeFeedDataAndBindToView()
     }
 
@@ -35,19 +42,15 @@ class HomeFeedController @Inject constructor(
         }
     }
 
-    fun bindView(viewMvc: HomeFeedViewMvc) {
-        this.viewMvc = viewMvc
-    }
-
     private fun isResponseSuccessAndDataNonNull(response: Response<List<HomeData>>): Boolean {
         return response is Response.Success && response.data.isNullOrEmpty().not()
     }
 
     fun onPause() {
-        viewMvc.unregisterListener(this)
+        viewMvc.unregisterListener(homeFeedViewMvcListener)
     }
 
-    override fun onHomeItemClicked(homeData: HomeData, position: Int) {
-
+    fun bindView(viewMvc: HomeFeedViewMvc) {
+        this.viewMvc = viewMvc
     }
 }
