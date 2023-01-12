@@ -9,9 +9,8 @@ import com.siddharth.practiceapp.data.dto.News.News
 @Keep
 @Entity(tableName = "homeData_table")
 data class HomeData(
-
-    @PrimaryKey(autoGenerate = true)    //must be at the end
-    val idKey: Long = 0,                     //Long type recommend
+    @PrimaryKey(autoGenerate = true)    // must be at the end
+    val idKey: Long = 0,                // Long type recommend
     var type: Int,
     var id: String? = "",
     val author: String? = "",
@@ -21,13 +20,4 @@ data class HomeData(
     val url: String? = "",
     val urlToImage: String? = "",
     var extraString: String? = ""
-
-)
-
-data class SavingsHomeData(
-    var savings: Int
-)
-
-data class Reminder(
-    var pendingReminder: String
 )

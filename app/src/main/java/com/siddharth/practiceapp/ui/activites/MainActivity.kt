@@ -17,7 +17,7 @@ import com.siddharth.practiceapp.service.MyService
 import com.siddharth.practiceapp.util.fadeout
 import com.siddharth.practiceapp.util.slideUp
 import com.siddharth.practiceapp.viewModels.MainActViewModel
-import com.siddharth.practiceapp.worker.MyWorker
+import com.siddharth.practiceapp.worker.NewsWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -102,11 +102,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupWorkManager() {
         val workManager = WorkManager.getInstance(this)
         val saveRequest =
-            PeriodicWorkRequestBuilder<MyWorker>(10, TimeUnit.HOURS)
+            PeriodicWorkRequestBuilder<NewsWorker>(10, TimeUnit.HOURS)
                 .build()
         workManager.enqueueUniquePeriodicWork(
             "showNews",
-            ExistingPeriodicWorkPolicy.KEEP, saveRequest
+            ExistingPeriodicWorkPolicy.REPLACE, saveRequest
         )
     }
 

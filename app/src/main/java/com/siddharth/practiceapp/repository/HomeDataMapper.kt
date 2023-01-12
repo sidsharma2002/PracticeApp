@@ -17,4 +17,15 @@ class HomeDataMapper {
             urlToImage = article.urlToImage
         )
     }
+
+    fun getArticleFromHomeData(homeData: HomeData): Article {
+        return Article(
+            author = homeData.author ?: "",
+            content = homeData.content ?: "",
+            description = homeData.description ?: "",
+            title = homeData.title ?: "",
+            url = homeData.url ?: "",
+            urlToImage = homeData.urlToImage ?: ""
+        )
+    }
 }
