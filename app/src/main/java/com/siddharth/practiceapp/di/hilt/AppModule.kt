@@ -3,6 +3,7 @@ package com.siddharth.practiceapp.di.hilt
 import android.app.Application
 import androidx.room.Room
 import com.siddharth.practiceapp.api.NewsApi
+import com.siddharth.practiceapp.bitmapModifiers.BitmapModifier
 import com.siddharth.practiceapp.data.database.HomeDataDatabase
 import com.siddharth.practiceapp.notifications.NewsNotificationUseCase
 import com.siddharth.practiceapp.repository.HomeDataMapper
@@ -21,6 +22,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun getBitmapModifier() : BitmapModifier = BitmapModifier()
 
     @Provides
     @Singleton

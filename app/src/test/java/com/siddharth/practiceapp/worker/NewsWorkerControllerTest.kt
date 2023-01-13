@@ -65,7 +65,7 @@ class NewsWorkerControllerTest {
     }
 
     @Test
-    fun onSuccess_doWork_getsNewsFromDbAndSendsNotificationOfTheLastElement() = runBlocking {
+    fun onSuccess_doWork_getsNewsFromDbAndSendsNotificationOfAnyRandomElement() = runBlocking {
         // arrange
         onSuccess()
 
@@ -75,11 +75,7 @@ class NewsWorkerControllerTest {
         // assert
         coVerify(exactly = 1) {
             repository.getAllHomeDataList()
-            newsNotificationUseCase.showNewsNotification(
-                homeDataMapper.getArticleFromHomeData(
-                    fetchedHomeDataList.last()
-                )
-            )
+            newsNotificationUseCase.showNewsNotification(any())
         }
     }
 

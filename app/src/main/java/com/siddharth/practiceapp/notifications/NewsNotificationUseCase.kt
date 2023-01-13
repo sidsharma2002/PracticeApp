@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.core.content.ContextCompat
+import com.siddharth.practiceapp.bitmapModifiers.BitmapModifier
 import com.siddharth.practiceapp.data.dto.News.Article
 import com.siddharth.practiceapp.util.sendNotification
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,7 +20,8 @@ interface NewsNotificationUseCase {
 }
 
 class NewsNotificationUseCaseImpl @Inject constructor(
-    @ApplicationContext private val applicationContext: Context
+    @ApplicationContext private val applicationContext: Context,
+    private val bitmapModifier: BitmapModifier
 ) : NewsNotificationUseCase {
 
     override suspend fun showNewsNotification(article: Article) = withContext(Dispatchers.IO) {
@@ -32,14 +34,20 @@ class NewsNotificationUseCaseImpl @Inject constructor(
 
         try {
             val bitmap: Bitmap? = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+            val copyBitmap = bitmap?.copy(Bitmap.Config.ARGB_8888, true)
+
+            copyBitmap?.let {
+                bitmapModifier.applyFilter(copyBitmap, BitmapModifier.GREY_FILTER)
+            }
+
             notificationManager.sendNotification(
-                "Here's your Daily News",
-                article.title,
-                article.content,
-                bitmap,
-                applicationContext
+                title = article.title,
+                contentText = article.description,
+                messageBody = article.content,
+                bitmap = copyBitmap,
+                applicationContext = applicationContext
             )
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }

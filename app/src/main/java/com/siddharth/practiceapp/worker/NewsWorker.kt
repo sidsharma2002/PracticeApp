@@ -19,4 +19,8 @@ class NewsWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         return controller.doWork()
     }
+
+    companion object {
+        const val INTERVAL_HOURS = 5L
+    }
 }

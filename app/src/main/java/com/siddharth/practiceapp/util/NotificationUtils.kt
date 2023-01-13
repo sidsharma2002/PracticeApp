@@ -33,7 +33,7 @@ fun NotificationManager.sendNotification(
         .setContentTitle(title)
         .setContentText(contentText)
         .setStyle(NotificationCompat.BigTextStyle().bigText(messageBody))
-        //.setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
+        .setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
         .setAutoCancel(true)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
     notify(NOTIFICATION_ID, builder.build())

@@ -6,11 +6,14 @@ import android.graphics.Color
 /**
  * @author Siddharth sharma
  */
-object BitmapModifier {
+class BitmapModifier {
     private var newRed: Int = 0;
     private var newGreen: Int = 0;
     private var newBlue: Int = 0
-    const val GREY_FILTER = "grey_filter"
+
+    companion object {
+        const val GREY_FILTER = "grey_filter"
+    }
 
     fun applyFilter(bitmap: Bitmap, filter: String): Bitmap {
         val imageHeight = bitmap.height
@@ -33,8 +36,14 @@ object BitmapModifier {
         return bitmap
     }
 
-    private fun runAlgorithm(oldRed: Int, oldGreen: Int, oldBlue: Int, oldAlpha: Int, filter: String) {
-        when(filter){
+    private fun runAlgorithm(
+        oldRed: Int,
+        oldGreen: Int,
+        oldBlue: Int,
+        oldAlpha: Int,
+        filter: String
+    ) {
+        when (filter) {
             GREY_FILTER -> applyGreyFilter(oldRed, oldGreen, oldBlue, oldAlpha)
         }
     }

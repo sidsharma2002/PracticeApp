@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         val workManager = WorkManager.getInstance(this)
         val saveRequest =
             PeriodicWorkRequestBuilder<NewsWorker>(
-                repeatInterval = 10,
+                repeatInterval = NewsWorker.INTERVAL_HOURS,
                 repeatIntervalTimeUnit = TimeUnit.HOURS
             ).build()
 

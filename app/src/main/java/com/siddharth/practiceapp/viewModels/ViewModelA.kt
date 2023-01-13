@@ -37,7 +37,8 @@ class ViewModelA @Inject constructor(private val repository: HomeFeedRepository)
 
     private fun processBitmap(bitmap: Bitmap): Bitmap {
         val newBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-        return BitmapModifier.applyFilter(newBitmap, BitmapModifier.GREY_FILTER)
+        return newBitmap
+        //return BitmapModifier.applyFilter(newBitmap, BitmapModifier.GREY_FILTER)
     }
 
     fun setCurrentNumber(currPage: Int) {

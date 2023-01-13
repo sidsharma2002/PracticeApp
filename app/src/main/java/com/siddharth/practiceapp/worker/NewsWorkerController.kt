@@ -30,7 +30,7 @@ class NewsWorkerController @Inject constructor(
             homeDataListResult is Response.Success && homeDataListResult.data?.isNotEmpty() == true
 
         if (isDataUseable) {
-            showNewsNotification(latestHomeData = homeDataListResult.data!!.last())
+            showNewsNotification(latestHomeData = homeDataListResult.data!!.random())
         }
 
         return ListenableWorker.Result.success()
