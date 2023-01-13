@@ -102,11 +102,15 @@ class MainActivity : AppCompatActivity() {
     private fun setupWorkManager() {
         val workManager = WorkManager.getInstance(this)
         val saveRequest =
-            PeriodicWorkRequestBuilder<NewsWorker>(10, TimeUnit.HOURS)
-                .build()
+            PeriodicWorkRequestBuilder<NewsWorker>(
+                repeatInterval = 10,
+                repeatIntervalTimeUnit = TimeUnit.HOURS
+            ).build()
+
         workManager.enqueueUniquePeriodicWork(
-            "showNews",
-            ExistingPeriodicWorkPolicy.REPLACE, saveRequest
+            /* uniqueWorkName = */ "showNews",
+            /* existingPeriodicWorkPolicy = */ ExistingPeriodicWorkPolicy.REPLACE,
+            /* periodicWork = */ saveRequest
         )
     }
 

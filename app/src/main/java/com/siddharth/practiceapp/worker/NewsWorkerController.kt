@@ -6,12 +6,9 @@ import com.siddharth.practiceapp.notifications.NewsNotificationUseCase
 import com.siddharth.practiceapp.repository.HomeDataMapper
 import com.siddharth.practiceapp.repository.HomeFeedRepository
 import com.siddharth.practiceapp.util.Response
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NewsWorkerController constructor(
+class NewsWorkerController @Inject constructor(
     private val newsNotificationUseCase: NewsNotificationUseCase,
     private val repository: HomeFeedRepository,
     private val homeDataMapper: HomeDataMapper
